@@ -1,0 +1,118 @@
+
+# Token Cvv Auth Updated
+
+Fired when the CVV authorization result for a token is updated. The `data` field contains the full TransactionToken object.
+
+## Headers
+
+This event's request contains the following headers.
+
+| Name | Description |
+|  --- | --- |
+| Idempotency-Key | An optional idempotency key to prevent double charges and duplicate operations. We recommend a randomly generated UUID (v4). |
+| Content-Type |  |
+
+## Payload Type
+
+This event's request payload is of type [TokenWebhookEvent](../../../../doc/models/token-webhook-event.md).
+
+## Payload Example
+
+```json
+{
+  "id": "11ef0000-0000-4000-8000-000000000001",
+  "event": "token_cvv_auth_updated",
+  "data": {
+    "id": "6426bbd2-17bd-41bf-883b-1fe970db48ee",
+    "store_id": "fc264608-9a9e-495e-844e-a08129a81af4",
+    "email": "test@univapay.com",
+    "payment_type": "card",
+    "active": true,
+    "mode": "live",
+    "type": "recurring",
+    "confirmed": true,
+    "metadata": {
+      "customer_id": "cust_12345"
+    },
+    "created_on": "2026-04-09T07:35:50.000000Z",
+    "updated_on": "2026-04-09T07:35:50.000000Z",
+    "exampleAdditionalProperty": {
+      "key1": "val1",
+      "key2": "val2"
+    }
+  },
+  "created_on": "2026-04-09T07:35:50.000000Z",
+  "exampleAdditionalProperty": {
+    "key1": "val1",
+    "key2": "val2"
+  }
+}
+```
+
+## SDK Usage Example
+
+```java
+package com.example.eventslistener;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import javax.servlet.http.HttpServletRequest;
+import java.text.MessageFormat;
+import java.util.Collections;
+import java.util.stream.Collectors;
+import com.univapay.api.events.webhooks.TokenHandler;
+import com.univapay.api.events.webhooks.TokenParsingResult;
+import com.univapay.api.http.request.HttpRequest;
+import com.univapay.api.models.TokenWebhookEvent;
+
+@RestController
+public class TokenController {
+
+    @PostMapping("/token")
+    public ResponseEntity<String> receiveEvent(
+            HttpServletRequest request,
+            @RequestBody(required = false) String body) {
+
+        // Create the HttpRequest from the incoming Request
+        HttpRequest httpRequest = HttpRequest.fromHttpServletRequest(
+                Collections.list(request.getHeaderNames()).stream().collect(Collectors.toMap(
+                        h -> h,
+                        h -> Collections.list(request.getHeaders(h))
+                )),
+                request.getParameterMap(),
+                request.getRequestURL(),
+                request.getQueryString(),
+                request.getMethod(),
+                body
+        );
+
+        String result = TokenHandler.parseEventAsync(httpRequest).thenApply(tokenParsingResult ->
+            tokenParsingResult.matchSome(new TokenParsingResult.SomeCases<String>() {
+                @Override
+                public String tokenCvvAuthUpdated(TokenWebhookEvent tokenCvvAuthUpdated) {
+                    return MessageFormat.format("TokenCvvAuthUpdated event received {0}", tokenCvvAuthUpdated.toString());
+                }
+
+                @Override
+                public String unknown() {
+                    return "Unknown event received";
+                }
+
+            })
+        ).join();
+
+        return ResponseEntity.status(200).body(result);
+    }
+}
+```
+
+## Accepted Server Responses
+
+The server should responds with one of the following status codes:
+
+| Status Code | Description |
+|  --- | --- |
+| 200 | Return 200 to acknowledge receipt of the event. Returns an empty JSON object. |
+

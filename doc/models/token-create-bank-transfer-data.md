@@ -1,0 +1,38 @@
+
+# Token Create Bank Transfer Data
+
+Token Create Bank Transfer Data schema.
+
+*This model accepts additional fields of type Object.*
+
+## Structure
+
+`TokenCreateBankTransferData`
+
+## Fields
+
+| Name | Type | Tags | Description | Getter | Setter |
+|  --- | --- | --- | --- | --- | --- |
+| `Brand` | `String` | Required | The bank brand identifier (e.g., 'aozora_bank'). | String getBrand() | setBrand(String brand) |
+| `ExpirationPeriod` | `String` | Optional | ISO 8601 duration format (e.g., 'PT168H'). | String getExpirationPeriod() | setExpirationPeriod(String expirationPeriod) |
+| `ExpirationTimeShift` | `String` | Optional | Time shift applied to the expiration, typically pushing it to the end of the day  in a specific timezone (e.g., '23:59:59+09:00'). | String getExpirationTimeShift() | setExpirationTimeShift(String expirationTimeShift) |
+| `Name` | `String` | Optional | The name of the customer initiating the transfer. | String getName() | setName(String name) |
+| `AdditionalProperties` | `Map<String, Object>` | Optional | - | Object getAdditionalProperty(String key) | additionalProperty(String key, Object value) |
+
+## Example
+
+```java
+import com.univapay.api.ApiHelper;
+import com.univapay.api.models.TokenCreateBankTransferData;
+import java.io.IOException;
+
+TokenCreateBankTransferData tokenCreateBankTransferData = new TokenCreateBankTransferData.Builder(
+    "aozora_bank"
+)
+.expirationPeriod("PT168H")
+.expirationTimeShift("23:59:59+09:00")
+.name("Taro Yamada")
+.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
+.build();
+```
+

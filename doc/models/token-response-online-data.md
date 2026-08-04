@@ -1,0 +1,45 @@
+
+# Token Response Online Data
+
+Token Response Online Data schema.
+
+*This model accepts additional fields of type Object.*
+
+## Structure
+
+`TokenResponseOnlineData`
+
+## Fields
+
+| Name | Type | Tags | Description | Getter | Setter |
+|  --- | --- | --- | --- | --- | --- |
+| `Brand` | [`BaseOnlineDataBrand`](../../doc/models/base-online-data-brand.md) | Optional | Base Online Data Brand schema. | BaseOnlineDataBrand getBrand() | setBrand(BaseOnlineDataBrand brand) |
+| `CallMethod` | [`BaseOnlineDataCallMethod`](../../doc/models/base-online-data-call-method.md) | Optional | Base Online Data Call Method schema. | BaseOnlineDataCallMethod getCallMethod() | setCallMethod(BaseOnlineDataCallMethod callMethod) |
+| `OsType` | [`BaseOnlineDataOsType`](../../doc/models/base-online-data-os-type.md) | Optional | Base Online Data Os Type schema. | BaseOnlineDataOsType getOsType() | setOsType(BaseOnlineDataOsType osType) |
+| `UserIdentifier` | `String` | Optional | Consumer specific identifier required by some gateways for fraud prevention. | String getUserIdentifier() | setUserIdentifier(String userIdentifier) |
+| `UserIdentifierSource` | [`BaseOnlineDataUserIdentifierSource`](../../doc/models/base-online-data-user-identifier-source.md) | Optional | The source of the user identifier | BaseOnlineDataUserIdentifierSource getUserIdentifierSource() | setUserIdentifierSource(BaseOnlineDataUserIdentifierSource userIdentifierSource) |
+| `IssuerToken` | `String` | Optional | Token provided by the issuer (if applicable). | String getIssuerToken() | setIssuerToken(String issuerToken) |
+| `IssuerTokenPayload` | `String` | Optional | Additional payload from the issuer. | String getIssuerTokenPayload() | setIssuerTokenPayload(String issuerTokenPayload) |
+| `AdditionalProperties` | `Map<String, Object>` | Optional | - | Object getAdditionalProperty(String key) | additionalProperty(String key, Object value) |
+
+## Example
+
+```java
+import com.univapay.api.ApiHelper;
+import com.univapay.api.models.BaseOnlineDataBrand;
+import com.univapay.api.models.BaseOnlineDataCallMethod;
+import com.univapay.api.models.BaseOnlineDataOsType;
+import com.univapay.api.models.BaseOnlineDataUserIdentifierSource;
+import com.univapay.api.models.TokenResponseOnlineData;
+import java.io.IOException;
+
+TokenResponseOnlineData tokenResponseOnlineData = new TokenResponseOnlineData.Builder()
+    .brand(BaseOnlineDataBrand.WE_CHAT_ONLINE)
+    .callMethod(BaseOnlineDataCallMethod.WEB)
+    .osType(BaseOnlineDataOsType.ANDROID)
+    .userIdentifier("wechat_open_id_12345")
+    .userIdentifierSource(BaseOnlineDataUserIdentifierSource.PROVIDED)
+.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
+    .build();
+```
+
