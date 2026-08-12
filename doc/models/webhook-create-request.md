@@ -21,10 +21,8 @@ Request body to create a new store-level webhook subscription.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.WebhookCreateRequest;
 import com.univapay.api.models.WebhookTrigger;
-import java.io.IOException;
 import java.util.Arrays;
 
 WebhookCreateRequest webhookCreateRequest = new WebhookCreateRequest.Builder(
@@ -34,7 +32,6 @@ WebhookCreateRequest webhookCreateRequest = new WebhookCreateRequest.Builder(
     "https://example.com/webhooks/payments"
 )
 .authToken("my-secret-token")
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
 .build();
 ```
 

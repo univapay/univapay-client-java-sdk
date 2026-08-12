@@ -29,22 +29,17 @@ Merchant-level fraud and refund safety settings.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.MerchantWebhookLimitRefundBySalesConfiguration;
 import com.univapay.api.models.MerchantWebhookSecurityConfiguration;
 import com.univapay.api.models.RestrictIpAfterFailedChargeConfig;
-import java.io.IOException;
 
 MerchantWebhookSecurityConfiguration merchantWebhookSecurityConfiguration = new MerchantWebhookSecurityConfiguration.Builder()
     .cardChargeCooldown("PT5M")
     .subscriptionCooldown("PT10M")
-    .idempotentCardChargeCooldown("idempotent_card_charge_cooldown2")
-    .idempotentSubscriptionCooldown("idempotent_subscription_cooldown6")
     .restrictIpAfterFailedCharge(new RestrictIpAfterFailedChargeConfig.Builder()
         .enabled(true)
         .count(5)
         .cooldown("PT1H")
-    .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
         .build())
     .refundPercentLimit(100D)
     .confirmationRequired(false)
@@ -54,7 +49,6 @@ MerchantWebhookSecurityConfiguration merchantWebhookSecurityConfiguration = new 
         .period("monthly")
         .rollingWindow(true)
         .build())
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

@@ -23,10 +23,8 @@ Request body for creating a refund against a successful charge. Konbini and bank
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.RefundCreateRequest;
 import com.univapay.api.models.RefundReasonRequest;
-import java.io.IOException;
 
 RefundCreateRequest refundCreateRequest = new RefundCreateRequest.Builder(
     1000,
@@ -34,8 +32,6 @@ RefundCreateRequest refundCreateRequest = new RefundCreateRequest.Builder(
 )
 .reason(RefundReasonRequest.CUSTOMER_REQUEST)
 .message("Customer returned item")
-.metadata(null)
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
 .build();
 ```
 

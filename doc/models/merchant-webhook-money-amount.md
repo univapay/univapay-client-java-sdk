@@ -20,14 +20,11 @@ Monetary amount object serialized by backend config models.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.MerchantWebhookMoneyAmount;
-import java.io.IOException;
 
 MerchantWebhookMoneyAmount merchantWebhookMoneyAmount = new MerchantWebhookMoneyAmount.Builder()
     .amount(1000)
     .currency("JPY")
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

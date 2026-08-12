@@ -22,9 +22,7 @@ Request body for creating a customs declaration. Backend currently accepts this 
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.CustomsDeclarationCreateRequest;
-import java.io.IOException;
 
 CustomsDeclarationCreateRequest customsDeclarationCreateRequest = new CustomsDeclarationCreateRequest.Builder(
     "TOKYO",
@@ -32,7 +30,6 @@ CustomsDeclarationCreateRequest customsDeclarationCreateRequest = new CustomsDec
     "AB1234567",
     "TARO YAMADA"
 )
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
 .build();
 ```
 

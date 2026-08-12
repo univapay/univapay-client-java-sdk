@@ -20,14 +20,11 @@ Token Create Card Data Cvv Authorize schema.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.TokenCreateCardDataCvvAuthorize;
-import java.io.IOException;
 
 TokenCreateCardDataCvvAuthorize tokenCreateCardDataCvvAuthorize = new TokenCreateCardDataCvvAuthorize.Builder()
     .enabled(false)
     .currency("JPY")
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

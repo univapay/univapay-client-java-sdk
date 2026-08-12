@@ -22,14 +22,12 @@ Webhook envelope whose `data` payload is a BankTransferStatusData resource.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.DateTimeHelper;
 import com.univapay.api.models.BankTransferEvent;
 import com.univapay.api.models.BankTransferPaymentStatus;
 import com.univapay.api.models.BankTransferStatusData;
 import com.univapay.api.models.BankTransferStatusWebhookCallback;
 import com.univapay.api.models.GenericMetadata;
-import java.io.IOException;
 import java.util.UUID;
 
 BankTransferStatusWebhookCallback bankTransferStatusWebhookCallback = new BankTransferStatusWebhookCallback.Builder(
@@ -54,9 +52,7 @@ BankTransferStatusWebhookCallback bankTransferStatusWebhookCallback = new BankTr
         .chargeMetadata(new GenericMetadata.Builder()
             .orderId("order_12345")
             .build())
-    .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
         .build())
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
 .build();
 ```
 

@@ -20,14 +20,9 @@ Token Create Card Data Three Ds schema.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.TokenCreateCardDataThreeDs;
-import java.io.IOException;
 
 TokenCreateCardDataThreeDs tokenCreateCardDataThreeDs = new TokenCreateCardDataThreeDs.Builder()
-    .enabled(false)
-    .redirectEndpoint("redirect_endpoint0")
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

@@ -30,12 +30,10 @@ Data payload for `bank_transfer_status_updated` webhook events. Contains the ban
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.DateTimeHelper;
 import com.univapay.api.models.BankTransferPaymentStatus;
 import com.univapay.api.models.BankTransferStatusData;
 import com.univapay.api.models.GenericMetadata;
-import java.io.IOException;
 import java.util.UUID;
 
 BankTransferStatusData bankTransferStatusData = new BankTransferStatusData.Builder()
@@ -55,7 +53,6 @@ BankTransferStatusData bankTransferStatusData = new BankTransferStatusData.Build
     .chargeMetadata(new GenericMetadata.Builder()
         .orderId("order_12345")
         .build())
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

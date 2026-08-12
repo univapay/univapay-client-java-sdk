@@ -23,11 +23,9 @@ Token Response Konbini Data schema.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.BaseKonbiniDataConvenienceStore;
 import com.univapay.api.models.TokenResponseKonbiniData;
 import com.univapay.api.models.TokenResponsePhoneNumber;
-import java.io.IOException;
 
 TokenResponseKonbiniData tokenResponseKonbiniData = new TokenResponseKonbiniData.Builder()
     .customerName("Taro Yamada")
@@ -37,9 +35,7 @@ TokenResponseKonbiniData tokenResponseKonbiniData = new TokenResponseKonbiniData
     .phoneNumber(new TokenResponsePhoneNumber.Builder()
         .countryCode(81)
         .localNumber("08012341234")
-    .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
         .build())
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

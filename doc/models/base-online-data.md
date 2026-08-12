@@ -23,21 +23,9 @@ Base Online Data schema.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.BaseOnlineData;
-import com.univapay.api.models.BaseOnlineDataBrand;
-import com.univapay.api.models.BaseOnlineDataCallMethod;
-import com.univapay.api.models.BaseOnlineDataOsType;
-import com.univapay.api.models.BaseOnlineDataUserIdentifierSource;
-import java.io.IOException;
 
 BaseOnlineData baseOnlineData = new BaseOnlineData.Builder()
-    .brand(BaseOnlineDataBrand.PAY_PAY_ONLINE)
-    .callMethod(BaseOnlineDataCallMethod.WEB)
-    .osType(BaseOnlineDataOsType.ANDROID)
-    .userIdentifier("user_identifier4")
-    .userIdentifierSource(BaseOnlineDataUserIdentifierSource.PROVIDED)
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

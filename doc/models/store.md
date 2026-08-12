@@ -22,7 +22,6 @@ Store resource returned by the backend `FullStore` formatter. It combines core s
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.DateTimeHelper;
 import com.univapay.api.models.MerchantWebhookBankTransferConfiguration;
 import com.univapay.api.models.MerchantWebhookCardConfiguration;
@@ -31,7 +30,6 @@ import com.univapay.api.models.MerchantWebhookMoneyAmount;
 import com.univapay.api.models.MerchantWebhookOnlineConfiguration;
 import com.univapay.api.models.MerchantWebhookUserTransactionsConfiguration;
 import com.univapay.api.models.Store;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -41,10 +39,6 @@ Store store = new Store.Builder()
     .createdOn(DateTimeHelper.fromRfc8601DateTime("2026-04-09T07:35:50.000000Z"))
     .configuration(new MerchantWebhookConfiguration.Builder()
         .percentFee(3.6D)
-        .flatFees(Arrays.asList(
-            null
-        ))
-        .logoUrl("logo_url4")
         .country("JP")
         .language("ja")
         .minimumChargeAmounts(Arrays.asList(
@@ -78,9 +72,7 @@ Store store = new Store.Builder()
             .matchAmount(true)
             .expiration("P7D")
             .build())
-    .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
         .build())
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

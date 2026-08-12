@@ -19,13 +19,11 @@ Bank-transfer-specific webhook payload extension.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.DateTimeHelper;
 import com.univapay.api.models.BankTransferPaymentStatus;
 import com.univapay.api.models.BankTransferStatusData;
 import com.univapay.api.models.BankTransferStatusWebhookCallbackExtension;
 import com.univapay.api.models.GenericMetadata;
-import java.io.IOException;
 import java.util.UUID;
 
 BankTransferStatusWebhookCallbackExtension bankTransferStatusWebhookCallbackExtension = new BankTransferStatusWebhookCallbackExtension.Builder()
@@ -46,9 +44,7 @@ BankTransferStatusWebhookCallbackExtension bankTransferStatusWebhookCallbackExte
         .chargeMetadata(new GenericMetadata.Builder()
             .orderId("order_12345")
             .build())
-    .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
         .build())
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

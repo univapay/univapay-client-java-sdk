@@ -20,14 +20,11 @@ Token Response Phone Number schema.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.TokenResponsePhoneNumber;
-import java.io.IOException;
 
 TokenResponsePhoneNumber tokenResponsePhoneNumber = new TokenResponsePhoneNumber.Builder()
     .countryCode(81)
     .localNumber("08012341234")
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

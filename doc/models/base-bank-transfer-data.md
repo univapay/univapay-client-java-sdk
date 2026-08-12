@@ -21,15 +21,12 @@ Base Bank Transfer Data schema.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.BaseBankTransferData;
-import java.io.IOException;
 
 BaseBankTransferData baseBankTransferData = new BaseBankTransferData.Builder()
     .brand("aozora_bank")
     .expirationPeriod("PT168H")
     .expirationTimeShift("23:59:59+09:00")
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

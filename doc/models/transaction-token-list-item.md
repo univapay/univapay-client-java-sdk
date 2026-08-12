@@ -30,11 +30,9 @@ Transaction token entry returned in list responses.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.DateTimeHelper;
 import com.univapay.api.models.TransactionTokenListItem;
 import com.univapay.api.models.TransactionTokenListItemUserData;
-import java.io.IOException;
 import java.util.UUID;
 
 TransactionTokenListItem transactionTokenListItem = new TransactionTokenListItem.Builder()
@@ -54,7 +52,6 @@ TransactionTokenListItem transactionTokenListItem = new TransactionTokenListItem
         .email("user@example.com")
         .brand("visa")
         .build())
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

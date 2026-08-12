@@ -28,6 +28,7 @@ import com.univapay.api.models.CancelStatus;
 import com.univapay.api.models.ChargeMode;
 import com.univapay.api.models.GenericMetadata;
 import com.univapay.api.models.PaymentError;
+import com.univapay.api.models.containers.GenericMetadataValue;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.UUID;
@@ -47,6 +48,11 @@ CancelList cancelList = new CancelList.Builder()
                 .build())
             .metadata(new GenericMetadata.Builder()
                 .orderId("ORD-987")
+                .univapayName("univapay-name8")
+                .univapayPhoneNumber("univapay-phone-number2")
+            .additionalProperty("exampleAdditionalProperty", GenericMetadataValue.fromString(
+                    "String4"
+                ))
                 .build())
             .mode(ChargeMode.LIVE)
             .createdOn(DateTimeHelper.fromRfc8601DateTime("2026-04-09T07:35:50.000000Z"))
@@ -66,6 +72,11 @@ CancelList cancelList = new CancelList.Builder()
                 .build())
             .metadata(new GenericMetadata.Builder()
                 .orderId("ORD-988")
+                .univapayName("univapay-name8")
+                .univapayPhoneNumber("univapay-phone-number2")
+            .additionalProperty("exampleAdditionalProperty", GenericMetadataValue.fromString(
+                    "String4"
+                ))
                 .build())
             .mode(ChargeMode.LIVE)
             .createdOn(DateTimeHelper.fromRfc8601DateTime("2026-04-10T10:00:00.000000Z"))

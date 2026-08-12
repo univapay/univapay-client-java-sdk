@@ -24,10 +24,8 @@ Subscription plan configuration.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.MerchantWebhookMoneyAmount;
 import com.univapay.api.models.MerchantWebhookSubscriptionPlanConfiguration;
-import java.io.IOException;
 import java.util.Arrays;
 
 MerchantWebhookSubscriptionPlanConfiguration merchantWebhookSubscriptionPlanConfiguration = new MerchantWebhookSubscriptionPlanConfiguration.Builder()
@@ -40,10 +38,8 @@ MerchantWebhookSubscriptionPlanConfiguration merchantWebhookSubscriptionPlanConf
     .minChargeAmount(new MerchantWebhookMoneyAmount.Builder()
         .amount(3000)
         .currency("JPY")
-    .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
         .build())
     .maxPayoutPeriod("P12M")
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

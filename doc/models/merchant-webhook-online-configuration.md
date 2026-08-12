@@ -19,13 +19,10 @@ Online payment settings.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.MerchantWebhookOnlineConfiguration;
-import java.io.IOException;
 
 MerchantWebhookOnlineConfiguration merchantWebhookOnlineConfiguration = new MerchantWebhookOnlineConfiguration.Builder()
     .enabled(true)
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

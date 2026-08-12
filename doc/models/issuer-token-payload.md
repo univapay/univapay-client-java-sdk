@@ -22,16 +22,9 @@ A dictionary containing necessary key-value pairs for sending the request.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.IssuerTokenPayload;
-import java.io.IOException;
 
 IssuerTokenPayload issuerTokenPayload = new IssuerTokenPayload.Builder()
-    .requestData("request_data2")
-    .sSpcd("sSpcd2")
-    .sCptok("sCptok4")
-    .sTerkn("sTerkn2")
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

@@ -22,17 +22,14 @@ Request body for updating a scheduled payment. All fields are optional. Omitted 
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.DateTimeHelper;
 import com.univapay.api.models.SubscriptionPatchPaymentRequest;
-import java.io.IOException;
 
 SubscriptionPatchPaymentRequest subscriptionPatchPaymentRequest = new SubscriptionPatchPaymentRequest.Builder()
     .dueDate(DateTimeHelper.fromSimpleDate("2026-09-01"))
     .isPaid(false)
     .terminateWithStatus(null)
     .retryInterval("P3D")
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

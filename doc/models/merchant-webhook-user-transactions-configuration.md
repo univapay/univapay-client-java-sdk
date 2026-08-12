@@ -36,20 +36,15 @@ Merchant transaction notification settings.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.MerchantWebhookUserTransactionsConfiguration;
-import java.io.IOException;
 
 MerchantWebhookUserTransactionsConfiguration merchantWebhookUserTransactionsConfiguration = new MerchantWebhookUserTransactionsConfiguration.Builder()
     .enabled(true)
     .notifyCustomer(true)
     .notifyOnTest(false)
-    .notifyOnRecurringTokenCreation(false)
-    .notifyOnRecurringTokenCvvFailed(false)
     .notifyOnWebhookFailure(true)
     .notifyOnWebhookDisabled(true)
     .notifyOnSubscriptions(true)
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

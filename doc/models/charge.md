@@ -56,6 +56,7 @@ import com.univapay.api.models.ChargeThreeDs;
 import com.univapay.api.models.ChargeTransactionTokenType;
 import com.univapay.api.models.GenericMetadata;
 import com.univapay.api.models.PaymentError;
+import com.univapay.api.models.containers.GenericMetadataValue;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -84,17 +85,29 @@ Charge charge = new Charge.Builder()
         .code(301)
         .message("Card number error.")
         .detail("The provided card number failed validation.")
+    .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
         .build())
     .metadata(new GenericMetadata.Builder()
         .orderId("12345")
+        .univapayName("univapay-name8")
+        .univapayPhoneNumber("univapay-phone-number2")
+    .additionalProperty("exampleAdditionalProperty", GenericMetadataValue.fromString(
+            "String4"
+        ))
         .build())
     .mode(ChargeMode.LIVE)
     .createdOn(DateTimeHelper.fromRfc8601DateTime("2026-04-09T07:35:50Z"))
     .merchantName("Test Merchant")
     .storeName("Tokyo Store")
     .redirect(new ChargeRedirect.Builder()
+        .endpoint("endpoint8")
+        .redirectId(UUID.fromString("00000316-0000-0000-0000-000000000000"))
+    .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
         .build())
     .threeDs(new ChargeThreeDs.Builder()
+        .redirectEndpoint("redirect_endpoint8")
+        .mode("mode2")
+    .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
         .build())
 .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();

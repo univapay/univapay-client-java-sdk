@@ -22,10 +22,8 @@ Store row returned by store list queries.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.DateTimeHelper;
 import com.univapay.api.models.StoreListItem;
-import java.io.IOException;
 import java.util.UUID;
 
 StoreListItem storeListItem = new StoreListItem.Builder()
@@ -33,7 +31,6 @@ StoreListItem storeListItem = new StoreListItem.Builder()
     .name("Tokyo Store")
     .merchantName("Example Merchant")
     .createdOn(DateTimeHelper.fromRfc8601DateTime("2026-04-09T07:35:50.000000Z"))
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

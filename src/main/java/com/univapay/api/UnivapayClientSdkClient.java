@@ -29,6 +29,7 @@ import io.apimatic.okhttpclient.adapter.OkClient;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -53,7 +54,7 @@ public final class UnivapayClientSdkClient implements Configuration {
 
     private static final CompatibilityFactory compatibilityFactory = new CompatibilityFactoryImpl();
 
-    private static String userAgent = "Java-SDK/1.0.0 (OS: {os-info}, Engine: {engine}/{engine-version})";
+    private static String userAgent = "Java-SDK/1.0.1 (OS: {os-info}, Engine: {engine}/{engine-version})";
 
     /**
      * Current API environment.
@@ -263,6 +264,43 @@ public final class UnivapayClientSdkClient implements Configuration {
      */
     public BearerAuthModel getBearerAuthModel() {
         return bearerAuthModel;
+    }
+
+    /**
+     * The merchant this client's app token was issued for, decoded from the
+     * configured JWT.
+     *
+     * <p>Both merchant-level and store-level app tokens carry a merchant, so
+     * this is set for either kind of token.
+     *
+     * @return the merchant id, or null if no JWT is configured or its
+     *         {@code merchant_id} claim is absent or not a UUID
+     */
+    public UUID getCurrentMerchantId() {
+        return AppJwt.readUuidClaim(getJwtTokenOrNull(), "merchant_id");
+    }
+
+    /**
+     * The store this client's app token was issued for, decoded from the
+     * configured JWT.
+     *
+     * <p>Only store-level app tokens are scoped to a store. A merchant-level
+     * token carries no {@code store_id} claim, so this returns null for one --
+     * use {@link #getStoresApi()} to list the merchant's stores instead.
+     *
+     * @return the store id, or null if no JWT is configured or its
+     *         {@code store_id} claim is absent or not a UUID
+     */
+    public UUID getCurrentStoreId() {
+        return AppJwt.readUuidClaim(getJwtTokenOrNull(), "store_id");
+    }
+
+    /**
+     * The configured JWT, or null when no credentials are set.
+     * @return the JWT token or null
+     */
+    private String getJwtTokenOrNull() {
+        return bearerAuthModel == null ? null : bearerAuthModel.getJwtToken();
     }
 
     /**

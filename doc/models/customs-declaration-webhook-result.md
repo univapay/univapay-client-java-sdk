@@ -22,16 +22,13 @@ Result payload returned by the customs declaration formatter.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.CustomsDeclarationWebhookResult;
-import java.io.IOException;
 
 CustomsDeclarationWebhookResult customsDeclarationWebhookResult = new CustomsDeclarationWebhookResult.Builder()
     .approvingAuthority("TOKYO")
     .tradeId("wx_trade_12345")
     .transactionId("wx_txn_12345")
     .chargeTransactionId("wx_charge_12345")
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

@@ -21,17 +21,9 @@ Schedule settings that can be updated on a subscription.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
-import com.univapay.api.DateTimeHelper;
-import com.univapay.api.models.SubscriptionTerminationMode;
 import com.univapay.api.models.SubscriptionUpdateScheduleSettings;
-import java.io.IOException;
 
 SubscriptionUpdateScheduleSettings subscriptionUpdateScheduleSettings = new SubscriptionUpdateScheduleSettings.Builder()
-    .terminationMode(SubscriptionTerminationMode.IMMEDIATE)
-    .startOn(DateTimeHelper.fromRfc8601DateTime("2016-03-13T12:52:32.123Z"))
-    .retryInterval("retry_interval8")
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

@@ -22,7 +22,6 @@ Webhook envelope whose `data` payload is a CustomsDeclaration resource.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.DateTimeHelper;
 import com.univapay.api.models.CustomsDeclarationEvent;
 import com.univapay.api.models.CustomsDeclarationWebhookCallback;
@@ -30,7 +29,6 @@ import com.univapay.api.models.CustomsDeclarationWebhookData;
 import com.univapay.api.models.CustomsDeclarationWebhookDeclaration;
 import com.univapay.api.models.CustomsDeclarationWebhookResult;
 import com.univapay.api.models.CustomsDeclarationWebhookStatus;
-import java.io.IOException;
 import java.util.UUID;
 
 CustomsDeclarationWebhookCallback customsDeclarationWebhookCallback = new CustomsDeclarationWebhookCallback.Builder(
@@ -43,7 +41,6 @@ CustomsDeclarationWebhookCallback customsDeclarationWebhookCallback = new Custom
         .chargeId(UUID.fromString("11ef0000-0000-4000-8000-000000000001"))
         .merchantId(UUID.fromString("11ef0000-0000-4000-8000-000000000020"))
         .storeId(UUID.fromString("11ef0000-0000-4000-8000-000000000022"))
-        .platformId(UUID.fromString("00000550-0000-0000-0000-000000000000"))
         .mode("test")
         .gateway("wechat_online")
         .declaration(new CustomsDeclarationWebhookDeclaration.Builder()
@@ -60,9 +57,7 @@ CustomsDeclarationWebhookCallback customsDeclarationWebhookCallback = new Custom
             .build())
         .status(CustomsDeclarationWebhookStatus.SUCCESSFUL)
         .createdOn(DateTimeHelper.fromRfc8601DateTime("2026-04-09T07:35:50.000000Z"))
-    .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
         .build())
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
 .build();
 ```
 

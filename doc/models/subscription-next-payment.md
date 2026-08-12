@@ -30,19 +30,9 @@ Next scheduled payment details for a subscription.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
-import com.univapay.api.DateTimeHelper;
 import com.univapay.api.models.SubscriptionNextPayment;
-import java.io.IOException;
-import java.util.UUID;
 
 SubscriptionNextPayment subscriptionNextPayment = new SubscriptionNextPayment.Builder()
-    .id(UUID.fromString("00000e0e-0000-0000-0000-000000000000"))
-    .dueDate(DateTimeHelper.fromSimpleDate("2016-03-13"))
-    .zoneId("zone_id4")
-    .amount(176)
-    .currency("currency8")
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

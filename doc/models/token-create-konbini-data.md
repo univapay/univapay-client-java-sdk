@@ -23,11 +23,9 @@ Token Create Konbini Data schema.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.BaseKonbiniDataConvenienceStore;
 import com.univapay.api.models.TokenCreateKonbiniData;
 import com.univapay.api.models.TokenCreatePhoneNumber;
-import java.io.IOException;
 
 TokenCreateKonbiniData tokenCreateKonbiniData = new TokenCreateKonbiniData.Builder(
     "Taro Yamada",
@@ -36,12 +34,10 @@ TokenCreateKonbiniData tokenCreateKonbiniData = new TokenCreateKonbiniData.Build
         "81",
         "08012341234"
     )
-    .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build()
 )
 .expirationPeriod("P7D")
 .expirationTimeShift("23:59:59+09:00")
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
 .build();
 ```
 

@@ -27,18 +27,12 @@ Per-card-brand percent fee overrides.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.MerchantWebhookCardBrandPercentFees;
-import java.io.IOException;
 
 MerchantWebhookCardBrandPercentFees merchantWebhookCardBrandPercentFees = new MerchantWebhookCardBrandPercentFees.Builder()
     .visa(3.6D)
-    .americanExpress(133.02D)
     .mastercard(3.6D)
-    .maestro(115.58D)
-    .discover(104.6D)
     .jcb(3.8D)
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

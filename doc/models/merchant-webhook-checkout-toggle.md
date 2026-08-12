@@ -19,13 +19,10 @@ Checkout feature toggle.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.MerchantWebhookCheckoutToggle;
-import java.io.IOException;
 
 MerchantWebhookCheckoutToggle merchantWebhookCheckoutToggle = new MerchantWebhookCheckoutToggle.Builder()
     .enabled(true)
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

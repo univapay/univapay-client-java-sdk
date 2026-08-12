@@ -22,7 +22,6 @@ Webhook envelope for subscription lifecycle events. Fired as `subscription_creat
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.DateTimeHelper;
 import com.univapay.api.models.ChargeMode;
 import com.univapay.api.models.GenericMetadata;
@@ -33,7 +32,6 @@ import com.univapay.api.models.SubscriptionScheduleSettings;
 import com.univapay.api.models.SubscriptionStatus;
 import com.univapay.api.models.SubscriptionTerminationMode;
 import com.univapay.api.models.SubscriptionWebhookEvent;
-import java.io.IOException;
 import java.util.UUID;
 
 SubscriptionWebhookEvent subscriptionWebhookEvent = new SubscriptionWebhookEvent.Builder(
@@ -64,9 +62,7 @@ SubscriptionWebhookEvent subscriptionWebhookEvent = new SubscriptionWebhookEvent
         .mode(ChargeMode.TEST)
         .createdOn(DateTimeHelper.fromRfc8601DateTime("2024-06-26T01:51:28.627023Z"))
         .period(SubscriptionPeriod.MONTHLY)
-    .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
         .build())
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
 .build();
 ```
 

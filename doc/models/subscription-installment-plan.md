@@ -20,16 +20,9 @@ Configuration for credit card company side installments.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
-import com.univapay.api.models.InstallmentFixedCycles;
-import com.univapay.api.models.InstallmentPlanType;
 import com.univapay.api.models.SubscriptionInstallmentPlan;
-import java.io.IOException;
 
 SubscriptionInstallmentPlan subscriptionInstallmentPlan = new SubscriptionInstallmentPlan.Builder()
-    .planType(InstallmentPlanType.REVOLVING)
-    .fixedCycles(InstallmentFixedCycles.CYCLES_3)
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

@@ -26,19 +26,9 @@ Represents a single delivery attempt of a webhook event, including the payload s
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.WebhookEvent;
-import com.univapay.api.models.WebhookTrigger;
-import java.io.IOException;
-import java.util.UUID;
 
 WebhookEvent webhookEvent = new WebhookEvent.Builder()
-    .id(UUID.fromString("000000b4-0000-0000-0000-000000000000"))
-    .webhookId(UUID.fromString("00002482-0000-0000-0000-000000000000"))
-    .event(WebhookTrigger.TOKEN_CVV_AUTH_UPDATED)
-    .data(ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
-    .successful(false)
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

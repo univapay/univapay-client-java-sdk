@@ -21,15 +21,12 @@ Transaction Token List Item User Data schema.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.TransactionTokenListItemUserData;
-import java.io.IOException;
 
 TransactionTokenListItemUserData transactionTokenListItemUserData = new TransactionTokenListItemUserData.Builder()
     .cardholderName("TARO YAMADA")
     .email("user@example.com")
     .brand("visa")
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

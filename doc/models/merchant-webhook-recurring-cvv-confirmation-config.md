@@ -20,22 +20,10 @@ CVV confirmation rules for recurring token charges.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
-import com.univapay.api.models.MerchantWebhookMoneyAmount;
 import com.univapay.api.models.MerchantWebhookRecurringCvvConfirmationConfig;
-import java.io.IOException;
-import java.util.Arrays;
 
 MerchantWebhookRecurringCvvConfirmationConfig merchantWebhookRecurringCvvConfirmationConfig = new MerchantWebhookRecurringCvvConfirmationConfig.Builder()
     .enabled(false)
-    .threshold(Arrays.asList(
-        null,
-        new MerchantWebhookMoneyAmount.Builder()
-            .build(),
-        new MerchantWebhookMoneyAmount.Builder()
-            .build()
-    ))
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

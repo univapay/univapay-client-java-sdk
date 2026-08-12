@@ -24,17 +24,9 @@ Customer-facing payment method summary data.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.SubscriptionUserData;
-import java.io.IOException;
 
 SubscriptionUserData subscriptionUserData = new SubscriptionUserData.Builder()
-    .type("type8")
-    .cardholderName("cardholder_name2")
-    .email("email4")
-    .brand("brand6")
-    .gateway("gateway2")
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

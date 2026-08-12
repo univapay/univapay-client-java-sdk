@@ -35,9 +35,7 @@ Bank transfer payment settings.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.MerchantWebhookBankTransferConfiguration;
-import java.io.IOException;
 
 MerchantWebhookBankTransferConfiguration merchantWebhookBankTransferConfiguration = new MerchantWebhookBankTransferConfiguration.Builder()
     .enabled(true)
@@ -52,7 +50,6 @@ MerchantWebhookBankTransferConfiguration merchantWebhookBankTransferConfiguratio
     .depositReceivedNotificationEnabled(true)
     .remindNotificationPeriod("P2D")
     .remindNotificationEnabled(true)
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

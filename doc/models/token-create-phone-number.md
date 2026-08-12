@@ -20,15 +20,12 @@ Token Create Phone Number schema.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.TokenCreatePhoneNumber;
-import java.io.IOException;
 
 TokenCreatePhoneNumber tokenCreatePhoneNumber = new TokenCreatePhoneNumber.Builder(
     "81",
     "08012341234"
 )
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
 .build();
 ```
 

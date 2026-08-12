@@ -26,19 +26,14 @@ Transfer schedule configuration inherited by the merchant.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.MerchantWebhookTransferScheduleConfiguration;
-import java.io.IOException;
 
 MerchantWebhookTransferScheduleConfiguration merchantWebhookTransferScheduleConfiguration = new MerchantWebhookTransferScheduleConfiguration.Builder()
     .waitPeriod("P7D")
     .period("weekly")
     .fullPeriodRequired(false)
-    .dayOfWeek("day_of_week8")
-    .weekOfMonth(26)
     .weeklyClosingDay("sunday")
     .weeklyPayoutDay("friday")
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

@@ -22,7 +22,6 @@ Webhook envelope for charge lifecycle events. Fired as `charge_updated` whenever
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.DateTimeHelper;
 import com.univapay.api.models.Charge;
 import com.univapay.api.models.ChargeEvent;
@@ -30,7 +29,6 @@ import com.univapay.api.models.ChargeMode;
 import com.univapay.api.models.ChargeStatus;
 import com.univapay.api.models.ChargeTransactionTokenType;
 import com.univapay.api.models.ChargeWebhookEvent;
-import java.io.IOException;
 import java.util.UUID;
 
 ChargeWebhookEvent chargeWebhookEvent = new ChargeWebhookEvent.Builder(
@@ -55,9 +53,7 @@ ChargeWebhookEvent chargeWebhookEvent = new ChargeWebhookEvent.Builder(
         .error(null)
         .mode(ChargeMode.TEST)
         .createdOn(DateTimeHelper.fromRfc8601DateTime("2024-06-26T01:51:30.000000Z"))
-    .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
         .build())
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
 .build();
 ```
 

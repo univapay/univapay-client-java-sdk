@@ -32,21 +32,13 @@ Token Create Card Data schema.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.TokenCreateCardData;
-import java.io.IOException;
 
 TokenCreateCardData tokenCreateCardData = new TokenCreateCardData.Builder(
     "4242424242424242",
     "12",
     "2026"
 )
-.cardholder("cardholder8")
-.cvv("cvv0")
-.line1("line14")
-.line2("line26")
-.state("state2")
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
 .build();
 ```
 

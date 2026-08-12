@@ -21,25 +21,14 @@ Request body for updating a refund. All fields are optional. Omitted fields are 
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.GenericMetadata;
-import com.univapay.api.models.RefundReasonRequest;
 import com.univapay.api.models.RefundUpdateRequest;
-import com.univapay.api.models.containers.GenericMetadataValue;
-import java.io.IOException;
 
 RefundUpdateRequest refundUpdateRequest = new RefundUpdateRequest.Builder()
     .metadata(new GenericMetadata.Builder()
         .orderId("12345")
-        .univapayName("univapay-name8")
-        .univapayPhoneNumber("univapay-phone-number2")
-    .additionalProperty("exampleAdditionalProperty", GenericMetadataValue.fromString(
-            "String4"
-        ))
         .build())
     .message("Updated reason note")
-    .reason(RefundReasonRequest.DUPLICATE)
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

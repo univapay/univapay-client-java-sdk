@@ -21,16 +21,13 @@ Token Response Card Data Cvv Authorize Check schema.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.DateTimeHelper;
 import com.univapay.api.models.TokenResponseCardDataCvvAuthorizeCheck;
-import java.io.IOException;
 
 TokenResponseCardDataCvvAuthorizeCheck tokenResponseCardDataCvvAuthorizeCheck = new TokenResponseCardDataCvvAuthorizeCheck.Builder()
     .status("successful")
     .chargeId(null)
     .date(DateTimeHelper.fromRfc8601DateTime("2026-04-09T07:35:50Z"))
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

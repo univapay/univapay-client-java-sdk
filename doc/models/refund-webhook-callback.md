@@ -22,7 +22,6 @@ Webhook envelope whose `data` payload is a Refund resource.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.DateTimeHelper;
 import com.univapay.api.models.ChargeMode;
 import com.univapay.api.models.GenericMetadata;
@@ -31,7 +30,6 @@ import com.univapay.api.models.RefundEvent;
 import com.univapay.api.models.RefundReasonResponse;
 import com.univapay.api.models.RefundStatus;
 import com.univapay.api.models.RefundWebhookCallback;
-import java.io.IOException;
 import java.util.UUID;
 
 RefundWebhookCallback refundWebhookCallback = new RefundWebhookCallback.Builder(
@@ -56,9 +54,7 @@ RefundWebhookCallback refundWebhookCallback = new RefundWebhookCallback.Builder(
         .mode(ChargeMode.LIVE)
         .createdOn(DateTimeHelper.fromRfc8601DateTime("2026-04-09T07:35:50.000000Z"))
         .updatedOn(DateTimeHelper.fromRfc8601DateTime("2026-04-09T07:36:00.000000Z"))
-    .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
         .build())
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
 .build();
 ```
 

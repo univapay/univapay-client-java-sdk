@@ -23,22 +23,15 @@ Token Create Online Data schema.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.BaseOnlineDataBrand;
 import com.univapay.api.models.BaseOnlineDataCallMethod;
-import com.univapay.api.models.BaseOnlineDataOsType;
-import com.univapay.api.models.BaseOnlineDataUserIdentifierSource;
 import com.univapay.api.models.TokenCreateOnlineData;
-import java.io.IOException;
 
 TokenCreateOnlineData tokenCreateOnlineData = new TokenCreateOnlineData.Builder(
     BaseOnlineDataBrand.WE_CHAT_ONLINE,
     BaseOnlineDataCallMethod.WEB
 )
-.osType(BaseOnlineDataOsType.ANDROID)
 .userIdentifier("wechat_open_id_12345")
-.userIdentifierSource(BaseOnlineDataUserIdentifierSource.PROVIDED)
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
 .build();
 ```
 

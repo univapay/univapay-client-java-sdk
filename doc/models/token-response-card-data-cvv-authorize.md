@@ -23,9 +23,7 @@ Token Response Card Data Cvv Authorize schema.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.TokenResponseCardDataCvvAuthorize;
-import java.io.IOException;
 
 TokenResponseCardDataCvvAuthorize tokenResponseCardDataCvvAuthorize = new TokenResponseCardDataCvvAuthorize.Builder()
     .enabled(true)
@@ -33,7 +31,6 @@ TokenResponseCardDataCvvAuthorize tokenResponseCardDataCvvAuthorize = new TokenR
     .chargeId(null)
     .credentialsId(null)
     .currency("JPY")
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

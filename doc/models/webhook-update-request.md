@@ -22,21 +22,10 @@ Request body for updating a webhook. All fields are optional. Omitted fields are
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
-import com.univapay.api.models.WebhookTrigger;
 import com.univapay.api.models.WebhookUpdateRequest;
-import java.io.IOException;
-import java.util.Arrays;
 
 WebhookUpdateRequest webhookUpdateRequest = new WebhookUpdateRequest.Builder()
-    .triggers(Arrays.asList(
-        WebhookTrigger.SUBSCRIPTION_CREATED,
-        WebhookTrigger.BANK_TRANSFER_STATUS_UPDATED
-    ))
-    .url("url6")
-    .authToken("auth_token8")
     .active(false)
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

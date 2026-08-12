@@ -19,13 +19,10 @@ QR merchant payment settings.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.MerchantWebhookQrMerchantConfiguration;
-import java.io.IOException;
 
 MerchantWebhookQrMerchantConfiguration merchantWebhookQrMerchantConfiguration = new MerchantWebhookQrMerchantConfiguration.Builder()
     .enabled(false)
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

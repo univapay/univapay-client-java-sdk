@@ -23,17 +23,11 @@ A free-form dictionary for custom metadata.
 
 ```java
 import com.univapay.api.models.TransactionTokenCreateRequestMetadata;
-import com.univapay.api.models.containers.TransactionTokenCreateMetadataProps;
 import java.util.UUID;
 
 TransactionTokenCreateRequestMetadata transactionTokenCreateRequestMetadata = new TransactionTokenCreateRequestMetadata.Builder()
     .univapayReferenceId("ref-998877")
     .univapayCustomerId(UUID.fromString("0fd29949-07d5-4a91-8eaf-fbce0897d944"))
-    .univapayName("univapay-name2")
-    .univapayPhoneNumber("univapay-phone-number6")
-.additionalProperty("exampleAdditionalProperty", TransactionTokenCreateMetadataProps.fromString(
-        "String8"
-    ))
     .build();
 ```
 

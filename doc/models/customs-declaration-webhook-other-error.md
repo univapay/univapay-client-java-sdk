@@ -22,21 +22,11 @@ Nested customs-processing error entry returned in `others`.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.CustomsDeclarationWebhookOtherError;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.UUID;
 
 CustomsDeclarationWebhookOtherError customsDeclarationWebhookOtherError = new CustomsDeclarationWebhookOtherError.Builder()
     .type("related_item")
-    .credentialsId(UUID.fromString("00000b8c-0000-0000-0000-000000000000"))
-    .message(Arrays.asList(
-        "message4",
-        "message3"
-    ))
     .itemName("charge")
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

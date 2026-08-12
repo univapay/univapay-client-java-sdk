@@ -27,7 +27,6 @@ Merchant resource returned by the backend `FullMerchantWithGroupRoles` formatter
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.DateTimeHelper;
 import com.univapay.api.models.Merchant;
 import com.univapay.api.models.MerchantWebhookBankTransferConfiguration;
@@ -36,7 +35,6 @@ import com.univapay.api.models.MerchantWebhookConfiguration;
 import com.univapay.api.models.MerchantWebhookMoneyAmount;
 import com.univapay.api.models.MerchantWebhookOnlineConfiguration;
 import com.univapay.api.models.MerchantWebhookUserTransactionsConfiguration;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -85,7 +83,6 @@ Merchant merchant = new Merchant.Builder()
             .build())
         .build())
     .createdOn(DateTimeHelper.fromRfc8601DateTime("2026-04-09T07:35:50.000000Z"))
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

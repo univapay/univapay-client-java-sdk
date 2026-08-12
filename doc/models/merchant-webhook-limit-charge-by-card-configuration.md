@@ -20,14 +20,11 @@ Per-card velocity limit configuration.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.MerchantWebhookLimitChargeByCardConfiguration;
-import java.io.IOException;
 
 MerchantWebhookLimitChargeByCardConfiguration merchantWebhookLimitChargeByCardConfiguration = new MerchantWebhookLimitChargeByCardConfiguration.Builder()
     .quantityOfCharges(5)
     .durationWindow("PT24H")
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

@@ -42,12 +42,10 @@ Subscription entry returned in list responses.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.DateTimeHelper;
 import com.univapay.api.models.SubscriptionListItem;
 import com.univapay.api.models.SubscriptionStatus;
 import com.univapay.api.models.SubscriptionUserData;
-import java.io.IOException;
 import java.util.UUID;
 
 SubscriptionListItem subscriptionListItem = new SubscriptionListItem.Builder()
@@ -68,7 +66,6 @@ SubscriptionListItem subscriptionListItem = new SubscriptionListItem.Builder()
         .email("test@test.com")
         .brand("visa")
         .build())
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

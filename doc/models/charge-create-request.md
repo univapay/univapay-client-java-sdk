@@ -28,10 +28,7 @@ Request payload for creating a charge.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
-import com.univapay.api.DateTimeHelper;
 import com.univapay.api.models.ChargeCreateRequest;
-import java.io.IOException;
 import java.util.UUID;
 
 ChargeCreateRequest chargeCreateRequest = new ChargeCreateRequest.Builder(
@@ -39,12 +36,6 @@ ChargeCreateRequest chargeCreateRequest = new ChargeCreateRequest.Builder(
     1000,
     "JPY"
 )
-.capture(false)
-.captureAt(DateTimeHelper.fromRfc8601DateTime("2016-03-13T12:52:32.123Z"))
-.merchantTransactionId("merchant_transaction_id0")
-.metadata(null)
-.clientMetadata(null)
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
 .build();
 ```
 

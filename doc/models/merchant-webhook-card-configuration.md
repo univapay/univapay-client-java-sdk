@@ -35,20 +35,15 @@ Card payment settings.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.MerchantWebhookCardConfiguration;
-import java.io.IOException;
 
 MerchantWebhookCardConfiguration merchantWebhookCardConfiguration = new MerchantWebhookCardConfiguration.Builder()
     .enabled(true)
     .debitEnabled(true)
     .prepaidEnabled(false)
-    .debitAuthorizationEnabled(false)
-    .prepaidAuthorizationEnabled(false)
     .foreignCardsAllowed(false)
     .threeDsRequired(true)
     .allowDirectTokenCreation(false)
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

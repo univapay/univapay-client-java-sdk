@@ -34,6 +34,8 @@ Stored transaction token resource.
 ```java
 import com.univapay.api.ApiHelper;
 import com.univapay.api.DateTimeHelper;
+import com.univapay.api.models.TokenResponseCardData;
+import com.univapay.api.models.TokenResponseCardDataCard;
 import com.univapay.api.models.TransactionToken;
 import com.univapay.api.models.TransactionTokenMode;
 import com.univapay.api.models.TransactionTokenPaymentType;
@@ -55,12 +57,31 @@ TransactionToken transactionToken = new TransactionToken.Builder()
     .usageLimit("example")
     .confirmed(true)
     .metadata(new LinkedHashMap<String, TransactionTokenMetadataAdditionalProperties>() {{
-        put("customer_id", );
+        put("customer_id", TransactionTokenMetadataAdditionalProperties.fromString(
+            "cust_12345"
+        ));
     }})
     .createdOn(DateTimeHelper.fromRfc8601DateTime("2026-04-09T07:35:50Z"))
     .updatedOn(DateTimeHelper.fromRfc8601DateTime("2026-04-09T07:35:50Z"))
     .lastUsedOn(DateTimeHelper.fromRfc8601DateTime("2026-04-09T07:35:50.000000Z"))
-    .data()
+    .data(TransactionTokenData.fromTokenResponseCardData(
+        new TokenResponseCardData.Builder()
+            .card(new TokenResponseCardDataCard.Builder()
+                .cardholder("TARO YAMADA")
+                .expMonth(12)
+                .expYear(2026)
+                .cardBin("card_bin0")
+                .lastFour("4242")
+                .brand("visa")
+            .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
+                .build())
+            .billing(null)
+            .cvvAuthorize(null)
+            .cvvAuthorizeCheck(null)
+            .threeDs(null)
+        .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
+            .build()
+    ))
 .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```

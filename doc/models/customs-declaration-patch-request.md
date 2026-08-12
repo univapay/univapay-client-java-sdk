@@ -19,14 +19,11 @@ Request body for updating a customs declaration. Backend patch handling keeps th
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.CustomsDeclarationPatchRequest;
-import java.io.IOException;
 
 CustomsDeclarationPatchRequest customsDeclarationPatchRequest = new CustomsDeclarationPatchRequest.Builder(
     "1234567891"
 )
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
 .build();
 ```
 

@@ -19,22 +19,13 @@ Request body to create a cancel for a charge. Only `metadata` is accepted; all o
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.CancelCreateRequest;
 import com.univapay.api.models.GenericMetadata;
-import com.univapay.api.models.containers.GenericMetadataValue;
-import java.io.IOException;
 
 CancelCreateRequest cancelCreateRequest = new CancelCreateRequest.Builder()
     .metadata(new GenericMetadata.Builder()
         .orderId("ORD-987")
-        .univapayName("univapay-name8")
-        .univapayPhoneNumber("univapay-phone-number2")
-    .additionalProperty("exampleAdditionalProperty", GenericMetadataValue.fromString(
-            "String4"
-        ))
         .build())
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

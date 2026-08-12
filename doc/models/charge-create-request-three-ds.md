@@ -20,15 +20,9 @@ Charge Create Request Three Ds schema.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.ChargeCreateRequestThreeDs;
-import com.univapay.api.models.ChargeCreateRequestThreeDsMode;
-import java.io.IOException;
 
 ChargeCreateRequestThreeDs chargeCreateRequestThreeDs = new ChargeCreateRequestThreeDs.Builder()
-    .redirectEndpoint("redirect_endpoint8")
-    .mode(ChargeCreateRequestThreeDsMode.NORMAL)
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

@@ -27,12 +27,10 @@ Issuer token or bank transfer instruction payload.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.IssuerToken;
 import com.univapay.api.models.IssuerTokenCallMethod;
 import com.univapay.api.models.IssuerTokenPayload;
 import com.univapay.api.models.IssuerTokenPaymentType;
-import java.io.IOException;
 
 IssuerToken issuerToken = new IssuerToken.Builder(
     IssuerTokenPaymentType.ONLINE
@@ -41,14 +39,7 @@ IssuerToken issuerToken = new IssuerToken.Builder(
 .callMethod(IssuerTokenCallMethod.HTTP_POST)
 .payload(new IssuerTokenPayload.Builder()
         .requestData("example")
-        .sSpcd("sSpcd6")
-        .sCptok("sCptok0")
-        .sTerkn("sTerkn6")
-    .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
         .build())
-.accountId("account_id2")
-.branchCode("branch_code8")
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
 .build();
 ```
 

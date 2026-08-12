@@ -30,10 +30,8 @@ Transaction Token Update Request Data schema.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.TransactionTokenUpdateRequestData;
 import com.univapay.api.models.TransactionTokenUpdateRequestDataPhoneNumber;
-import java.io.IOException;
 
 TransactionTokenUpdateRequestData transactionTokenUpdateRequestData = new TransactionTokenUpdateRequestData.Builder()
     .cvv("123")
@@ -51,7 +49,6 @@ TransactionTokenUpdateRequestData transactionTokenUpdateRequestData = new Transa
         .countryCode("81")
         .localNumber("08012341234")
         .build())
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

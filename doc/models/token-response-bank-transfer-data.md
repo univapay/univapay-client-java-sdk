@@ -27,9 +27,7 @@ Token Response Bank Transfer Data schema.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.TokenResponseBankTransferData;
-import java.io.IOException;
 
 TokenResponseBankTransferData tokenResponseBankTransferData = new TokenResponseBankTransferData.Builder()
     .brand("aozora_bank")
@@ -41,7 +39,6 @@ TokenResponseBankTransferData tokenResponseBankTransferData = new TokenResponseB
     .branchName("Test Branch")
     .accountNumber("1234567")
     .accountHolderName("TARO YAMADA")
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

@@ -21,15 +21,12 @@ Refund-limiting configuration based on sales history.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.MerchantWebhookLimitRefundBySalesConfiguration;
-import java.io.IOException;
 
 MerchantWebhookLimitRefundBySalesConfiguration merchantWebhookLimitRefundBySalesConfiguration = new MerchantWebhookLimitRefundBySalesConfiguration.Builder()
     .enabled(true)
     .period("monthly")
     .rollingWindow(true)
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

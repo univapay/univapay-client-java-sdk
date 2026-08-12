@@ -22,7 +22,6 @@ Webhook envelope for transaction token lifecycle events. Fired as `token_created
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.DateTimeHelper;
 import com.univapay.api.models.TokenEvent;
 import com.univapay.api.models.TokenWebhookEvent;
@@ -31,7 +30,6 @@ import com.univapay.api.models.TransactionTokenMode;
 import com.univapay.api.models.TransactionTokenPaymentType;
 import com.univapay.api.models.TransactionTokenType;
 import com.univapay.api.models.containers.TransactionTokenMetadataAdditionalProperties;
-import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 
@@ -50,13 +48,13 @@ TokenWebhookEvent tokenWebhookEvent = new TokenWebhookEvent.Builder(
         .type(TransactionTokenType.RECURRING)
         .confirmed(true)
         .metadata(new LinkedHashMap<String, TransactionTokenMetadataAdditionalProperties>() {{
-            put("customer_id", );
+            put("customer_id", TransactionTokenMetadataAdditionalProperties.fromString(
+                "cust_12345"
+            ));
         }})
         .createdOn(DateTimeHelper.fromRfc8601DateTime("2026-04-09T07:35:50.000000Z"))
         .updatedOn(DateTimeHelper.fromRfc8601DateTime("2026-04-09T07:35:50.000000Z"))
-    .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
         .build())
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
 .build();
 ```
 

@@ -29,9 +29,7 @@ Token Response Card Data Card schema.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.TokenResponseCardDataCard;
-import java.io.IOException;
 
 TokenResponseCardDataCard tokenResponseCardDataCard = new TokenResponseCardDataCard.Builder()
     .cardholder("TARO YAMADA")
@@ -45,7 +43,6 @@ TokenResponseCardDataCard tokenResponseCardDataCard = new TokenResponseCardDataC
     .category("standard")
     .issuer(null)
     .subBrand("none")
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

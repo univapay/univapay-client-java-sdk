@@ -47,7 +47,6 @@ Merchant configuration object serialized by gyron-payments-api.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.CardProcessorInstallmentConfig;
 import com.univapay.api.models.MerchantWebhookBankTransferConfiguration;
 import com.univapay.api.models.MerchantWebhookCardBrandPercentFees;
@@ -72,7 +71,6 @@ import com.univapay.api.models.MerchantWebhookSubscriptionPlanConfiguration;
 import com.univapay.api.models.MerchantWebhookTransferScheduleConfiguration;
 import com.univapay.api.models.MerchantWebhookUserTransactionsConfiguration;
 import com.univapay.api.models.RestrictIpAfterFailedChargeConfig;
-import java.io.IOException;
 import java.util.Arrays;
 
 MerchantWebhookConfiguration merchantWebhookConfiguration = new MerchantWebhookConfiguration.Builder()
@@ -81,10 +79,8 @@ MerchantWebhookConfiguration merchantWebhookConfiguration = new MerchantWebhookC
         new MerchantWebhookMoneyAmount.Builder()
             .amount(100)
             .currency("JPY")
-        .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
             .build()
     ))
-    .logoUrl("logo_url4")
     .country("JP")
     .language("ja")
     .displayTimeZone("Asia/Tokyo")
@@ -242,7 +238,6 @@ MerchantWebhookConfiguration merchantWebhookConfiguration = new MerchantWebhookC
         .build())
     .platformCredentialsEnabled(true)
     .taggedPlatformCredentialsEnabled(false)
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

@@ -19,13 +19,9 @@ Charge Create Request Redirect schema.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.ChargeCreateRequestRedirect;
-import java.io.IOException;
 
 ChargeCreateRequestRedirect chargeCreateRequestRedirect = new ChargeCreateRequestRedirect.Builder()
-    .endpoint("endpoint8")
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

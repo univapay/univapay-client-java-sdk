@@ -21,17 +21,9 @@ Fields that can be updated on the next scheduled payment.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
-import com.univapay.api.DateTimeHelper;
-import com.univapay.api.models.SubscriptionTerminateWithStatus;
 import com.univapay.api.models.SubscriptionUpdateNextPayment;
-import java.io.IOException;
 
 SubscriptionUpdateNextPayment subscriptionUpdateNextPayment = new SubscriptionUpdateNextPayment.Builder()
-    .dueDate(DateTimeHelper.fromSimpleDate("2016-03-13"))
-    .amount(120)
-    .terminateWithStatus(SubscriptionTerminateWithStatus.SUSPENDED)
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

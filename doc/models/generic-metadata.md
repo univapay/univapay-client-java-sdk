@@ -22,15 +22,9 @@ A free-form dictionary for custom metadata.
 
 ```java
 import com.univapay.api.models.GenericMetadata;
-import com.univapay.api.models.containers.GenericMetadataValue;
 
 GenericMetadata genericMetadata = new GenericMetadata.Builder()
     .orderId("12345")
-    .univapayName("univapay-name4")
-    .univapayPhoneNumber("univapay-phone-number8")
-.additionalProperty("exampleAdditionalProperty", GenericMetadataValue.fromString(
-        "String4"
-    ))
     .build();
 ```
 

@@ -40,6 +40,7 @@ import com.univapay.api.models.PaymentError;
 import com.univapay.api.models.Refund;
 import com.univapay.api.models.RefundReasonResponse;
 import com.univapay.api.models.RefundStatus;
+import com.univapay.api.models.containers.GenericMetadataValue;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -57,9 +58,15 @@ Refund refund = new Refund.Builder()
         .code(301)
         .message("Card number error.")
         .detail("The provided card number failed validation.")
+    .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
         .build())
     .metadata(new GenericMetadata.Builder()
         .orderId("12345")
+        .univapayName("univapay-name8")
+        .univapayPhoneNumber("univapay-phone-number2")
+    .additionalProperty("exampleAdditionalProperty", GenericMetadataValue.fromString(
+            "String4"
+        ))
         .build())
     .mode(ChargeMode.LIVE)
     .createdOn(DateTimeHelper.fromRfc8601DateTime("2026-04-09T07:35:50Z"))

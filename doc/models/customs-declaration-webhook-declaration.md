@@ -22,16 +22,13 @@ WeChat customs declaration payload returned by the backend formatter.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.CustomsDeclarationWebhookDeclaration;
-import java.io.IOException;
 
 CustomsDeclarationWebhookDeclaration customsDeclarationWebhookDeclaration = new CustomsDeclarationWebhookDeclaration.Builder()
     .customs("TOKYO")
     .merchantCustomsNo("1234567890")
     .certificateId("AB1234567")
     .certificateName("TARO YAMADA")
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

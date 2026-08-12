@@ -21,16 +21,13 @@ Base Konbini Data schema.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.BaseKonbiniData;
 import com.univapay.api.models.BaseKonbiniDataConvenienceStore;
-import java.io.IOException;
 
 BaseKonbiniData baseKonbiniData = new BaseKonbiniData.Builder()
     .customerName("Taro Yamada")
     .convenienceStore(BaseKonbiniDataConvenienceStore.SEVEN_ELEVEN)
     .expirationPeriod("P7D")
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

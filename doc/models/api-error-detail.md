@@ -20,14 +20,11 @@ Structured detail entry describing a single API validation or business error.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.ApiErrorDetail;
-import java.io.IOException;
 
 ApiErrorDetail apiErrorDetail = new ApiErrorDetail.Builder()
     .field("card_number")
     .reason("INVALID_CARD_NUMBER")
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

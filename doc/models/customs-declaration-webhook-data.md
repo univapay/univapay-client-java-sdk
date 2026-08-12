@@ -31,13 +31,11 @@ Customs declaration payload delivered in `customs_declaration_finished` webhooks
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.DateTimeHelper;
 import com.univapay.api.models.CustomsDeclarationWebhookData;
 import com.univapay.api.models.CustomsDeclarationWebhookDeclaration;
 import com.univapay.api.models.CustomsDeclarationWebhookResult;
 import com.univapay.api.models.CustomsDeclarationWebhookStatus;
-import java.io.IOException;
 import java.util.UUID;
 
 CustomsDeclarationWebhookData customsDeclarationWebhookData = new CustomsDeclarationWebhookData.Builder()
@@ -45,7 +43,6 @@ CustomsDeclarationWebhookData customsDeclarationWebhookData = new CustomsDeclara
     .chargeId(UUID.fromString("11ef0000-0000-4000-8000-000000000001"))
     .merchantId(UUID.fromString("11ef0000-0000-4000-8000-000000000020"))
     .storeId(UUID.fromString("11ef0000-0000-4000-8000-000000000022"))
-    .platformId(UUID.fromString("00000082-0000-0000-0000-000000000000"))
     .mode("test")
     .gateway("wechat_online")
     .declaration(new CustomsDeclarationWebhookDeclaration.Builder()
@@ -63,7 +60,6 @@ CustomsDeclarationWebhookData customsDeclarationWebhookData = new CustomsDeclara
     .status(CustomsDeclarationWebhookStatus.SUCCESSFUL)
     .error(null)
     .createdOn(DateTimeHelper.fromRfc8601DateTime("2026-04-09T07:35:50.000000Z"))
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

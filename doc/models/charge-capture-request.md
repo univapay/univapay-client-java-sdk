@@ -20,15 +20,12 @@ Request payload for capturing an authorized charge.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.ChargeCaptureRequest;
-import java.io.IOException;
 
 ChargeCaptureRequest chargeCaptureRequest = new ChargeCaptureRequest.Builder(
     1000,
     "JPY"
 )
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
 .build();
 ```
 

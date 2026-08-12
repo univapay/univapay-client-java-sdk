@@ -20,9 +20,7 @@ QR scan payment settings.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.MerchantWebhookQrScanConfiguration;
-import java.io.IOException;
 import java.util.Arrays;
 
 MerchantWebhookQrScanConfiguration merchantWebhookQrScanConfiguration = new MerchantWebhookQrScanConfiguration.Builder()
@@ -30,7 +28,6 @@ MerchantWebhookQrScanConfiguration merchantWebhookQrScanConfiguration = new Merc
     .forbiddenQrScanGateways(Arrays.asList(
         "wechat"
     ))
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

@@ -22,12 +22,9 @@ Error payload returned when customs declaration processing fails.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.CustomsDeclarationWebhookError;
 import com.univapay.api.models.CustomsDeclarationWebhookOtherError;
-import java.io.IOException;
 import java.util.Arrays;
-import java.util.UUID;
 
 CustomsDeclarationWebhookError customsDeclarationWebhookError = new CustomsDeclarationWebhookError.Builder()
     .code(601)
@@ -36,17 +33,9 @@ CustomsDeclarationWebhookError customsDeclarationWebhookError = new CustomsDecla
     .others(Arrays.asList(
         new CustomsDeclarationWebhookOtherError.Builder()
             .type("related_item")
-            .credentialsId(UUID.fromString("000013b6-0000-0000-0000-000000000000"))
-            .message(Arrays.asList(
-                "message4",
-                "message5",
-                "message6"
-            ))
             .itemName("charge")
-        .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
             .build()
     ))
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

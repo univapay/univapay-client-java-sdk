@@ -23,7 +23,6 @@ Token Response Card Data schema.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.DateTimeHelper;
 import com.univapay.api.models.TokenResponseCardData;
 import com.univapay.api.models.TokenResponseCardDataBilling;
@@ -33,7 +32,6 @@ import com.univapay.api.models.TokenResponseCardDataCvvAuthorizeCheck;
 import com.univapay.api.models.TokenResponseCardDataThreeDs;
 import com.univapay.api.models.TokenResponseCardDataThreeDsStatus;
 import com.univapay.api.models.TokenResponsePhoneNumber;
-import java.io.IOException;
 
 TokenResponseCardData tokenResponseCardData = new TokenResponseCardData.Builder()
     .card(new TokenResponseCardDataCard.Builder()
@@ -48,7 +46,6 @@ TokenResponseCardData tokenResponseCardData = new TokenResponseCardData.Builder(
         .category("standard")
         .issuer(null)
         .subBrand("none")
-    .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
         .build())
     .billing(new TokenResponseCardDataBilling.Builder()
         .line1("1-1-1")
@@ -61,7 +58,6 @@ TokenResponseCardData tokenResponseCardData = new TokenResponseCardData.Builder(
             .countryCode(81)
             .localNumber("08012341234")
             .build())
-    .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
         .build())
     .cvvAuthorize(new TokenResponseCardDataCvvAuthorize.Builder()
         .enabled(true)
@@ -69,13 +65,11 @@ TokenResponseCardData tokenResponseCardData = new TokenResponseCardData.Builder(
         .chargeId(null)
         .credentialsId(null)
         .currency("JPY")
-    .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
         .build())
     .cvvAuthorizeCheck(new TokenResponseCardDataCvvAuthorizeCheck.Builder()
         .status("successful")
         .chargeId(null)
         .date(DateTimeHelper.fromRfc8601DateTime("2026-04-09T07:35:50Z"))
-    .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
         .build())
     .threeDs(new TokenResponseCardDataThreeDs.Builder()
         .enabled(true)
@@ -84,9 +78,7 @@ TokenResponseCardData tokenResponseCardData = new TokenResponseCardData.Builder(
         .redirectId(null)
         .exempted(false)
         .error(null)
-    .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
         .build())
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

@@ -24,40 +24,25 @@ Request payload for updating a subscription.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.DateTimeHelper;
 import com.univapay.api.models.GenericMetadata;
 import com.univapay.api.models.SubscriptionTerminationMode;
 import com.univapay.api.models.SubscriptionUpdateNextPayment;
 import com.univapay.api.models.SubscriptionUpdateRequest;
 import com.univapay.api.models.SubscriptionUpdateScheduleSettings;
-import com.univapay.api.models.SubscriptionUpdateStatus;
-import com.univapay.api.models.containers.GenericMetadataValue;
-import java.io.IOException;
 import java.util.UUID;
 
 SubscriptionUpdateRequest subscriptionUpdateRequest = new SubscriptionUpdateRequest.Builder()
     .transactionTokenId(UUID.fromString("11ef3362-3700-c54a-9baa-6f7e6527c9d9"))
-    .amount(230)
     .metadata(new GenericMetadata.Builder()
         .orderId("12345")
-        .univapayName("univapay-name8")
-        .univapayPhoneNumber("univapay-phone-number2")
-    .additionalProperty("exampleAdditionalProperty", GenericMetadataValue.fromString(
-            "String4"
-        ))
         .build())
-    .status(SubscriptionUpdateStatus.SUSPENDED)
     .scheduleSettings(new SubscriptionUpdateScheduleSettings.Builder()
         .terminationMode(SubscriptionTerminationMode.ON_NEXT_PAYMENT)
-        .startOn(DateTimeHelper.fromRfc8601DateTime("2016-03-13T12:52:32.123Z"))
-        .retryInterval("retry_interval2")
-    .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
         .build())
     .nextPayment(new SubscriptionUpdateNextPayment.Builder()
         .dueDate(DateTimeHelper.fromSimpleDate("2030-01-01"))
         .build())
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

@@ -21,23 +21,15 @@ Recurring token configuration inherited by the merchant.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.MerchantWebhookRecurringCvvConfirmationConfig;
 import com.univapay.api.models.MerchantWebhookRecurringTokenConfiguration;
-import java.io.IOException;
-import java.util.Arrays;
 
 MerchantWebhookRecurringTokenConfiguration merchantWebhookRecurringTokenConfiguration = new MerchantWebhookRecurringTokenConfiguration.Builder()
     .recurringType("infinite")
     .chargeWaitPeriod("P7D")
     .cardChargeCvvConfirmation(new MerchantWebhookRecurringCvvConfirmationConfig.Builder()
         .enabled(false)
-        .threshold(Arrays.asList(
-            null
-        ))
-    .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
         .build())
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

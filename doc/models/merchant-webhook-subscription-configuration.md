@@ -23,9 +23,7 @@ Subscription feature configuration.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.MerchantWebhookSubscriptionConfiguration;
-import java.io.IOException;
 
 MerchantWebhookSubscriptionConfiguration merchantWebhookSubscriptionConfiguration = new MerchantWebhookSubscriptionConfiguration.Builder()
     .enabled(true)
@@ -33,7 +31,6 @@ MerchantWebhookSubscriptionConfiguration merchantWebhookSubscriptionConfiguratio
     .suspendOnCancel(true)
     .allowMerchantAmountPatch(false)
     .allowMerchantDueDatePatch(false)
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

@@ -25,10 +25,8 @@ Token Response Card Data Billing schema.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.TokenResponseCardDataBilling;
 import com.univapay.api.models.TokenResponsePhoneNumber;
-import java.io.IOException;
 
 TokenResponseCardDataBilling tokenResponseCardDataBilling = new TokenResponseCardDataBilling.Builder()
     .line1("1-1-1")
@@ -41,7 +39,6 @@ TokenResponseCardDataBilling tokenResponseCardDataBilling = new TokenResponseCar
         .countryCode(81)
         .localNumber("08012341234")
         .build())
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

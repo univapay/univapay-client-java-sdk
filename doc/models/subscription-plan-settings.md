@@ -21,16 +21,9 @@ Configuration for limited-cycle subscriptions (Univapay side).
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
-import com.univapay.api.models.PlanSettingsType;
 import com.univapay.api.models.SubscriptionPlanSettings;
-import java.io.IOException;
 
 SubscriptionPlanSettings subscriptionPlanSettings = new SubscriptionPlanSettings.Builder()
-    .planType(PlanSettingsType.FIXED_CYCLES)
-    .fixedCycles(240)
-    .fixedCycleAmount(50)
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

@@ -30,6 +30,7 @@ import com.univapay.api.models.Refund;
 import com.univapay.api.models.RefundList;
 import com.univapay.api.models.RefundReasonResponse;
 import com.univapay.api.models.RefundStatus;
+import com.univapay.api.models.containers.GenericMetadataValue;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.UUID;
@@ -47,8 +48,18 @@ RefundList refundList = new RefundList.Builder()
             .reason(RefundReasonResponse.CUSTOMER_REQUEST)
             .message("Customer returned item")
             .error(new PaymentError.Builder()
+                .code(24)
+                .message("message4")
+                .detail("detail0")
+            .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
                 .build())
             .metadata(new GenericMetadata.Builder()
+                .orderId("order_id0")
+                .univapayName("univapay-name8")
+                .univapayPhoneNumber("univapay-phone-number2")
+            .additionalProperty("exampleAdditionalProperty", GenericMetadataValue.fromString(
+                    "String4"
+                ))
                 .build())
             .mode(ChargeMode.LIVE)
             .createdOn(DateTimeHelper.fromRfc8601DateTime("2026-04-09T07:35:50.000000Z"))
@@ -66,9 +77,18 @@ RefundList refundList = new RefundList.Builder()
             .reason(RefundReasonResponse.DUPLICATE)
             .message("Duplicate charge")
             .error(new PaymentError.Builder()
+                .code(24)
+                .message("message4")
+                .detail("detail0")
+            .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
                 .build())
             .metadata(new GenericMetadata.Builder()
                 .orderId("ORD-1002")
+                .univapayName("univapay-name8")
+                .univapayPhoneNumber("univapay-phone-number2")
+            .additionalProperty("exampleAdditionalProperty", GenericMetadataValue.fromString(
+                    "String4"
+                ))
                 .build())
             .mode(ChargeMode.LIVE)
             .createdOn(DateTimeHelper.fromRfc8601DateTime("2026-04-10T10:00:00.000000Z"))

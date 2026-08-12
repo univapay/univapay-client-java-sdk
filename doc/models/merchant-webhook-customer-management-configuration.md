@@ -21,9 +21,7 @@ Customer-management defaults.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.MerchantWebhookCustomerManagementConfiguration;
-import java.io.IOException;
 import java.util.Arrays;
 
 MerchantWebhookCustomerManagementConfiguration merchantWebhookCustomerManagementConfiguration = new MerchantWebhookCustomerManagementConfiguration.Builder()
@@ -32,7 +30,6 @@ MerchantWebhookCustomerManagementConfiguration merchantWebhookCustomerManagement
         "end_user"
     ))
     .defaultMode("live")
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

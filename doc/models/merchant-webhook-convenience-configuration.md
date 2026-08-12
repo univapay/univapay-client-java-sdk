@@ -20,14 +20,11 @@ Convenience-store payment settings.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.MerchantWebhookConvenienceConfiguration;
-import java.io.IOException;
 
 MerchantWebhookConvenienceConfiguration merchantWebhookConvenienceConfiguration = new MerchantWebhookConvenienceConfiguration.Builder()
     .enabled(true)
     .expiration("P3D")
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

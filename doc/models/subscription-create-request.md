@@ -31,10 +31,8 @@ Request payload for creating a subscription.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.SubscriptionCreateRequest;
 import com.univapay.api.models.SubscriptionPeriod;
-import java.io.IOException;
 import java.util.UUID;
 
 SubscriptionCreateRequest subscriptionCreateRequest = new SubscriptionCreateRequest.Builder(
@@ -42,12 +40,7 @@ SubscriptionCreateRequest subscriptionCreateRequest = new SubscriptionCreateRequ
     1250,
     "USD"
 )
-.initialAmount(194)
 .period(SubscriptionPeriod.MONTHLY)
-.cyclicalPeriod("cyclical_period4")
-.scheduleSettings(null)
-.installmentPlan(null)
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
 .build();
 ```
 

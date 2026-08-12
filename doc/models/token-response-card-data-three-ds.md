@@ -24,10 +24,8 @@ Token Response Card Data Three Ds schema.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.TokenResponseCardDataThreeDs;
 import com.univapay.api.models.TokenResponseCardDataThreeDsStatus;
-import java.io.IOException;
 
 TokenResponseCardDataThreeDs tokenResponseCardDataThreeDs = new TokenResponseCardDataThreeDs.Builder()
     .enabled(true)
@@ -36,7 +34,6 @@ TokenResponseCardDataThreeDs tokenResponseCardDataThreeDs = new TokenResponseCar
     .redirectId(null)
     .exempted(false)
     .error(null)
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

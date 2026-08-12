@@ -20,14 +20,11 @@ Card-processor capabilities available for installment payments.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.CardProcessorInstallmentConfig;
-import java.io.IOException;
 
 CardProcessorInstallmentConfig cardProcessorInstallmentConfig = new CardProcessorInstallmentConfig.Builder()
     .revolving(true)
     .fixedCycle(true)
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

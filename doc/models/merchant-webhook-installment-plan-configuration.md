@@ -24,11 +24,9 @@ Installment plan configuration.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.CardProcessorInstallmentConfig;
 import com.univapay.api.models.MerchantWebhookInstallmentPlanConfiguration;
 import com.univapay.api.models.MerchantWebhookMoneyAmount;
-import java.io.IOException;
 import java.util.Arrays;
 
 MerchantWebhookInstallmentPlanConfiguration merchantWebhookInstallmentPlanConfiguration = new MerchantWebhookInstallmentPlanConfiguration.Builder()
@@ -36,7 +34,6 @@ MerchantWebhookInstallmentPlanConfiguration merchantWebhookInstallmentPlanConfig
     .cardProcessor(new CardProcessorInstallmentConfig.Builder()
         .revolving(true)
         .fixedCycle(true)
-    .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
         .build())
     .supportedPaymentTypes(Arrays.asList(
         "card"
@@ -44,11 +41,9 @@ MerchantWebhookInstallmentPlanConfiguration merchantWebhookInstallmentPlanConfig
     .minChargeAmount(new MerchantWebhookMoneyAmount.Builder()
         .amount(3000)
         .currency("JPY")
-    .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
         .build())
     .maxPayoutPeriod("P12M")
     .onlyWithProcessor(true)
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

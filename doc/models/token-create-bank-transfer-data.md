@@ -22,9 +22,7 @@ Token Create Bank Transfer Data schema.
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.TokenCreateBankTransferData;
-import java.io.IOException;
 
 TokenCreateBankTransferData tokenCreateBankTransferData = new TokenCreateBankTransferData.Builder(
     "aozora_bank"
@@ -32,7 +30,6 @@ TokenCreateBankTransferData tokenCreateBankTransferData = new TokenCreateBankTra
 .expirationPeriod("PT168H")
 .expirationTimeShift("23:59:59+09:00")
 .name("Taro Yamada")
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
 .build();
 ```
 

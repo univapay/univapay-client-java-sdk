@@ -30,6 +30,7 @@ import com.univapay.api.models.ChargeStatus;
 import com.univapay.api.models.ChargeTransactionTokenType;
 import com.univapay.api.models.GenericMetadata;
 import com.univapay.api.models.PaymentError;
+import com.univapay.api.models.containers.GenericMetadataValue;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.UUID;
@@ -51,9 +52,18 @@ ChargeList chargeList = new ChargeList.Builder()
             .onlyDirectCurrency(false)
             .status(ChargeStatus.SUCCESSFUL)
             .error(new PaymentError.Builder()
+                .code(24)
+                .message("message4")
+                .detail("detail0")
+            .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
                 .build())
             .metadata(new GenericMetadata.Builder()
                 .orderId("ORD-2001")
+                .univapayName("univapay-name8")
+                .univapayPhoneNumber("univapay-phone-number2")
+            .additionalProperty("exampleAdditionalProperty", GenericMetadataValue.fromString(
+                    "String4"
+                ))
                 .build())
             .mode(ChargeMode.TEST)
             .createdOn(DateTimeHelper.fromRfc8601DateTime("2024-06-25T07:29:12.854865Z"))
@@ -74,9 +84,18 @@ ChargeList chargeList = new ChargeList.Builder()
             .onlyDirectCurrency(false)
             .status(ChargeStatus.SUCCESSFUL)
             .error(new PaymentError.Builder()
+                .code(24)
+                .message("message4")
+                .detail("detail0")
+            .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
                 .build())
             .metadata(new GenericMetadata.Builder()
                 .orderId("ORD-2002")
+                .univapayName("univapay-name8")
+                .univapayPhoneNumber("univapay-phone-number2")
+            .additionalProperty("exampleAdditionalProperty", GenericMetadataValue.fromString(
+                    "String4"
+                ))
                 .build())
             .mode(ChargeMode.TEST)
             .createdOn(DateTimeHelper.fromRfc8601DateTime("2024-06-25T07:19:19.507637Z"))

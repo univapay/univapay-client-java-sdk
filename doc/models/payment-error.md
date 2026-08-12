@@ -22,15 +22,12 @@ The HTTP status will return success (2xx), but the resource `status` will be `fa
 ## Example
 
 ```java
-import com.univapay.api.ApiHelper;
 import com.univapay.api.models.PaymentError;
-import java.io.IOException;
 
 PaymentError paymentError = new PaymentError.Builder()
     .code(301)
     .message("Card number error.")
     .detail("The provided card number failed validation.")
-.additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```
 

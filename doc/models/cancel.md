@@ -34,6 +34,7 @@ import com.univapay.api.models.CancelStatus;
 import com.univapay.api.models.ChargeMode;
 import com.univapay.api.models.GenericMetadata;
 import com.univapay.api.models.PaymentError;
+import com.univapay.api.models.containers.GenericMetadataValue;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -50,6 +51,11 @@ Cancel cancel = new Cancel.Builder()
         .build())
     .metadata(new GenericMetadata.Builder()
         .orderId("12345")
+        .univapayName("univapay-name8")
+        .univapayPhoneNumber("univapay-phone-number2")
+    .additionalProperty("exampleAdditionalProperty", GenericMetadataValue.fromString(
+            "String4"
+        ))
         .build())
     .mode(ChargeMode.LIVE)
     .createdOn(DateTimeHelper.fromRfc8601DateTime("2026-04-09T07:35:50.000000Z"))
