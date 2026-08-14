@@ -28,6 +28,12 @@ public interface Configuration {
     String getBaseUrl();
 
     /**
+     * Base URL for the Direct Debit API
+     * @return a copy of directDebitBaseUrl
+     */
+    String getDirectDebitBaseUrl();
+
+    /**
      * Http Client Configuration instance.
      * @return a copy of httpClientConfig
      */

@@ -8,6 +8,7 @@ package com.univapay.api;
 
 import com.univapay.api.apis.CancelsApi;
 import com.univapay.api.apis.ChargesApi;
+import com.univapay.api.apis.DirectDebitApi;
 import com.univapay.api.apis.MerchantsApi;
 import com.univapay.api.apis.RefundsApi;
 import com.univapay.api.apis.StoresApi;
@@ -51,10 +52,11 @@ public final class UnivapayClientSdkClient implements Configuration {
     private MerchantsApi merchants;
     private StoresApi stores;
     private WebhooksApi webhooks;
+    private DirectDebitApi directDebit;
 
     private static final CompatibilityFactory compatibilityFactory = new CompatibilityFactoryImpl();
 
-    private static String userAgent = "Java-SDK/1.0.1 (OS: {os-info}, Engine: {engine}/{engine-version})";
+    private static String userAgent = "Java-SDK/1.0.2 (OS: {os-info}, Engine: {engine}/{engine-version})";
 
     /**
      * Current API environment.
@@ -65,6 +67,11 @@ public final class UnivapayClientSdkClient implements Configuration {
      * Base URL for the API
      */
     private final String baseUrl;
+
+    /**
+     * Base URL for the Direct Debit API
+     */
+    private final String directDebitBaseUrl;
 
     /**
      * The HTTP Client instance to use for making HTTP requests.
@@ -101,12 +108,14 @@ public final class UnivapayClientSdkClient implements Configuration {
      */
     private final HttpCallback httpCallback;
 
-    private UnivapayClientSdkClient(Environment environment, String baseUrl, HttpClient httpClient,
+    private UnivapayClientSdkClient(Environment environment, String baseUrl,
+            String directDebitBaseUrl, HttpClient httpClient,
             ReadonlyHttpClientConfiguration httpClientConfig,
             ReadonlyLoggingConfiguration loggingConfig, BearerAuthModel bearerAuthModel,
             HttpCallback httpCallback) {
         this.environment = environment;
         this.baseUrl = baseUrl;
+        this.directDebitBaseUrl = directDebitBaseUrl;
         this.httpClient = httpClient;
         this.httpClientConfig = httpClientConfig;
         this.loggingConfig = loggingConfig;
@@ -137,6 +146,7 @@ public final class UnivapayClientSdkClient implements Configuration {
         merchants = new MerchantsApi(globalConfig);
         stores = new StoresApi(globalConfig);
         webhooks = new WebhooksApi(globalConfig);
+        directDebit = new DirectDebitApi(globalConfig);
     }
 
     /**
@@ -211,6 +221,14 @@ public final class UnivapayClientSdkClient implements Configuration {
     }
 
     /**
+     * Get the instance of DirectDebitApi.
+     * @return directDebit
+     */
+    public DirectDebitApi getDirectDebitApi() {
+        return directDebit;
+    }
+
+    /**
      * Current API environment.
      * @return environment
      */
@@ -224,6 +242,14 @@ public final class UnivapayClientSdkClient implements Configuration {
      */
     public String getBaseUrl() {
         return baseUrl;
+    }
+
+    /**
+     * Base URL for the Direct Debit API
+     * @return directDebitBaseUrl
+     */
+    public String getDirectDebitBaseUrl() {
+        return directDebitBaseUrl;
     }
 
     /**
@@ -339,6 +365,8 @@ public final class UnivapayClientSdkClient implements Configuration {
         Map<String, SimpleEntry<Object, Boolean>> parameters = new HashMap<>();
         parameters.put("baseUrl",
                 new SimpleEntry<Object, Boolean>(this.baseUrl, false));
+        parameters.put("directDebitBaseUrl",
+                new SimpleEntry<Object, Boolean>(this.directDebitBaseUrl, false));
         StringBuilder baseUrl = new StringBuilder(environmentMapper(environment, server));
         ApiHelper.appendUrlWithTemplateParameters(baseUrl, parameters);
         return baseUrl.toString();
@@ -375,6 +403,9 @@ public final class UnivapayClientSdkClient implements Configuration {
             if (server.equals(Server.ENUM_DEFAULT)) {
                 return "{baseUrl}";
             }
+            if (server.equals(Server.DIRECTDEBIT)) {
+                return "{directDebitBaseUrl}";
+            }
         }
         return "{baseUrl}";
     }
@@ -386,8 +417,9 @@ public final class UnivapayClientSdkClient implements Configuration {
     @Override
     public String toString() {
         return "UnivapayClientSdkClient [" + "environment=" + environment + ", baseUrl=" + baseUrl
-                + ", httpClientConfig=" + httpClientConfig + ", loggingConfig=" + loggingConfig
-                + ", authentications=" + authentications + "]";
+                + ", directDebitBaseUrl=" + directDebitBaseUrl + ", httpClientConfig="
+                + httpClientConfig + ", loggingConfig=" + loggingConfig + ", authentications="
+                + authentications + "]";
     }
 
     /**
@@ -399,6 +431,7 @@ public final class UnivapayClientSdkClient implements Configuration {
         Builder builder = new Builder();
         builder.environment = getEnvironment();
         builder.baseUrl = getBaseUrl();
+        builder.directDebitBaseUrl = getDirectDebitBaseUrl();
         builder.httpClient = getHttpClient();
         builder.bearerAuthCredentials(getBearerAuthModel()
                 .toBuilder().build());
@@ -415,6 +448,7 @@ public final class UnivapayClientSdkClient implements Configuration {
 
         private Environment environment = Environment.PRODUCTION;
         private String baseUrl = "https://api.univapay.com";
+        private String directDebitBaseUrl = "https://direct-debit.gopay-services.com";
         private HttpClient httpClient;
         private BearerAuthModel bearerAuthModel = new BearerAuthModel.Builder("", "").build();
         private HttpCallback httpCallback = null;
@@ -450,6 +484,16 @@ public final class UnivapayClientSdkClient implements Configuration {
          */
         public Builder baseUrl(String baseUrl) {
             this.baseUrl = baseUrl;
+            return this;
+        }
+
+        /**
+         * Base URL for the Direct Debit API
+         * @param directDebitBaseUrl The directDebitBaseUrl for client.
+         * @return Builder
+         */
+        public Builder directDebitBaseUrl(String directDebitBaseUrl) {
+            this.directDebitBaseUrl = directDebitBaseUrl;
             return this;
         }
 
@@ -552,42 +596,8 @@ public final class UnivapayClientSdkClient implements Configuration {
                     : new ApiLoggingConfiguration.Builder().build();
             httpClient = new OkClient(httpClientConfig.getConfiguration(), compatibilityFactory);
 
-            return new UnivapayClientSdkClient(environment, baseUrl, httpClient, httpClientConfig,
-                    loggingConfig, bearerAuthModel, httpCallback);
+            return new UnivapayClientSdkClient(environment, baseUrl, directDebitBaseUrl, httpClient,
+                    httpClientConfig, loggingConfig, bearerAuthModel, httpCallback);
         }
     }
-    private static class IdempotencyCallback implements HttpCallback {
-        private final HttpCallback userCallback;
-
-        public IdempotencyCallback(HttpCallback userCallback) {
-            this.userCallback = userCallback;
-        }
-
-        @Override
-        public void onBeforeRequest(io.apimatic.coreinterfaces.http.request.Request request) {
-            if (request != null) {
-                if (request instanceof com.univapay.api.http.request.HttpRequest) {
-                    com.univapay.api.http.request.HttpRequest req = (com.univapay.api.http.request.HttpRequest) request;
-                    String method = req.getHttpMethod() != null ? req.getHttpMethod().toString().toUpperCase() : "";
-                    if (method.equals("POST") || method.equals("PUT") || method.equals("PATCH")) {
-                        com.univapay.api.http.Headers headers = req.getHeaders();
-                        if (headers != null && !headers.has("Idempotency-Key")) {
-                            headers.add("Idempotency-Key", java.util.UUID.randomUUID().toString());
-                        }
-                    }
-                }
-            }
-            if (userCallback != null) {
-                userCallback.onBeforeRequest(request);
-            }
-        }
-
-        @Override
-        public void onAfterResponse(io.apimatic.coreinterfaces.http.Context context) {
-            if (userCallback != null) {
-                userCallback.onAfterResponse(context);
-            }
-        }
-    }
-
 }

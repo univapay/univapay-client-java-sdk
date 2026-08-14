@@ -4,7 +4,7 @@
  * This file was automatically generated for Univapay by APIMATIC v3.0 ( https://www.apimatic.io ).
  */
 
-package com.univapay.api;
+package com.univapay.api.models;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.IOException;
@@ -13,22 +13,22 @@ import java.util.List;
 import java.util.TreeMap;
 
 /**
- * Server to be used.
+ * DirectDebitDebitDate to be used.
  */
-public enum Server {
-    ENUM_DEFAULT,
+public enum DirectDebitDebitDate {
+    FOURTEEN,
 
-    DIRECTDEBIT;
+    TWENTY_SEVEN;
 
-    private static TreeMap<String, Server> valueMap = new TreeMap<>();
+    private static TreeMap<String, DirectDebitDebitDate> valueMap = new TreeMap<>();
     private String value;
 
     static {
-        ENUM_DEFAULT.value = "default";
-        DIRECTDEBIT.value = "directDebit";
+        FOURTEEN.value = "fourteen";
+        TWENTY_SEVEN.value = "twenty_seven";
 
-        valueMap.put("default", ENUM_DEFAULT);
-        valueMap.put("directDebit", DIRECTDEBIT);
+        valueMap.put("fourteen", FOURTEEN);
+        valueMap.put("twenty_seven", TWENTY_SEVEN);
     }
 
     /**
@@ -38,8 +38,8 @@ public enum Server {
      * @throws IOException when provided value is not mapped to any enum member.
      */
     @JsonCreator
-    public static Server constructFromString(String toConvert) throws IOException {
-        Server enumValue = fromString(toConvert);
+    public static DirectDebitDebitDate constructFromString(String toConvert) throws IOException {
+        DirectDebitDebitDate enumValue = fromString(toConvert);
         if (enumValue == null) {
             throw new IOException("Unable to create enum instance with value: " + toConvert);
         }
@@ -51,7 +51,7 @@ public enum Server {
      * @param toConvert String value to get enum member.
      * @return The enum member against the given string value.
      */
-    public static Server fromString(String toConvert) {
+    public static DirectDebitDebitDate fromString(String toConvert) {
         return valueMap.get(toConvert);
     }
 
@@ -73,16 +73,16 @@ public enum Server {
     }
 
     /**
-     * Convert list of Server values to list of string values.
-     * @param toConvert The list of Server values to convert.
+     * Convert list of DirectDebitDebitDate values to list of string values.
+     * @param toConvert The list of DirectDebitDebitDate values to convert.
      * @return List of representative string values.
      */
-    public static List<String> toValue(List<Server> toConvert) {
+    public static List<String> toValue(List<DirectDebitDebitDate> toConvert) {
         if (toConvert == null) {
             return null;
         }
         List<String> convertedValues = new ArrayList<>();
-        for (Server enumValue : toConvert) {
+        for (DirectDebitDebitDate enumValue : toConvert) {
             convertedValues.add(enumValue.value);
         }
         return convertedValues;

@@ -9,6 +9,7 @@ This is the interface for client class that holds the configuration getters.
 |  --- | --- | --- |
 | `getEnvironment()` | Current API environment. | `Environment` |
 | `getBaseUrl()` | Base URL for the API | `String` |
+| `getDirectDebitBaseUrl()` | Base URL for the Direct Debit API | `String` |
 | `getHttpClientConfig()` | Http Client Configuration instance. | [`ReadonlyHttpClientConfiguration`](../doc/http-client-configuration.md) |
 | `getLoggingConfig()` | Logging Configuration instance. | [`ReadonlyLoggingConfiguration`](../doc/api-logging-configuration.md) |
 | `getBaseUri(Server server)` | Get base URI by current environment. | `String` |

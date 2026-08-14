@@ -39,12 +39,12 @@ Install the SDK by adding the following dependency in your project's pom.xml fil
 <dependency>
   <groupId>com.univapay</groupId>
   <artifactId>univapay-client-sdk</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
 </dependency>
 ```
 
 You can also view the package at:
-https://central.sonatype.com/artifact/com.univapay/univapay-client-sdk/1.0.1
+https://central.sonatype.com/artifact/com.univapay/univapay-client-sdk/1.0.2
 
 ## Test the SDK
 
@@ -65,6 +65,7 @@ The following parameters are configurable for the API Client:
 | Parameter | Type | Description |
 |  --- | --- | --- |
 | baseUrl | `String` | Base URL for the API<br>*Default*: `"https://api.univapay.com"` |
+| directDebitBaseUrl | `String` | Base URL for the Direct Debit API<br>*Default*: `"https://direct-debit.gopay-services.com"` |
 | environment | [`Environment`](README.md#environments) | The API environment. <br> **Default: `Environment.PRODUCTION`** |
 | httpClientConfig | [`Consumer<HttpClientConfiguration.Builder>`](doc/http-client-configuration-builder.md) | Set up Http Client Configuration instance. |
 | loggingConfig | [`Consumer<ApiLoggingConfiguration.Builder>`](doc/api-logging-configuration-builder.md) | Set up Logging Configuration instance. |
@@ -95,6 +96,7 @@ public class Program {
                 .build())
             .environment(Environment.PRODUCTION)
             .baseUrl("https://api.univapay.com")
+            .directDebitBaseUrl("https://direct-debit.gopay-services.com")
             .build();
 
     }
@@ -120,6 +122,7 @@ This API uses the following authentication schemes.
 ## List of APIs
 
 * [Transaction Tokens](doc/controllers/transaction-tokens.md)
+* [Direct Debit](doc/controllers/direct-debit.md)
 * [Charges](doc/controllers/charges.md)
 * [Refunds](doc/controllers/refunds.md)
 * [Subscriptions](doc/controllers/subscriptions.md)

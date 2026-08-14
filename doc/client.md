@@ -6,6 +6,7 @@ The following parameters are configurable for the API Client:
 | Parameter | Type | Description |
 |  --- | --- | --- |
 | baseUrl | `String` | Base URL for the API<br>*Default*: `"https://api.univapay.com"` |
+| directDebitBaseUrl | `String` | Base URL for the Direct Debit API<br>*Default*: `"https://direct-debit.gopay-services.com"` |
 | environment | [`Environment`](../README.md#environments) | The API environment. <br> **Default: `Environment.PRODUCTION`** |
 | httpClientConfig | [`Consumer<HttpClientConfiguration.Builder>`](../doc/http-client-configuration-builder.md) | Set up Http Client Configuration instance. |
 | loggingConfig | [`Consumer<ApiLoggingConfiguration.Builder>`](../doc/api-logging-configuration-builder.md) | Set up Logging Configuration instance. |
@@ -36,6 +37,7 @@ public class Program {
                 .build())
             .environment(Environment.PRODUCTION)
             .baseUrl("https://api.univapay.com")
+            .directDebitBaseUrl("https://direct-debit.gopay-services.com")
             .build();
 
     }
@@ -58,6 +60,7 @@ The gateway for the SDK. This class acts as a factory for the Apis and also hold
 | `getMerchantsApi()` | Provides access to Merchants controller. | `MerchantsApi` |
 | `getStoresApi()` | Provides access to Stores controller. | `StoresApi` |
 | `getWebhooksApi()` | Provides access to Webhooks controller. | `WebhooksApi` |
+| `getDirectDebitApi()` | Provides access to DirectDebit controller. | `DirectDebitApi` |
 
 ### Methods
 
@@ -66,6 +69,7 @@ The gateway for the SDK. This class acts as a factory for the Apis and also hold
 | `shutdown()` | Shutdown the underlying HttpClient instance. | `void` |
 | `getEnvironment()` | Current API environment. | `Environment` |
 | `getBaseUrl()` | Base URL for the API | `String` |
+| `getDirectDebitBaseUrl()` | Base URL for the Direct Debit API | `String` |
 | `getHttpClient()` | The HTTP Client instance to use for making HTTP requests. | `HttpClient` |
 | `getHttpClientConfig()` | Http Client Configuration instance. | [`ReadonlyHttpClientConfiguration`](../doc/http-client-configuration.md) |
 | `getLoggingConfig()` | Logging Configuration instance. | [`ReadonlyLoggingConfiguration`](../doc/api-logging-configuration.md) |

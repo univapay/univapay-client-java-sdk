@@ -36,7 +36,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import com.univapay.api.models.ChargeStatus;
 import java.util.Arrays;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class lists all the endpoints of the groups.
@@ -1533,10 +1535,14 @@ public final class ChargesApi extends BaseApi {
     // ── Hand-authored customization (kept at end of class to minimize regen conflicts) ──
 
     /**
-     * Polls the charge status using `getCharge` with `polling=true` until a terminal status is reached.
+     * Polls the charge status using `getCharge` with `polling=true` until it transitions out of its
+     * current status. Transition-aware: polling a `pending` charge stops on any other status, polling
+     * an `awaiting` charge (e.g. after a 3DS redirect) waits for `authorized`/`successful`/`failed`/
+     * `error`/`canceled`, and polling an `authorized` charge waits for its capture outcome. A charge
+     * already in a final status is returned immediately.
      * @param  storeId      Required parameter: The unique identifier of the store.
      * @param  id           Required parameter: The unique identifier of the resource.
-     * @param  maxAttempts  Optional parameter: The maximum number of polling attempts. Default is 10.
+     * @param  maxAttempts  Optional parameter: The maximum number of held polling requests. Default is 10.
      * @return              Returns the Charge wrapped in ApiResponse response from the API call
      * @throws ApiException Represents error response from the server.
      * @throws IOException  Signals that an I/O exception of some sort has occurred.
@@ -1545,30 +1551,58 @@ public final class ChargesApi extends BaseApi {
             final UUID storeId,
             final UUID id,
             final Integer maxAttempts) throws ApiException, IOException {
-        List<ChargeStatus> terminalStatuses = Arrays.asList(
+        // Valid transitions out of each non-final status; polling stops only when the charge
+        // reaches a status reachable from where it started.
+        Map<ChargeStatus, List<ChargeStatus>> transitions = new EnumMap<>(ChargeStatus.class);
+        transitions.put(ChargeStatus.PENDING, Arrays.asList(
+            ChargeStatus.AWAITING,
+            ChargeStatus.AUTHORIZED,
             ChargeStatus.SUCCESSFUL,
             ChargeStatus.FAILED,
             ChargeStatus.ERROR,
-            ChargeStatus.CANCELED,
+            ChargeStatus.CANCELED
+        ));
+        transitions.put(ChargeStatus.AWAITING, Arrays.asList(
             ChargeStatus.AUTHORIZED,
-            ChargeStatus.AWAITING
-        );
+            ChargeStatus.SUCCESSFUL,
+            ChargeStatus.FAILED,
+            ChargeStatus.ERROR,
+            ChargeStatus.CANCELED
+        ));
+        transitions.put(ChargeStatus.AUTHORIZED, Arrays.asList(
+            ChargeStatus.SUCCESSFUL,
+            ChargeStatus.FAILED,
+            ChargeStatus.ERROR,
+            ChargeStatus.CANCELED
+        ));
+        // Instant read (no hold) to key the transition map off the charge's current status;
+        // a held first read could observe a transition and re-key the map one state too far.
+        ApiResponse<Charge> response = getCharge(storeId, id, null);
+        ChargeStatus status = response != null && response.getResult() != null
+                ? response.getResult().getStatus()
+                : null;
+        if (status != null && !transitions.containsKey(status)) {
+            return response;
+        }
+        List<ChargeStatus> targets = transitions.get(status != null ? status : ChargeStatus.PENDING);
         int attempts = 0;
         int limit = maxAttempts == null ? 10 : maxAttempts;
         while (attempts < limit) {
-            ApiResponse<Charge> response = getCharge(storeId, id, true);
-            if (response != null && response.getResult() != null && response.getResult().getStatus() != null) {
-                if (terminalStatuses.contains(response.getResult().getStatus())) {
-                    return response;
-                }
+            response = getCharge(storeId, id, true);
+            if (response != null && response.getResult() != null
+                    && targets.contains(response.getResult().getStatus())) {
+                return response;
             }
             attempts++;
         }
-        return getCharge(storeId, id, true);
+        // Attempts exhausted: a poll timeout, not a failure — the caller should fall
+        // back to the webhook rather than treating the charge as failed.
+        return response;
     }
 
     /**
-     * Polls the charge status using `getCharge` with `polling=true` until a terminal status is reached (up to 10 attempts).
+     * Polls the charge status using `getCharge` with `polling=true` until it transitions out of its
+     * current status (up to 10 held polling requests).
      * @param  storeId      Required parameter: The unique identifier of the store.
      * @param  id           Required parameter: The unique identifier of the resource.
      * @return              Returns the Charge wrapped in ApiResponse response from the API call

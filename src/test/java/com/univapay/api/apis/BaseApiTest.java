@@ -62,7 +62,9 @@ public class BaseApiTest {
         UnivapayClientSdkClient.Builder builder = new UnivapayClientSdkClient.Builder();
 
         final String environment = System.getenv("UNIVAPAY_CLIENT_SDK_ENVIRONMENT");
-        final String baseUrl = System.getenv("BASE_URL") != null ? System.getenv("BASE_URL") : System.getenv("UNIVAPAY_CLIENT_SDK_BASE_URL");
+        final String baseUrl = System.getenv("UNIVAPAY_CLIENT_SDK_BASE_URL");
+        final String directDebitBaseUrl =
+                System.getenv("UNIVAPAY_CLIENT_SDK_DIRECT_DEBIT_BASE_URL");
         final String timeout = System.getenv("UNIVAPAY_CLIENT_SDK_TIMEOUT");
         final String secretKey = System.getenv("UNIVAPAY_CLIENT_SDK_SECRET_KEY");
         final String jwtToken = System.getenv("UNIVAPAY_CLIENT_SDK_JWT_TOKEN");
@@ -77,6 +79,9 @@ public class BaseApiTest {
         }
         if (baseUrl != null) {
             builder.baseUrl(baseUrl);
+        }
+        if (directDebitBaseUrl != null) {
+            builder.directDebitBaseUrl(directDebitBaseUrl);
         }
         if (timeout != null) {
             builder.httpClientConfig(configBuilder -> configBuilder.timeout(
