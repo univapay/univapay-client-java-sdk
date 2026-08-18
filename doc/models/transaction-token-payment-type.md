@@ -16,12 +16,14 @@ Transaction Token Payment Type schema.
 | `ONLINE` |
 | `KONBINI` |
 | `BANK_TRANSFER` |
+| `QR_SCAN` |
+| `QR_MERCHANT` |
 
 ## Example
 
 ```java
 import com.univapay.api.models.TransactionTokenPaymentType;
 
-TransactionTokenPaymentType transactionTokenPaymentType = TransactionTokenPaymentType.PAIDY;
+TransactionTokenPaymentType transactionTokenPaymentType = TransactionTokenPaymentType.CARD;
 ```
 

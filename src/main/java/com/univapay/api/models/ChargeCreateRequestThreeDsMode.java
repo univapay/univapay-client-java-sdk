@@ -22,7 +22,11 @@ public enum ChargeCreateRequestThreeDsMode {
 
     FORCE,
 
-    SKIP;
+    SKIP,
+
+    IF_AVAILABLE,
+
+    PROVIDED;
 
     private static TreeMap<String, ChargeCreateRequestThreeDsMode> valueMap = new TreeMap<>();
     private String value;
@@ -32,11 +36,15 @@ public enum ChargeCreateRequestThreeDsMode {
         REQUIRE.value = "require";
         FORCE.value = "force";
         SKIP.value = "skip";
+        IF_AVAILABLE.value = "if_available";
+        PROVIDED.value = "provided";
 
         valueMap.put("normal", NORMAL);
         valueMap.put("require", REQUIRE);
         valueMap.put("force", FORCE);
         valueMap.put("skip", SKIP);
+        valueMap.put("if_available", IF_AVAILABLE);
+        valueMap.put("provided", PROVIDED);
     }
 
     /**

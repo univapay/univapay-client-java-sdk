@@ -27,7 +27,7 @@ import com.univapay.api.models.TokenResponseCardDataCvvAuthorize;
 
 TokenResponseCardDataCvvAuthorize tokenResponseCardDataCvvAuthorize = new TokenResponseCardDataCvvAuthorize.Builder()
     .enabled(true)
-    .status("successful")
+    .status("current")
     .chargeId(null)
     .credentialsId(null)
     .currency("JPY")

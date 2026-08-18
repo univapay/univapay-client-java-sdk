@@ -9,6 +9,7 @@ package com.univapay.api.models;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import io.apimatic.core.types.AdditionalProperties;
 import io.apimatic.core.utilities.ConversionHelper;
@@ -18,7 +19,7 @@ import java.util.Map;
  * This is a model class for ChargeCaptureRequest type.
  */
 public class ChargeCaptureRequest {
-    private int amount;
+    private Integer amount;
     private String currency;
     private AdditionalProperties<Object> additionalProperties = 
             new AdditionalProperties<Object>(this.getClass());
@@ -31,11 +32,11 @@ public class ChargeCaptureRequest {
 
     /**
      * Initialization constructor.
-     * @param  amount  int value for amount.
+     * @param  amount  Integer value for amount.
      * @param  currency  String value for currency.
      */
     public ChargeCaptureRequest(
-            int amount,
+            Integer amount,
             String currency) {
         this.amount = amount;
         this.currency = currency;
@@ -43,37 +44,43 @@ public class ChargeCaptureRequest {
 
     /**
      * Getter for Amount.
-     * The amount to capture. Must be less than or equal to the authorized amount.
-     * @return Returns the int
+     * The amount to capture. Must be less than or equal to the authorized amount. If omitted, the
+     * full outstanding authorized amount is captured.
+     * @return Returns the Integer
      */
     @JsonGetter("amount")
-    public int getAmount() {
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public Integer getAmount() {
         return amount;
     }
 
     /**
      * Setter for Amount.
-     * The amount to capture. Must be less than or equal to the authorized amount.
-     * @param amount Value for int
+     * The amount to capture. Must be less than or equal to the authorized amount. If omitted, the
+     * full outstanding authorized amount is captured.
+     * @param amount Value for Integer
      */
     @JsonSetter("amount")
-    public void setAmount(int amount) {
+    public void setAmount(Integer amount) {
         this.amount = amount;
     }
 
     /**
      * Getter for Currency.
-     * ISO-4217 currency code. Must exactly match the currency used during authorization.
+     * ISO-4217 currency code. Must exactly match the currency used during authorization. If
+     * omitted, defaults to the currency originally requested on the charge.
      * @return Returns the String
      */
     @JsonGetter("currency")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public String getCurrency() {
         return currency;
     }
 
     /**
      * Setter for Currency.
-     * ISO-4217 currency code. Must exactly match the currency used during authorization.
+     * ISO-4217 currency code. Must exactly match the currency used during authorization. If
+     * omitted, defaults to the currency originally requested on the charge.
      * @param currency Value for String
      */
     @JsonSetter("currency")
@@ -129,7 +136,9 @@ public class ChargeCaptureRequest {
      * @return a new {@link ChargeCaptureRequest.Builder} object
      */
     public Builder toBuilder() {
-        Builder builder = new Builder(amount, currency);
+        Builder builder = new Builder()
+                .amount(getAmount())
+                .currency(getCurrency());
         builder.additionalProperties = additionalProperties;
         return builder;
     }
@@ -138,33 +147,19 @@ public class ChargeCaptureRequest {
      * Class to build instances of {@link ChargeCaptureRequest}.
      */
     public static class Builder {
-        private int amount;
+        private Integer amount;
         private String currency;
         private AdditionalProperties<Object> additionalProperties =
                 new AdditionalProperties<Object>();
 
-        /**
-         * Initialization constructor.
-         */
-        public Builder() {
-        }
 
-        /**
-         * Initialization constructor.
-         * @param  amount  int value for amount.
-         * @param  currency  String value for currency.
-         */
-        public Builder(int amount, String currency) {
-            this.amount = amount;
-            this.currency = currency;
-        }
 
         /**
          * Setter for amount.
-         * @param  amount  int value for amount.
+         * @param  amount  Integer value for amount.
          * @return Builder
          */
-        public Builder amount(int amount) {
+        public Builder amount(Integer amount) {
             this.amount = amount;
             return this;
         }

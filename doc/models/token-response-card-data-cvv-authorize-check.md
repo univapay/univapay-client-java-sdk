@@ -25,7 +25,7 @@ import com.univapay.api.DateTimeHelper;
 import com.univapay.api.models.TokenResponseCardDataCvvAuthorizeCheck;
 
 TokenResponseCardDataCvvAuthorizeCheck tokenResponseCardDataCvvAuthorizeCheck = new TokenResponseCardDataCvvAuthorizeCheck.Builder()
-    .status("successful")
+    .status("current")
     .chargeId(null)
     .date(DateTimeHelper.fromRfc8601DateTime("2026-04-09T07:35:50Z"))
     .build();

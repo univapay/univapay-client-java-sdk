@@ -14,11 +14,15 @@ import com.univapay.api.ApiHelper;
 import com.univapay.api.UnivapayClientSdkClient;
 import com.univapay.api.exceptions.ApiException;
 import com.univapay.api.models.CursorDirectionQuery;
+import com.univapay.api.models.EnableTokenThreeDsRequest;
+import com.univapay.api.models.ModeQuery;
 import com.univapay.api.models.ThreeDsIssuerToken;
-import com.univapay.api.models.TransactionToken;
+import com.univapay.api.models.TransactionTokenActiveFilter;
 import com.univapay.api.models.TransactionTokenCreateRequest;
 import com.univapay.api.models.TransactionTokenList;
+import com.univapay.api.models.TransactionTokenListType;
 import com.univapay.api.models.TransactionTokenUpdateRequest;
+import com.univapay.api.models.containers.TransactionToken;
 import io.apimatic.core.utilities.TestHelper;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -101,8 +105,8 @@ public class TransactionTokensApiTest extends BaseApiTest {
         // Test whether the captured response is as we expected
         assertNotNull("Result does not exist", 
                 result);
-        assertTrue("Response body does not match in keys", 
-                TestHelper.isJsonObjectProperSubsetOf(
+        assertTrue("Response body does not match in keys",
+                TestHelper.isProperSubsetOf(
                 "{\"id\":\"11f11e85-e9e9-b198-b990-c3a715943241\",\"store_id\":\"11f0e274-1e3b-4752"
                 + "-9513-33d3e07ede13\",\"email\":\"test@test.com\",\"payment_type\":\"card\",\"act"
                 + "ive\":true,\"mode\":\"live\",\"type\":\"recurring\",\"usage_limit\":null,\"confi"
@@ -131,6 +135,16 @@ public class TransactionTokensApiTest extends BaseApiTest {
     @Test
     public void testTestListAllTransactionTokens() throws Exception {
         // Parameters for the API call
+        String search = 
+                "tokyo";
+        UUID customerId = UUID.fromString(
+                "8a3f1b8e-2c1a-4b7a-9c2e-6f6b6f6e2b10");
+        TransactionTokenListType type = TransactionTokenListType.fromString(
+                "recurring");
+        ModeQuery mode = ModeQuery.fromString(
+                "live");
+        TransactionTokenActiveFilter active = TransactionTokenActiveFilter.fromString(
+                "active");
         Integer limit = 10;
         UUID cursor = UUID.fromString(
                 "3541d4fa-596d-428e-8a36-f274e1b3d505");
@@ -140,7 +154,7 @@ public class TransactionTokensApiTest extends BaseApiTest {
         // Set callback and perform API call
         TransactionTokenList result = null;
         try {
-            result = controller.listAllTransactionTokens(limit, cursor, cursorDirection).getResult();
+            result = controller.listAllTransactionTokens(search, customerId, type, mode, active, limit, cursor, cursorDirection).getResult();
         } catch (ApiException e) {
             // Empty block
         }
@@ -195,6 +209,16 @@ public class TransactionTokensApiTest extends BaseApiTest {
         // Parameters for the API call
         UUID storeId = UUID.fromString(
                 "0cab399b-5621-425b-993b-f8507eba1e78");
+        String search = 
+                "tokyo";
+        UUID customerId = UUID.fromString(
+                "8a3f1b8e-2c1a-4b7a-9c2e-6f6b6f6e2b10");
+        TransactionTokenListType type = TransactionTokenListType.fromString(
+                "recurring");
+        ModeQuery mode = ModeQuery.fromString(
+                "live");
+        TransactionTokenActiveFilter active = TransactionTokenActiveFilter.fromString(
+                "active");
         Integer limit = 10;
         UUID cursor = UUID.fromString(
                 "3541d4fa-596d-428e-8a36-f274e1b3d505");
@@ -204,7 +228,7 @@ public class TransactionTokensApiTest extends BaseApiTest {
         // Set callback and perform API call
         TransactionTokenList result = null;
         try {
-            result = controller.listStoreTransactionTokens(storeId, limit, cursor, cursorDirection).getResult();
+            result = controller.listStoreTransactionTokens(storeId, search, customerId, type, mode, active, limit, cursor, cursorDirection).getResult();
         } catch (ApiException e) {
             // Empty block
         }
@@ -261,11 +285,12 @@ public class TransactionTokensApiTest extends BaseApiTest {
                 "0cab399b-5621-425b-993b-f8507eba1e78");
         UUID id = UUID.fromString(
                 "c4e87129-cad4-47fb-8ded-b4c0a4ae0dd4");
+        Boolean polling = true;
 
         // Set callback and perform API call
         TransactionToken result = null;
         try {
-            result = controller.getTransactionToken(storeId, id).getResult();
+            result = controller.getTransactionToken(storeId, id, polling).getResult();
         } catch (ApiException e) {
             // Empty block
         }
@@ -287,8 +312,8 @@ public class TransactionTokensApiTest extends BaseApiTest {
         // Test whether the captured response is as we expected
         assertNotNull("Result does not exist", 
                 result);
-        assertTrue("Response body does not match in keys", 
-                TestHelper.isJsonObjectProperSubsetOf(
+        assertTrue("Response body does not match in keys",
+                TestHelper.isProperSubsetOf(
                 "{\"id\":\"11f11e85-e9e9-b198-b990-c3a715943241\",\"store_id\":\"11f0e274-1e3b-4752"
                 + "-9513-33d3e07ede13\",\"email\":\"test@test.com\",\"payment_type\":\"card\",\"act"
                 + "ive\":true,\"mode\":\"live\",\"type\":\"recurring\",\"usage_limit\":null,\"confi"
@@ -364,8 +389,8 @@ public class TransactionTokensApiTest extends BaseApiTest {
         // Test whether the captured response is as we expected
         assertNotNull("Result does not exist", 
                 result);
-        assertTrue("Response body does not match in keys", 
-                TestHelper.isJsonObjectProperSubsetOf(
+        assertTrue("Response body does not match in keys",
+                TestHelper.isProperSubsetOf(
                 "{\"id\":\"11f11e85-e9e9-b198-b990-c3a715943241\",\"store_id\":\"11f0e274-1e3b-4752"
                 + "-9513-33d3e07ede13\",\"email\":\"test@test.com\",\"payment_type\":\"card\",\"act"
                 + "ive\":true,\"mode\":\"live\",\"type\":\"recurring\",\"usage_limit\":null,\"confi"
@@ -415,6 +440,135 @@ public class TransactionTokensApiTest extends BaseApiTest {
         assertEquals("Status is not 204", 
                 204, httpResponse.getResponse().getStatusCode());
 
+    }
+
+    /**
+     * Enables 3-D Secure on an existing `recurring` transaction token that was created without it.
+     * Only applies to `recurring` tokens; returns an error if 3DS is already enabled. After calling
+     * this endpoint, poll the token until `data.three_ds.status` becomes `awaiting`, then use the
+     * token 3DS issuer token endpoint to complete authentication.
+     * @throws Throwable exception if occurs.
+     */
+    @Test
+    public void testTestEnableTokenThreeDs() throws Exception {
+        // Parameters for the API call
+        UUID storeId = UUID.fromString(
+                "0cab399b-5621-425b-993b-f8507eba1e78");
+        UUID id = UUID.fromString(
+                "c4e87129-cad4-47fb-8ded-b4c0a4ae0dd4");
+        String idempotencyKey = 
+                "f64be872-353d-4c3c-84cb-3dc617fe89f7";
+        EnableTokenThreeDsRequest body = ApiHelper.deserialize(
+                "{\"redirect_endpoint\":\"https://univapay.com/3ds-redirect\"}",
+                EnableTokenThreeDsRequest.class);
+
+        // Set callback and perform API call
+        TransactionToken result = null;
+        try {
+            result = controller.enableTokenThreeDs(storeId, id, idempotencyKey, body).getResult();
+        } catch (ApiException e) {
+            // Empty block
+        }
+
+        // Test whether the response is null
+        assertNotNull("Response is null", 
+                httpResponse.getResponse());
+        // Test response code
+        assertEquals("Status is not 200", 
+                200, httpResponse.getResponse().getStatusCode());
+
+        // Test headers
+        Map<String, String> headers = new LinkedHashMap<String, String>();
+        headers.put("Content-Type", "application/json");
+        
+        assertTrue("Headers do not match", TestHelper.areHeadersProperSubsetOf(
+                headers, httpResponse.getResponse().getHeaders().asSimpleMap(), true));
+
+        // Test whether the captured response is as we expected
+        assertNotNull("Result does not exist", 
+                result);
+        assertTrue("Response body does not match in keys",
+                TestHelper.isProperSubsetOf(
+                "{\"id\":\"11f11e85-e9e9-b198-b990-c3a715943241\",\"store_id\":\"11f0e274-1e3b-4752"
+                + "-9513-33d3e07ede13\",\"email\":\"test@test.com\",\"payment_type\":\"card\",\"act"
+                + "ive\":true,\"mode\":\"live\",\"type\":\"recurring\",\"usage_limit\":null,\"confi"
+                + "rmed\":null,\"metadata\":{\"univapay-link-id\":\"11f11e85-1b45-dace-bf3d-cbcae52"
+                + "f65fc\",\"univapay-name\":\"test\",\"univapay-phone-number\":\"+81 08012341234"
+                + "\"},\"created_on\":\"2026-03-13T02:39:52.908468Z\",\"updated_on\":\"2026-03-13T0"
+                + "2:39:52.908468Z\",\"last_used_on\":null,\"data\":{\"card\":{\"cardholder\":\"TES"
+                + "T TEST\",\"exp_month\":9,\"exp_year\":2026,\"card_bin\":\"424242\",\"last_four"
+                + "\":\"424242\",\"brand\":\"visa\",\"card_type\":\"credit\",\"country\":\"JP\",\"c"
+                + "ategory\":\"standard\",\"issuer\":\"issuer\",\"sub_brand\":\"none\"},\"billing"
+                + "\":{\"line1\":null,\"line2\":null,\"state\":null,\"city\":null,\"country\":null,"
+                + "\"zip\":null,\"phone_number\":{\"country_code\":81,\"local_number\":\"0801234123"
+                + "4\"}},\"cvv_authorize\":{\"enabled\":false,\"status\":null,\"charge_id\":null,"
+                + "\"credentials_id\":null,\"currency\":null},\"cvv_authorize_check\":{\"status\":n"
+                + "ull,\"charge_id\":null,\"date\":null},\"three_ds\":{\"enabled\":true,\"status\":"
+                + "\"pending\",\"redirect_endpoint\":\"https://univapay.com/redirect/index.html\","
+                + "\"error\":null,\"exempted\":false}}}",
+                TestHelper.convertStreamToString(httpResponse.getResponse().getRawBody()), 
+                false, true, false));
+    }
+
+    /**
+     * Disables 3-D Secure on an existing `recurring` transaction token. Only applies to `recurring`
+     * tokens.
+     * @throws Throwable exception if occurs.
+     */
+    @Test
+    public void testTestDisableTokenThreeDs() throws Exception {
+        // Parameters for the API call
+        UUID storeId = UUID.fromString(
+                "0cab399b-5621-425b-993b-f8507eba1e78");
+        UUID id = UUID.fromString(
+                "c4e87129-cad4-47fb-8ded-b4c0a4ae0dd4");
+
+        // Set callback and perform API call
+        TransactionToken result = null;
+        try {
+            result = controller.disableTokenThreeDs(storeId, id).getResult();
+        } catch (ApiException e) {
+            // Empty block
+        }
+
+        // Test whether the response is null
+        assertNotNull("Response is null", 
+                httpResponse.getResponse());
+        // Test response code
+        assertEquals("Status is not 200", 
+                200, httpResponse.getResponse().getStatusCode());
+
+        // Test headers
+        Map<String, String> headers = new LinkedHashMap<String, String>();
+        headers.put("Content-Type", "application/json");
+        
+        assertTrue("Headers do not match", TestHelper.areHeadersProperSubsetOf(
+                headers, httpResponse.getResponse().getHeaders().asSimpleMap(), true));
+
+        // Test whether the captured response is as we expected
+        assertNotNull("Result does not exist", 
+                result);
+        assertTrue("Response body does not match in keys",
+                TestHelper.isProperSubsetOf(
+                "{\"id\":\"11f11e85-e9e9-b198-b990-c3a715943241\",\"store_id\":\"11f0e274-1e3b-4752"
+                + "-9513-33d3e07ede13\",\"email\":\"test@test.com\",\"payment_type\":\"card\",\"act"
+                + "ive\":true,\"mode\":\"live\",\"type\":\"recurring\",\"usage_limit\":null,\"confi"
+                + "rmed\":null,\"metadata\":{\"univapay-link-id\":\"11f11e85-1b45-dace-bf3d-cbcae52"
+                + "f65fc\",\"univapay-name\":\"test\",\"univapay-phone-number\":\"+81 08012341234"
+                + "\"},\"created_on\":\"2026-03-13T02:39:52.908468Z\",\"updated_on\":\"2026-03-13T0"
+                + "2:39:52.908468Z\",\"last_used_on\":null,\"data\":{\"card\":{\"cardholder\":\"TES"
+                + "T TEST\",\"exp_month\":9,\"exp_year\":2026,\"card_bin\":\"424242\",\"last_four"
+                + "\":\"424242\",\"brand\":\"visa\",\"card_type\":\"credit\",\"country\":\"JP\",\"c"
+                + "ategory\":\"standard\",\"issuer\":\"issuer\",\"sub_brand\":\"none\"},\"billing"
+                + "\":{\"line1\":null,\"line2\":null,\"state\":null,\"city\":null,\"country\":null,"
+                + "\"zip\":null,\"phone_number\":{\"country_code\":81,\"local_number\":\"0801234123"
+                + "4\"}},\"cvv_authorize\":{\"enabled\":false,\"status\":null,\"charge_id\":null,"
+                + "\"credentials_id\":null,\"currency\":null},\"cvv_authorize_check\":{\"status\":n"
+                + "ull,\"charge_id\":null,\"date\":null},\"three_ds\":{\"enabled\":true,\"status\":"
+                + "\"pending\",\"redirect_endpoint\":\"https://univapay.com/redirect/index.html\","
+                + "\"error\":null,\"exempted\":false}}}",
+                TestHelper.convertStreamToString(httpResponse.getResponse().getRawBody()), 
+                false, true, false));
     }
 
     /**

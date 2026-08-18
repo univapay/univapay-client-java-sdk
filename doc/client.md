@@ -61,6 +61,8 @@ The gateway for the SDK. This class acts as a factory for the Apis and also hold
 | `getStoresApi()` | Provides access to Stores controller. | `StoresApi` |
 | `getWebhooksApi()` | Provides access to Webhooks controller. | `WebhooksApi` |
 | `getDirectDebitApi()` | Provides access to DirectDebit controller. | `DirectDebitApi` |
+| `getCheckoutApi()` | Provides access to Checkout controller. | `CheckoutApi` |
+| `getTransactionHistoryApi()` | Provides access to TransactionHistory controller. | `TransactionHistoryApi` |
 
 ### Methods
 

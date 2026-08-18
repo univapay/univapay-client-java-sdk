@@ -22,7 +22,7 @@ Request payload for creating a charge.
 | `Metadata` | [`GenericMetadata`](../../doc/models/generic-metadata.md) | Optional | A free-form dictionary for custom metadata. | GenericMetadata getMetadata() | setMetadata(GenericMetadata metadata) |
 | `ClientMetadata` | [`ChargeCreateRequestClientMetadata`](../../doc/models/charge-create-request-client-metadata.md) | Optional | Charge Create Request Client Metadata schema. | ChargeCreateRequestClientMetadata getClientMetadata() | setClientMetadata(ChargeCreateRequestClientMetadata clientMetadata) |
 | `Redirect` | [`ChargeCreateRequestRedirect`](../../doc/models/charge-create-request-redirect.md) | Optional | Charge Create Request Redirect schema. | ChargeCreateRequestRedirect getRedirect() | setRedirect(ChargeCreateRequestRedirect redirect) |
-| `ThreeDs` | [`ChargeCreateRequestThreeDs`](../../doc/models/charge-create-request-three-ds.md) | Optional | Charge Create Request Three Ds schema. | ChargeCreateRequestThreeDs getThreeDs() | setThreeDs(ChargeCreateRequestThreeDs threeDs) |
+| `ThreeDs` | [`ChargeCreateRequestThreeDs`](../../doc/models/charge-create-request-three-ds.md) | Optional | Charge Create Request Three Ds schema. Either supply `mode` (and optionally `redirect_endpoint`) to have Univapay run 3DS, or supply all six external-MPI fields (`authentication_value` through `transaction_status`) when 3DS authentication was already completed outside of Univapay — in that case `mode` is set to `provided` automatically and must not be sent. | ChargeCreateRequestThreeDs getThreeDs() | setThreeDs(ChargeCreateRequestThreeDs threeDs) |
 | `AdditionalProperties` | `Map<String, Object>` | Optional | - | Object getAdditionalProperty(String key) | additionalProperty(String key, Object value) |
 
 ## Example

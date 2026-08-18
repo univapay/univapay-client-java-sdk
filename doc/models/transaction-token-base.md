@@ -1,13 +1,13 @@
 
-# Transaction Token
+# Transaction Token Base
 
-Stored transaction token resource.
+Fields common to every stored transaction token, regardless of payment type. Deliberately excludes `payment_type` and `data` — each concrete payment type layers those on top with `data` pinned to its own shape; see `TransactionToken` for the discriminated union that ties them together.
 
 *This model accepts additional fields of type Object.*
 
 ## Structure
 
-`TransactionToken`
+`TransactionTokenBase`
 
 ## Fields
 
@@ -16,7 +16,6 @@ Stored transaction token resource.
 | `Id` | `UUID` | Optional | Unique identifier. | UUID getId() | setId(UUID id) |
 | `StoreId` | `UUID` | Optional | Store identifier. | UUID getStoreId() | setStoreId(UUID storeId) |
 | `Email` | `String` | Optional | Customer email address. | String getEmail() | setEmail(String email) |
-| `PaymentType` | [`TransactionTokenPaymentType`](../../doc/models/transaction-token-payment-type.md) | Optional | Transaction Token Payment Type schema. | TransactionTokenPaymentType getPaymentType() | setPaymentType(TransactionTokenPaymentType paymentType) |
 | `Active` | `Boolean` | Optional | Whether the resource is active. | Boolean getActive() | setActive(Boolean active) |
 | `Mode` | [`TransactionTokenMode`](../../doc/models/transaction-token-mode.md) | Optional | Transaction Token Mode schema. | TransactionTokenMode getMode() | setMode(TransactionTokenMode mode) |
 | `Type` | [`TransactionTokenType`](../../doc/models/transaction-token-type.md) | Optional | Transaction Token Type schema. | TransactionTokenType getType() | setType(TransactionTokenType type) |
@@ -26,7 +25,6 @@ Stored transaction token resource.
 | `CreatedOn` | `LocalDateTime` | Optional | Timestamp when the resource was created. | LocalDateTime getCreatedOn() | setCreatedOn(LocalDateTime createdOn) |
 | `UpdatedOn` | `LocalDateTime` | Optional | Timestamp when the resource was last updated. | LocalDateTime getUpdatedOn() | setUpdatedOn(LocalDateTime updatedOn) |
 | `LastUsedOn` | `LocalDateTime` | Optional | Timestamp when the token was last used. | LocalDateTime getLastUsedOn() | setLastUsedOn(LocalDateTime lastUsedOn) |
-| `Data` | [`TransactionTokenData`](../../doc/models/containers/transaction-token-data.md) | Optional | Transaction token data payload. The actual structure depends on `payment_type` — card, konbini, online (QR / 3DS), or bank transfer. | TransactionTokenData getData() | setData(TransactionTokenData data) |
 | `AdditionalProperties` | `Map<String, Object>` | Optional | - | Object getAdditionalProperty(String key) | additionalProperty(String key, Object value) |
 
 ## Example
@@ -34,23 +32,18 @@ Stored transaction token resource.
 ```java
 import com.univapay.api.ApiHelper;
 import com.univapay.api.DateTimeHelper;
-import com.univapay.api.models.TokenResponseCardData;
-import com.univapay.api.models.TokenResponseCardDataCard;
-import com.univapay.api.models.TransactionToken;
+import com.univapay.api.models.TransactionTokenBase;
 import com.univapay.api.models.TransactionTokenMode;
-import com.univapay.api.models.TransactionTokenPaymentType;
 import com.univapay.api.models.TransactionTokenType;
-import com.univapay.api.models.containers.TransactionTokenData;
 import com.univapay.api.models.containers.TransactionTokenMetadataAdditionalProperties;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 
-TransactionToken transactionToken = new TransactionToken.Builder()
+TransactionTokenBase transactionTokenBase = new TransactionTokenBase.Builder()
     .id(UUID.fromString("6426bbd2-17bd-41bf-883b-1fe970db48ee"))
     .storeId(UUID.fromString("fc264608-9a9e-495e-844e-a08129a81af4"))
     .email("test@univapay.com")
-    .paymentType(TransactionTokenPaymentType.CARD)
     .active(true)
     .mode(TransactionTokenMode.LIVE)
     .type(TransactionTokenType.ONE_TIME)
@@ -64,24 +57,6 @@ TransactionToken transactionToken = new TransactionToken.Builder()
     .createdOn(DateTimeHelper.fromRfc8601DateTime("2026-04-09T07:35:50Z"))
     .updatedOn(DateTimeHelper.fromRfc8601DateTime("2026-04-09T07:35:50Z"))
     .lastUsedOn(DateTimeHelper.fromRfc8601DateTime("2026-04-09T07:35:50.000000Z"))
-    .data(TransactionTokenData.fromTokenResponseCardData(
-        new TokenResponseCardData.Builder()
-            .card(new TokenResponseCardDataCard.Builder()
-                .cardholder("TARO YAMADA")
-                .expMonth(12)
-                .expYear(2026)
-                .cardBin("card_bin0")
-                .lastFour("4242")
-                .brand("visa")
-            .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
-                .build())
-            .billing(null)
-            .cvvAuthorize(null)
-            .cvvAuthorizeCheck(null)
-            .threeDs(null)
-        .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
-            .build()
-    ))
 .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
     .build();
 ```

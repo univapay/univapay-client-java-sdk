@@ -789,12 +789,14 @@ public final class ChargesApi extends BaseApi {
     /**
      * Captures a previously authorized charge (where `capture` was set to false during creation).
      * The capture amount must be less than or equal to the authorized amount, and the currency must
-     * match.
+     * match. The request body — and both of its fields — is optional: if omitted entirely, the full
+     * outstanding authorized amount (in the originally requested currency) is captured.
      * @param  storeId  Required parameter: The unique identifier of the store.
      * @param  id  Required parameter: The unique identifier of the resource.
-     * @param  body  Required parameter: Request payload for capturing an authorized charge.
      * @param  idempotencyKey  Optional parameter: An optional idempotency key to prevent double
      *         charges and duplicate operations. We recommend a randomly generated UUID (v4).
+     * @param  body  Optional parameter: Optional request payload for capturing an authorized
+     *         charge. Omit entirely to capture the full outstanding authorized amount.
      * @return    Returns the Object wrapped in ApiResponse response from the API call
      * @throws    ApiException    Represents error response from the server.
      * @throws    IOException    Signals that an I/O exception of some sort has occurred.
@@ -802,29 +804,31 @@ public final class ChargesApi extends BaseApi {
     public ApiResponse<Object> captureCharge(
             final UUID storeId,
             final UUID id,
-            final ChargeCaptureRequest body,
-            final String idempotencyKey) throws ApiException, IOException {
-        return prepareCaptureChargeRequest(storeId, id, body, idempotencyKey).execute();
+            final String idempotencyKey,
+            final ChargeCaptureRequest body) throws ApiException, IOException {
+        return prepareCaptureChargeRequest(storeId, id, idempotencyKey, body).execute();
     }
 
     /**
      * Captures a previously authorized charge (where `capture` was set to false during creation).
      * The capture amount must be less than or equal to the authorized amount, and the currency must
-     * match.
+     * match. The request body — and both of its fields — is optional: if omitted entirely, the full
+     * outstanding authorized amount (in the originally requested currency) is captured.
      * @param  storeId  Required parameter: The unique identifier of the store.
      * @param  id  Required parameter: The unique identifier of the resource.
-     * @param  body  Required parameter: Request payload for capturing an authorized charge.
      * @param  idempotencyKey  Optional parameter: An optional idempotency key to prevent double
      *         charges and duplicate operations. We recommend a randomly generated UUID (v4).
+     * @param  body  Optional parameter: Optional request payload for capturing an authorized
+     *         charge. Omit entirely to capture the full outstanding authorized amount.
      * @return    Returns the Object wrapped in ApiResponse response from the API call
      */
     public CompletableFuture<ApiResponse<Object>> captureChargeAsync(
             final UUID storeId,
             final UUID id,
-            final ChargeCaptureRequest body,
-            final String idempotencyKey) {
+            final String idempotencyKey,
+            final ChargeCaptureRequest body) {
         try {
-            return prepareCaptureChargeRequest(storeId, id, body, idempotencyKey).executeAsync();
+            return prepareCaptureChargeRequest(storeId, id, idempotencyKey, body).executeAsync();
         } catch (Exception e) {
             throw new CompletionException(e);
         }
@@ -836,14 +840,14 @@ public final class ChargesApi extends BaseApi {
     private ApiCall<ApiResponse<Object>, ApiException> prepareCaptureChargeRequest(
             final UUID storeId,
             final UUID id,
-            final ChargeCaptureRequest body,
-            final String idempotencyKey) {
+            final String idempotencyKey,
+            final ChargeCaptureRequest body) {
         return new ApiCall.Builder<ApiResponse<Object>, ApiException>()
                 .globalConfig(getGlobalConfiguration())
                 .requestBuilder(requestBuilder -> requestBuilder
                         .server(Server.ENUM_DEFAULT.value())
                         .path("/stores/{storeId}/charges/{id}/capture")
-                        .bodyParam(param -> param.value(body))
+                        .bodyParam(param -> param.value(body).isRequired(false))
                         .bodySerializer(() ->  ApiHelper.serialize(body))
                         .templateParam(param -> param.key("storeId").value(storeId)
                                 .shouldEncode(true))

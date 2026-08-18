@@ -431,7 +431,8 @@ public class ChargesApiTest extends BaseApiTest {
     /**
      * Captures a previously authorized charge (where `capture` was set to false during creation).
      * The capture amount must be less than or equal to the authorized amount, and the currency must
-     * match.
+     * match. The request body — and both of its fields — is optional: if omitted entirely, the full
+     * outstanding authorized amount (in the originally requested currency) is captured.
      * @throws Throwable exception if occurs.
      */
     @Test
@@ -441,16 +442,16 @@ public class ChargesApiTest extends BaseApiTest {
                 "0cab399b-5621-425b-993b-f8507eba1e78");
         UUID id = UUID.fromString(
                 "c4e87129-cad4-47fb-8ded-b4c0a4ae0dd4");
+        String idempotencyKey = 
+                "f64be872-353d-4c3c-84cb-3dc617fe89f7";
         ChargeCaptureRequest body = ApiHelper.deserialize(
                 "{\"amount\":1000,\"currency\":\"JPY\"}",
                 ChargeCaptureRequest.class);
-        String idempotencyKey = 
-                "f64be872-353d-4c3c-84cb-3dc617fe89f7";
 
         // Set callback and perform API call
         Object result = null;
         try {
-            result = controller.captureCharge(storeId, id, body, idempotencyKey).getResult();
+            result = controller.captureCharge(storeId, id, idempotencyKey, body).getResult();
         } catch (ApiException e) {
             // Empty block
         }

@@ -8,11 +8,13 @@ package com.univapay.api;
 
 import com.univapay.api.apis.CancelsApi;
 import com.univapay.api.apis.ChargesApi;
+import com.univapay.api.apis.CheckoutApi;
 import com.univapay.api.apis.DirectDebitApi;
 import com.univapay.api.apis.MerchantsApi;
 import com.univapay.api.apis.RefundsApi;
 import com.univapay.api.apis.StoresApi;
 import com.univapay.api.apis.SubscriptionsApi;
+import com.univapay.api.apis.TransactionHistoryApi;
 import com.univapay.api.apis.TransactionTokensApi;
 import com.univapay.api.apis.WebhooksApi;
 import com.univapay.api.authentication.BearerAuthManager;
@@ -53,10 +55,12 @@ public final class UnivapayClientSdkClient implements Configuration {
     private StoresApi stores;
     private WebhooksApi webhooks;
     private DirectDebitApi directDebit;
+    private CheckoutApi checkout;
+    private TransactionHistoryApi transactionHistory;
 
     private static final CompatibilityFactory compatibilityFactory = new CompatibilityFactoryImpl();
 
-    private static String userAgent = "Java-SDK/1.0.2 (OS: {os-info}, Engine: {engine}/{engine-version})";
+    private static String userAgent = "Java-SDK/1.1.0 (OS: {os-info}, Engine: {engine}/{engine-version})";
 
     /**
      * Current API environment.
@@ -147,6 +151,8 @@ public final class UnivapayClientSdkClient implements Configuration {
         stores = new StoresApi(globalConfig);
         webhooks = new WebhooksApi(globalConfig);
         directDebit = new DirectDebitApi(globalConfig);
+        checkout = new CheckoutApi(globalConfig);
+        transactionHistory = new TransactionHistoryApi(globalConfig);
     }
 
     /**
@@ -226,6 +232,22 @@ public final class UnivapayClientSdkClient implements Configuration {
      */
     public DirectDebitApi getDirectDebitApi() {
         return directDebit;
+    }
+
+    /**
+     * Get the instance of CheckoutApi.
+     * @return checkout
+     */
+    public CheckoutApi getCheckoutApi() {
+        return checkout;
+    }
+
+    /**
+     * Get the instance of TransactionHistoryApi.
+     * @return transactionHistory
+     */
+    public TransactionHistoryApi getTransactionHistoryApi() {
+        return transactionHistory;
     }
 
     /**

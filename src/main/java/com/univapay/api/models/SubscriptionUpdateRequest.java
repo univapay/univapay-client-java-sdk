@@ -22,6 +22,11 @@ import java.util.UUID;
 public class SubscriptionUpdateRequest {
     private UUID transactionTokenId;
     private Integer amount;
+    private SubscriptionPeriod period;
+    private String cyclicalPeriod;
+    private Integer initialAmount;
+    private SubscriptionPlanSettings subscriptionPlan;
+    private SubscriptionInstallmentPlan installmentPlan;
     private GenericMetadata metadata;
     private SubscriptionUpdateStatus status;
     private SubscriptionUpdateScheduleSettings scheduleSettings;
@@ -39,6 +44,11 @@ public class SubscriptionUpdateRequest {
      * Initialization constructor.
      * @param  transactionTokenId  UUID value for transactionTokenId.
      * @param  amount  Integer value for amount.
+     * @param  period  SubscriptionPeriod value for period.
+     * @param  cyclicalPeriod  String value for cyclicalPeriod.
+     * @param  initialAmount  Integer value for initialAmount.
+     * @param  subscriptionPlan  SubscriptionPlanSettings value for subscriptionPlan.
+     * @param  installmentPlan  SubscriptionInstallmentPlan value for installmentPlan.
      * @param  metadata  GenericMetadata value for metadata.
      * @param  status  SubscriptionUpdateStatus value for status.
      * @param  scheduleSettings  SubscriptionUpdateScheduleSettings value for scheduleSettings.
@@ -47,12 +57,22 @@ public class SubscriptionUpdateRequest {
     public SubscriptionUpdateRequest(
             UUID transactionTokenId,
             Integer amount,
+            SubscriptionPeriod period,
+            String cyclicalPeriod,
+            Integer initialAmount,
+            SubscriptionPlanSettings subscriptionPlan,
+            SubscriptionInstallmentPlan installmentPlan,
             GenericMetadata metadata,
             SubscriptionUpdateStatus status,
             SubscriptionUpdateScheduleSettings scheduleSettings,
             SubscriptionUpdateNextPayment nextPayment) {
         this.transactionTokenId = transactionTokenId;
         this.amount = amount;
+        this.period = period;
+        this.cyclicalPeriod = cyclicalPeriod;
+        this.initialAmount = initialAmount;
+        this.subscriptionPlan = subscriptionPlan;
+        this.installmentPlan = installmentPlan;
         this.metadata = metadata;
         this.status = status;
         this.scheduleSettings = scheduleSettings;
@@ -107,6 +127,115 @@ public class SubscriptionUpdateRequest {
     @JsonSetter("amount")
     public void setAmount(Integer amount) {
         this.amount = amount;
+    }
+
+    /**
+     * Getter for Period.
+     * Subscription Period schema.
+     * @return Returns the SubscriptionPeriod
+     */
+    @JsonGetter("period")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public SubscriptionPeriod getPeriod() {
+        return period;
+    }
+
+    /**
+     * Setter for Period.
+     * Subscription Period schema.
+     * @param period Value for SubscriptionPeriod
+     */
+    @JsonSetter("period")
+    public void setPeriod(SubscriptionPeriod period) {
+        this.period = period;
+    }
+
+    /**
+     * Getter for CyclicalPeriod.
+     * ISO-8601 Duration for custom frequency (e.g., P3D, P2M). Cannot be used together with
+     * `period`. Only allowed before the subscription's first payment has been paid.
+     * @return Returns the String
+     */
+    @JsonGetter("cyclical_period")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public String getCyclicalPeriod() {
+        return cyclicalPeriod;
+    }
+
+    /**
+     * Setter for CyclicalPeriod.
+     * ISO-8601 Duration for custom frequency (e.g., P3D, P2M). Cannot be used together with
+     * `period`. Only allowed before the subscription's first payment has been paid.
+     * @param cyclicalPeriod Value for String
+     */
+    @JsonSetter("cyclical_period")
+    public void setCyclicalPeriod(String cyclicalPeriod) {
+        this.cyclicalPeriod = cyclicalPeriod;
+    }
+
+    /**
+     * Getter for InitialAmount.
+     * Different amount for the first charge. Only allowed while the subscription status is still
+     * editable (before it has started) and requires the App Token Secret.
+     * @return Returns the Integer
+     */
+    @JsonGetter("initial_amount")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public Integer getInitialAmount() {
+        return initialAmount;
+    }
+
+    /**
+     * Setter for InitialAmount.
+     * Different amount for the first charge. Only allowed while the subscription status is still
+     * editable (before it has started) and requires the App Token Secret.
+     * @param initialAmount Value for Integer
+     */
+    @JsonSetter("initial_amount")
+    public void setInitialAmount(Integer initialAmount) {
+        this.initialAmount = initialAmount;
+    }
+
+    /**
+     * Getter for SubscriptionPlan.
+     * Configuration for limited-cycle subscriptions (Univapay side).
+     * @return Returns the SubscriptionPlanSettings
+     */
+    @JsonGetter("subscription_plan")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public SubscriptionPlanSettings getSubscriptionPlan() {
+        return subscriptionPlan;
+    }
+
+    /**
+     * Setter for SubscriptionPlan.
+     * Configuration for limited-cycle subscriptions (Univapay side).
+     * @param subscriptionPlan Value for SubscriptionPlanSettings
+     */
+    @JsonSetter("subscription_plan")
+    public void setSubscriptionPlan(SubscriptionPlanSettings subscriptionPlan) {
+        this.subscriptionPlan = subscriptionPlan;
+    }
+
+    /**
+     * Getter for InstallmentPlan.
+     * Configuration for credit card company side installments.
+     * @return Returns the SubscriptionInstallmentPlan
+     */
+    @JsonGetter("installment_plan")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public SubscriptionInstallmentPlan getInstallmentPlan() {
+        return installmentPlan;
+    }
+
+    /**
+     * Setter for InstallmentPlan.
+     * Configuration for credit card company side installments.
+     * @param installmentPlan Value for SubscriptionInstallmentPlan
+     */
+    @JsonSetter("installment_plan")
+    public void setInstallmentPlan(SubscriptionInstallmentPlan installmentPlan) {
+        this.installmentPlan = installmentPlan;
     }
 
     /**
@@ -234,8 +363,10 @@ public class SubscriptionUpdateRequest {
     @Override
     public String toString() {
         return "SubscriptionUpdateRequest [" + "transactionTokenId=" + transactionTokenId
-                + ", amount=" + amount + ", metadata=" + metadata + ", status=" + status
-                + ", scheduleSettings=" + scheduleSettings + ", nextPayment=" + nextPayment
+                + ", amount=" + amount + ", period=" + period + ", cyclicalPeriod=" + cyclicalPeriod
+                + ", initialAmount=" + initialAmount + ", subscriptionPlan=" + subscriptionPlan
+                + ", installmentPlan=" + installmentPlan + ", metadata=" + metadata + ", status="
+                + status + ", scheduleSettings=" + scheduleSettings + ", nextPayment=" + nextPayment
                 + ", additionalProperties=" + additionalProperties + "]";
     }
 
@@ -248,6 +379,11 @@ public class SubscriptionUpdateRequest {
         Builder builder = new Builder()
                 .transactionTokenId(getTransactionTokenId())
                 .amount(getAmount())
+                .period(getPeriod())
+                .cyclicalPeriod(getCyclicalPeriod())
+                .initialAmount(getInitialAmount())
+                .subscriptionPlan(getSubscriptionPlan())
+                .installmentPlan(getInstallmentPlan())
                 .metadata(getMetadata())
                 .status(getStatus())
                 .scheduleSettings(getScheduleSettings())
@@ -262,6 +398,11 @@ public class SubscriptionUpdateRequest {
     public static class Builder {
         private UUID transactionTokenId;
         private Integer amount;
+        private SubscriptionPeriod period;
+        private String cyclicalPeriod;
+        private Integer initialAmount;
+        private SubscriptionPlanSettings subscriptionPlan;
+        private SubscriptionInstallmentPlan installmentPlan;
         private GenericMetadata metadata;
         private SubscriptionUpdateStatus status;
         private SubscriptionUpdateScheduleSettings scheduleSettings;
@@ -288,6 +429,56 @@ public class SubscriptionUpdateRequest {
          */
         public Builder amount(Integer amount) {
             this.amount = amount;
+            return this;
+        }
+
+        /**
+         * Setter for period.
+         * @param  period  SubscriptionPeriod value for period.
+         * @return Builder
+         */
+        public Builder period(SubscriptionPeriod period) {
+            this.period = period;
+            return this;
+        }
+
+        /**
+         * Setter for cyclicalPeriod.
+         * @param  cyclicalPeriod  String value for cyclicalPeriod.
+         * @return Builder
+         */
+        public Builder cyclicalPeriod(String cyclicalPeriod) {
+            this.cyclicalPeriod = cyclicalPeriod;
+            return this;
+        }
+
+        /**
+         * Setter for initialAmount.
+         * @param  initialAmount  Integer value for initialAmount.
+         * @return Builder
+         */
+        public Builder initialAmount(Integer initialAmount) {
+            this.initialAmount = initialAmount;
+            return this;
+        }
+
+        /**
+         * Setter for subscriptionPlan.
+         * @param  subscriptionPlan  SubscriptionPlanSettings value for subscriptionPlan.
+         * @return Builder
+         */
+        public Builder subscriptionPlan(SubscriptionPlanSettings subscriptionPlan) {
+            this.subscriptionPlan = subscriptionPlan;
+            return this;
+        }
+
+        /**
+         * Setter for installmentPlan.
+         * @param  installmentPlan  SubscriptionInstallmentPlan value for installmentPlan.
+         * @return Builder
+         */
+        public Builder installmentPlan(SubscriptionInstallmentPlan installmentPlan) {
+            this.installmentPlan = installmentPlan;
             return this;
         }
 
@@ -348,8 +539,9 @@ public class SubscriptionUpdateRequest {
          */
         public SubscriptionUpdateRequest build() {
             SubscriptionUpdateRequest model =
-                    new SubscriptionUpdateRequest(transactionTokenId, amount, metadata, status,
-                            scheduleSettings, nextPayment);
+                    new SubscriptionUpdateRequest(transactionTokenId, amount, period,
+                            cyclicalPeriod, initialAmount, subscriptionPlan, installmentPlan,
+                            metadata, status, scheduleSettings, nextPayment);
             model.additionalProperties = additionalProperties;
             return model;
         }

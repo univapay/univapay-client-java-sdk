@@ -22,7 +22,13 @@ public enum TransactionTokenCreateRequestPaymentType {
 
     KONBINI,
 
-    BANK_TRANSFER;
+    BANK_TRANSFER,
+
+    QR_SCAN,
+
+    QR_MERCHANT,
+
+    PAIDY;
 
     private static TreeMap<String, TransactionTokenCreateRequestPaymentType> valueMap = new TreeMap<>();
     private String value;
@@ -32,11 +38,17 @@ public enum TransactionTokenCreateRequestPaymentType {
         ONLINE.value = "online";
         KONBINI.value = "konbini";
         BANK_TRANSFER.value = "bank_transfer";
+        QR_SCAN.value = "qr_scan";
+        QR_MERCHANT.value = "qr_merchant";
+        PAIDY.value = "paidy";
 
         valueMap.put("card", CARD);
         valueMap.put("online", ONLINE);
         valueMap.put("konbini", KONBINI);
         valueMap.put("bank_transfer", BANK_TRANSFER);
+        valueMap.put("qr_scan", QR_SCAN);
+        valueMap.put("qr_merchant", QR_MERCHANT);
+        valueMap.put("paidy", PAIDY);
     }
 
     /**

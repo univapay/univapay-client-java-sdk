@@ -20,6 +20,9 @@ import com.univapay.api.models.TokenCreateBankTransferData;
 import com.univapay.api.models.TokenCreateCardData;
 import com.univapay.api.models.TokenCreateKonbiniData;
 import com.univapay.api.models.TokenCreateOnlineData;
+import com.univapay.api.models.TokenCreatePaidyData;
+import com.univapay.api.models.TokenCreateQrMerchantData;
+import com.univapay.api.models.TokenCreateQrScanData;
 import io.apimatic.core.annotations.TypeCombinator.TypeCombinatorCase;
 import java.io.IOException;
 import java.util.Arrays;
@@ -71,6 +74,36 @@ public abstract class TransactionTokenCreateRequestData {
     }
 
     /**
+     * This is TokenCreatePaidyData case.
+     * @param tokenCreatePaidyData TokenCreatePaidyData value for tokenCreatePaidyData.
+     * @return The TokenCreatePaidyDataCase object.
+     */
+    public static TransactionTokenCreateRequestData fromTokenCreatePaidyData(
+            TokenCreatePaidyData tokenCreatePaidyData) {
+        return tokenCreatePaidyData == null ? null : new TokenCreatePaidyDataCase(tokenCreatePaidyData);
+    }
+
+    /**
+     * This is TokenCreateQrScanData case.
+     * @param tokenCreateQrScanData TokenCreateQrScanData value for tokenCreateQrScanData.
+     * @return The TokenCreateQrScanDataCase object.
+     */
+    public static TransactionTokenCreateRequestData fromTokenCreateQrScanData(
+            TokenCreateQrScanData tokenCreateQrScanData) {
+        return tokenCreateQrScanData == null ? null : new TokenCreateQrScanDataCase(tokenCreateQrScanData);
+    }
+
+    /**
+     * This is TokenCreateQrMerchantData case.
+     * @param tokenCreateQrMerchantData TokenCreateQrMerchantData value for tokenCreateQrMerchantData.
+     * @return The TokenCreateQrMerchantDataCase object.
+     */
+    public static TransactionTokenCreateRequestData fromTokenCreateQrMerchantData(
+            TokenCreateQrMerchantData tokenCreateQrMerchantData) {
+        return tokenCreateQrMerchantData == null ? null : new TokenCreateQrMerchantDataCase(tokenCreateQrMerchantData);
+    }
+
+    /**
      * Method to match from the provided any-of cases.
      * @param <R> The type to return after applying callback.
      * @param cases The any-of type cases callback.
@@ -90,6 +123,12 @@ public abstract class TransactionTokenCreateRequestData {
         R tokenCreateOnlineData(TokenCreateOnlineData tokenCreateOnlineData);
 
         R tokenCreateBankTransferData(TokenCreateBankTransferData tokenCreateBankTransferData);
+
+        R tokenCreatePaidyData(TokenCreatePaidyData tokenCreatePaidyData);
+
+        R tokenCreateQrScanData(TokenCreateQrScanData tokenCreateQrScanData);
+
+        R tokenCreateQrMerchantData(TokenCreateQrMerchantData tokenCreateQrMerchantData);
     }
 
     /**
@@ -217,6 +256,99 @@ public abstract class TransactionTokenCreateRequestData {
     }
 
     /**
+     * This is a implementation class for TokenCreatePaidyDataCase.
+     */
+    @JsonDeserialize(using = JsonDeserializer.None.class)
+    @TypeCombinatorCase(type = "TokenCreatePaidyData")
+    private static class TokenCreatePaidyDataCase extends TransactionTokenCreateRequestData {
+
+        @JsonValue
+        private TokenCreatePaidyData tokenCreatePaidyData;
+
+        TokenCreatePaidyDataCase(TokenCreatePaidyData tokenCreatePaidyData) {
+            this.tokenCreatePaidyData = tokenCreatePaidyData;
+        }
+
+        @Override
+        public <R> R match(Cases<R> cases) {
+            return cases.tokenCreatePaidyData(this.tokenCreatePaidyData);
+        }
+
+        @JsonCreator
+        private TokenCreatePaidyDataCase(JsonNode jsonNode) throws IOException {
+            this.tokenCreatePaidyData = ApiHelper.deserialize(jsonNode,
+                TokenCreatePaidyData.class);
+        }
+
+        @Override
+        public String toString() {
+            return tokenCreatePaidyData.toString();
+        }
+    }
+
+    /**
+     * This is a implementation class for TokenCreateQrScanDataCase.
+     */
+    @JsonDeserialize(using = JsonDeserializer.None.class)
+    @TypeCombinatorCase(type = "TokenCreateQrScanData")
+    private static class TokenCreateQrScanDataCase extends TransactionTokenCreateRequestData {
+
+        @JsonValue
+        private TokenCreateQrScanData tokenCreateQrScanData;
+
+        TokenCreateQrScanDataCase(TokenCreateQrScanData tokenCreateQrScanData) {
+            this.tokenCreateQrScanData = tokenCreateQrScanData;
+        }
+
+        @Override
+        public <R> R match(Cases<R> cases) {
+            return cases.tokenCreateQrScanData(this.tokenCreateQrScanData);
+        }
+
+        @JsonCreator
+        private TokenCreateQrScanDataCase(JsonNode jsonNode) throws IOException {
+            this.tokenCreateQrScanData = ApiHelper.deserialize(jsonNode,
+                TokenCreateQrScanData.class);
+        }
+
+        @Override
+        public String toString() {
+            return tokenCreateQrScanData.toString();
+        }
+    }
+
+    /**
+     * This is a implementation class for TokenCreateQrMerchantDataCase.
+     */
+    @JsonDeserialize(using = JsonDeserializer.None.class)
+    @TypeCombinatorCase(type = "TokenCreateQrMerchantData")
+    private static class TokenCreateQrMerchantDataCase extends TransactionTokenCreateRequestData {
+
+        @JsonValue
+        private TokenCreateQrMerchantData tokenCreateQrMerchantData;
+
+        TokenCreateQrMerchantDataCase(TokenCreateQrMerchantData tokenCreateQrMerchantData) {
+            this.tokenCreateQrMerchantData = tokenCreateQrMerchantData;
+        }
+
+        @Override
+        public <R> R match(Cases<R> cases) {
+            return cases.tokenCreateQrMerchantData(this.tokenCreateQrMerchantData);
+        }
+
+        @JsonCreator
+        private TokenCreateQrMerchantDataCase(JsonNode jsonNode) throws IOException {
+            this.tokenCreateQrMerchantData = ApiHelper.deserialize(jsonNode,
+                TokenCreateQrMerchantData.class);
+        }
+
+        @Override
+        public String toString() {
+            return tokenCreateQrMerchantData.toString();
+        }
+    }
+
+    /**
      * This is a custom deserializer class for TransactionTokenCreateRequestData.
      */
     protected static class TransactionTokenCreateRequestDataDeserializer
@@ -229,7 +361,8 @@ public abstract class TransactionTokenCreateRequestData {
             JsonNode node = oc.readTree(jp);
             return ApiHelper.deserialize(node, Arrays.asList(TokenCreateCardDataCase.class,
                     TokenCreateKonbiniDataCase.class, TokenCreateOnlineDataCase.class,
-                    TokenCreateBankTransferDataCase.class), false);
+                    TokenCreateBankTransferDataCase.class, TokenCreatePaidyDataCase.class,
+                    TokenCreateQrScanDataCase.class, TokenCreateQrMerchantDataCase.class), false);
         }
     }
 

@@ -24,7 +24,43 @@ public enum BaseOnlineDataBrand {
 
     WE_CHAT_ONLINE,
 
-    D_BARAI_ONLINE;
+    D_BARAI_ONLINE,
+
+    ALIPAY_CHINA,
+
+    ALIPAY_HK,
+
+    GCASH,
+
+    DANA,
+
+    TRUEMONEY,
+
+    KAKAOPAY,
+
+    TNG,
+
+    RABBIT_LINE_PAY,
+
+    BPI,
+
+    BOOST,
+
+    TINABA,
+
+    NAVER_PAY,
+
+    TOSS_PAY,
+
+    MAYA,
+
+    GRAB_SG,
+
+    KREDIVO_ID,
+
+    K_PLUS,
+
+    KASPI_KZ;
 
     private static TreeMap<String, BaseOnlineDataBrand> valueMap = new TreeMap<>();
     private String value;
@@ -35,12 +71,48 @@ public enum BaseOnlineDataBrand {
         PAY_PAY_ONLINE.value = "pay_pay_online";
         WE_CHAT_ONLINE.value = "we_chat_online";
         D_BARAI_ONLINE.value = "d_barai_online";
+        ALIPAY_CHINA.value = "alipay_china";
+        ALIPAY_HK.value = "alipay_hk";
+        GCASH.value = "gcash";
+        DANA.value = "dana";
+        TRUEMONEY.value = "truemoney";
+        KAKAOPAY.value = "kakaopay";
+        TNG.value = "tng";
+        RABBIT_LINE_PAY.value = "rabbit_line_pay";
+        BPI.value = "bpi";
+        BOOST.value = "boost";
+        TINABA.value = "tinaba";
+        NAVER_PAY.value = "naver_pay";
+        TOSS_PAY.value = "toss_pay";
+        MAYA.value = "maya";
+        GRAB_SG.value = "grab_sg";
+        KREDIVO_ID.value = "kredivo_id";
+        K_PLUS.value = "k_plus";
+        KASPI_KZ.value = "kaspi_kz";
 
         valueMap.put("alipay_online", ALIPAY_ONLINE);
         valueMap.put("alipay_plus_online", ALIPAY_PLUS_ONLINE);
         valueMap.put("pay_pay_online", PAY_PAY_ONLINE);
         valueMap.put("we_chat_online", WE_CHAT_ONLINE);
         valueMap.put("d_barai_online", D_BARAI_ONLINE);
+        valueMap.put("alipay_china", ALIPAY_CHINA);
+        valueMap.put("alipay_hk", ALIPAY_HK);
+        valueMap.put("gcash", GCASH);
+        valueMap.put("dana", DANA);
+        valueMap.put("truemoney", TRUEMONEY);
+        valueMap.put("kakaopay", KAKAOPAY);
+        valueMap.put("tng", TNG);
+        valueMap.put("rabbit_line_pay", RABBIT_LINE_PAY);
+        valueMap.put("bpi", BPI);
+        valueMap.put("boost", BOOST);
+        valueMap.put("tinaba", TINABA);
+        valueMap.put("naver_pay", NAVER_PAY);
+        valueMap.put("toss_pay", TOSS_PAY);
+        valueMap.put("maya", MAYA);
+        valueMap.put("grab_sg", GRAB_SG);
+        valueMap.put("kredivo_id", KREDIVO_ID);
+        valueMap.put("k_plus", K_PLUS);
+        valueMap.put("kaspi_kz", KASPI_KZ);
     }
 
     /**

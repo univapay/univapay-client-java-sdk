@@ -12,6 +12,8 @@ import com.univapay.api.exceptions.ApiErrorException;
 import com.univapay.api.exceptions.ApiException;
 import com.univapay.api.http.request.HttpMethod;
 import com.univapay.api.http.response.ApiResponse;
+import com.univapay.api.models.CreateCustomerIdRequest;
+import com.univapay.api.models.CreateCustomerIdResponse;
 import com.univapay.api.models.CursorDirectionQuery;
 import com.univapay.api.models.Store;
 import com.univapay.api.models.StoreList;
@@ -218,6 +220,105 @@ public final class StoresApi extends BaseApi {
                                 (reason, context) -> new ApiException(reason, context)))
                         .localErrorCase("400",
                                  ErrorCase.setTemplate("HTTP 400 Bad Request: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .localErrorCase("409",
+                                 ErrorCase.setTemplate("HTTP 409 Conflict: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .localErrorCase("500",
+                                 ErrorCase.setTemplate("HTTP 500 Server Error: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .localErrorCase("503",
+                                 ErrorCase.setTemplate("HTTP 503 Unavailable: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .localErrorCase("504",
+                                 ErrorCase.setTemplate("HTTP 504 Timeout: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .localErrorCase(ErrorCase.DEFAULT,
+                                 ErrorCase.setTemplate("HTTP {$statusCode}: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .globalErrorCase(GLOBAL_ERROR_CASES))
+                .build();
+    }
+
+    /**
+     * Derives a deterministic, store-scoped UUID from a local customer identifier supplied by the
+     * merchant. Calling this endpoint again with the same `customer_id` for the same store always
+     * returns the same UUID — the operation has no side effects (nothing is persisted), so it is
+     * safe to call repeatedly and does not require an `Idempotency-Key`. App Token Secret is
+     * required.
+     * @param  storeId  Required parameter: The unique identifier of the store.
+     * @param  body  Required parameter: Request payload for deriving a customer ID.
+     * @return    Returns the CreateCustomerIdResponse wrapped in ApiResponse response from the API call
+     * @throws    ApiException    Represents error response from the server.
+     * @throws    IOException    Signals that an I/O exception of some sort has occurred.
+     */
+    public ApiResponse<CreateCustomerIdResponse> createCustomerId(
+            final UUID storeId,
+            final CreateCustomerIdRequest body) throws ApiException, IOException {
+        return prepareCreateCustomerIdRequest(storeId, body).execute();
+    }
+
+    /**
+     * Derives a deterministic, store-scoped UUID from a local customer identifier supplied by the
+     * merchant. Calling this endpoint again with the same `customer_id` for the same store always
+     * returns the same UUID — the operation has no side effects (nothing is persisted), so it is
+     * safe to call repeatedly and does not require an `Idempotency-Key`. App Token Secret is
+     * required.
+     * @param  storeId  Required parameter: The unique identifier of the store.
+     * @param  body  Required parameter: Request payload for deriving a customer ID.
+     * @return    Returns the CreateCustomerIdResponse wrapped in ApiResponse response from the API call
+     */
+    public CompletableFuture<ApiResponse<CreateCustomerIdResponse>> createCustomerIdAsync(
+            final UUID storeId,
+            final CreateCustomerIdRequest body) {
+        try {
+            return prepareCreateCustomerIdRequest(storeId, body).executeAsync();
+        } catch (Exception e) {
+            throw new CompletionException(e);
+        }
+    }
+
+    /**
+     * Builds the ApiCall object for createCustomerId.
+     */
+    private ApiCall<ApiResponse<CreateCustomerIdResponse>, ApiException> prepareCreateCustomerIdRequest(
+            final UUID storeId,
+            final CreateCustomerIdRequest body) {
+        return new ApiCall.Builder<ApiResponse<CreateCustomerIdResponse>, ApiException>()
+                .globalConfig(getGlobalConfiguration())
+                .requestBuilder(requestBuilder -> requestBuilder
+                        .server(Server.ENUM_DEFAULT.value())
+                        .path("/stores/{storeId}/create_customer_id")
+                        .bodyParam(param -> param.value(body))
+                        .bodySerializer(() ->  ApiHelper.serialize(body))
+                        .templateParam(param -> param.key("storeId").value(storeId)
+                                .shouldEncode(true))
+                        .headerParam(param -> param.key("Content-Type")
+                                .value("application/json").isRequired(false))
+                        .headerParam(param -> param.key("accept").value("application/json"))
+                        .withAuth(auth -> auth
+                                .add("JWT_TOKEN"))
+                        .arraySerializationFormat(ArraySerializationFormat.UNINDEXED)
+                        .httpMethod(HttpMethod.POST))
+                .responseHandler(responseHandler -> responseHandler
+                        .responseClassType(ResponseClassType.API_RESPONSE)
+                        .apiResponseDeserializer(
+                                response -> ApiHelper.deserialize(response, CreateCustomerIdResponse.class))
+                        .nullify404(false)
+                        .localErrorCase("400",
+                                 ErrorCase.setTemplate("HTTP 400 Bad Request: {$response.body#/code}",
+                                (reason, context) -> new ApiErrorException(reason, context)))
+                        .localErrorCase("401",
+                                 ErrorCase.setTemplate("HTTP 401 Unauthorized: {$response.body#/code}",
+                                (reason, context) -> new ApiErrorException(reason, context)))
+                        .localErrorCase("403",
+                                 ErrorCase.setTemplate("HTTP 403 Forbidden: {$response.body#/code}",
+                                (reason, context) -> new ApiErrorException(reason, context)))
+                        .localErrorCase("404",
+                                 ErrorCase.setTemplate("HTTP 404 Not Found: {$response.body#/code}",
+                                (reason, context) -> new ApiErrorException(reason, context)))
+                        .localErrorCase("429",
+                                 ErrorCase.setTemplate("HTTP 429 Rate Limited: {$response.body#/code}",
                                 (reason, context) -> new ApiException(reason, context)))
                         .localErrorCase("409",
                                  ErrorCase.setTemplate("HTTP 409 Conflict: {$response.body#/code}",

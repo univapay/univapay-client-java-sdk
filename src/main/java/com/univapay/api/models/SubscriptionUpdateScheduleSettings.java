@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.univapay.api.DateTimeHelper;
 import io.apimatic.core.types.AdditionalProperties;
 import io.apimatic.core.utilities.ConversionHelper;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Map;
 
 /**
@@ -24,7 +24,8 @@ import java.util.Map;
  */
 public class SubscriptionUpdateScheduleSettings {
     private SubscriptionTerminationMode terminationMode;
-    private LocalDateTime startOn;
+    private LocalDate startOn;
+    private Boolean preserveEndOfMonth;
     private String retryInterval;
     private AdditionalProperties<Object> additionalProperties = 
             new AdditionalProperties<Object>(this.getClass());
@@ -39,15 +40,18 @@ public class SubscriptionUpdateScheduleSettings {
     /**
      * Initialization constructor.
      * @param  terminationMode  SubscriptionTerminationMode value for terminationMode.
-     * @param  startOn  LocalDateTime value for startOn.
+     * @param  startOn  LocalDate value for startOn.
+     * @param  preserveEndOfMonth  Boolean value for preserveEndOfMonth.
      * @param  retryInterval  String value for retryInterval.
      */
     public SubscriptionUpdateScheduleSettings(
             SubscriptionTerminationMode terminationMode,
-            LocalDateTime startOn,
+            LocalDate startOn,
+            Boolean preserveEndOfMonth,
             String retryInterval) {
         this.terminationMode = terminationMode;
         this.startOn = startOn;
+        this.preserveEndOfMonth = preserveEndOfMonth;
         this.retryInterval = retryInterval;
     }
 
@@ -74,27 +78,50 @@ public class SubscriptionUpdateScheduleSettings {
 
     /**
      * Getter for StartOn.
-     * Subscription start date. Used to change the first actual charge date for subscriptions that
-     * initially only registered a payment method.
-     * @return Returns the LocalDateTime
+     * Subscription start date (YYYY-MM-DD). Used to change the first actual charge date for
+     * subscriptions that initially only registered a payment method. Must be in the future; only
+     * available before the subscription has more than one paid payment.
+     * @return Returns the LocalDate
      */
     @JsonGetter("start_on")
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonSerialize(using = DateTimeHelper.Rfc8601DateTimeSerializer.class)
-    public LocalDateTime getStartOn() {
+    @JsonSerialize(using = DateTimeHelper.SimpleDateSerializer.class)
+    public LocalDate getStartOn() {
         return startOn;
     }
 
     /**
      * Setter for StartOn.
-     * Subscription start date. Used to change the first actual charge date for subscriptions that
-     * initially only registered a payment method.
-     * @param startOn Value for LocalDateTime
+     * Subscription start date (YYYY-MM-DD). Used to change the first actual charge date for
+     * subscriptions that initially only registered a payment method. Must be in the future; only
+     * available before the subscription has more than one paid payment.
+     * @param startOn Value for LocalDate
      */
     @JsonSetter("start_on")
-    @JsonDeserialize(using = DateTimeHelper.Rfc8601DateTimeDeserializer.class)
-    public void setStartOn(LocalDateTime startOn) {
+    @JsonDeserialize(using = DateTimeHelper.SimpleDateDeserializer.class)
+    public void setStartOn(LocalDate startOn) {
         this.startOn = startOn;
+    }
+
+    /**
+     * Getter for PreserveEndOfMonth.
+     * If true, subsequent charges will always occur on the last day of the month.
+     * @return Returns the Boolean
+     */
+    @JsonGetter("preserve_end_of_month")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public Boolean getPreserveEndOfMonth() {
+        return preserveEndOfMonth;
+    }
+
+    /**
+     * Setter for PreserveEndOfMonth.
+     * If true, subsequent charges will always occur on the last day of the month.
+     * @param preserveEndOfMonth Value for Boolean
+     */
+    @JsonSetter("preserve_end_of_month")
+    public void setPreserveEndOfMonth(Boolean preserveEndOfMonth) {
+        this.preserveEndOfMonth = preserveEndOfMonth;
     }
 
     /**
@@ -159,8 +186,9 @@ public class SubscriptionUpdateScheduleSettings {
     @Override
     public String toString() {
         return "SubscriptionUpdateScheduleSettings [" + "terminationMode=" + terminationMode
-                + ", startOn=" + startOn + ", retryInterval=" + retryInterval
-                + ", additionalProperties=" + additionalProperties + "]";
+                + ", startOn=" + startOn + ", preserveEndOfMonth=" + preserveEndOfMonth
+                + ", retryInterval=" + retryInterval + ", additionalProperties="
+                + additionalProperties + "]";
     }
 
     /**
@@ -172,6 +200,7 @@ public class SubscriptionUpdateScheduleSettings {
         Builder builder = new Builder()
                 .terminationMode(getTerminationMode())
                 .startOn(getStartOn())
+                .preserveEndOfMonth(getPreserveEndOfMonth())
                 .retryInterval(getRetryInterval());
         builder.additionalProperties = additionalProperties;
         return builder;
@@ -182,7 +211,8 @@ public class SubscriptionUpdateScheduleSettings {
      */
     public static class Builder {
         private SubscriptionTerminationMode terminationMode = SubscriptionTerminationMode.IMMEDIATE;
-        private LocalDateTime startOn;
+        private LocalDate startOn;
+        private Boolean preserveEndOfMonth;
         private String retryInterval;
         private AdditionalProperties<Object> additionalProperties =
                 new AdditionalProperties<Object>();
@@ -201,11 +231,21 @@ public class SubscriptionUpdateScheduleSettings {
 
         /**
          * Setter for startOn.
-         * @param  startOn  LocalDateTime value for startOn.
+         * @param  startOn  LocalDate value for startOn.
          * @return Builder
          */
-        public Builder startOn(LocalDateTime startOn) {
+        public Builder startOn(LocalDate startOn) {
             this.startOn = startOn;
+            return this;
+        }
+
+        /**
+         * Setter for preserveEndOfMonth.
+         * @param  preserveEndOfMonth  Boolean value for preserveEndOfMonth.
+         * @return Builder
+         */
+        public Builder preserveEndOfMonth(Boolean preserveEndOfMonth) {
+            this.preserveEndOfMonth = preserveEndOfMonth;
             return this;
         }
 
@@ -236,7 +276,8 @@ public class SubscriptionUpdateScheduleSettings {
          */
         public SubscriptionUpdateScheduleSettings build() {
             SubscriptionUpdateScheduleSettings model =
-                    new SubscriptionUpdateScheduleSettings(terminationMode, startOn, retryInterval);
+                    new SubscriptionUpdateScheduleSettings(terminationMode, startOn,
+                            preserveEndOfMonth, retryInterval);
             model.additionalProperties = additionalProperties;
             return model;
         }

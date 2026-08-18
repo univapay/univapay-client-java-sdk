@@ -8,13 +8,14 @@ package com.univapay.api.models;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.univapay.api.DateTimeHelper;
-import com.univapay.api.models.containers.TransactionTokenData;
 import com.univapay.api.models.containers.TransactionTokenMetadataAdditionalProperties;
 import io.apimatic.core.types.AdditionalProperties;
 import io.apimatic.core.types.OptionalNullable;
@@ -24,13 +25,12 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * This is a model class for TransactionToken type.
+ * This is a model class for KonbiniTransactionToken type.
  */
-public class TransactionToken {
+public class KonbiniTransactionToken {
     private UUID id;
     private UUID storeId;
     private OptionalNullable<String> email;
-    private TransactionTokenPaymentType paymentType;
     private Boolean active;
     private TransactionTokenMode mode;
     private TransactionTokenType type;
@@ -40,22 +40,25 @@ public class TransactionToken {
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
     private OptionalNullable<LocalDateTime> lastUsedOn;
-    private TransactionTokenData data;
+    private String paymentType;
+    private TokenResponseKonbiniData data;
     private AdditionalProperties<Object> additionalProperties = 
             new AdditionalProperties<Object>(this.getClass());
 
     /**
      * Default constructor.
      */
-    public TransactionToken() {
+    public KonbiniTransactionToken() {
+        paymentType = "konbini";
     }
 
     /**
      * Initialization constructor.
+     * @param  paymentType  String value for paymentType.
+     * @param  data  TokenResponseKonbiniData value for data.
      * @param  id  UUID value for id.
      * @param  storeId  UUID value for storeId.
      * @param  email  String value for email.
-     * @param  paymentType  TransactionTokenPaymentType value for paymentType.
      * @param  active  Boolean value for active.
      * @param  mode  TransactionTokenMode value for mode.
      * @param  type  TransactionTokenType value for type.
@@ -65,13 +68,13 @@ public class TransactionToken {
      * @param  createdOn  LocalDateTime value for createdOn.
      * @param  updatedOn  LocalDateTime value for updatedOn.
      * @param  lastUsedOn  LocalDateTime value for lastUsedOn.
-     * @param  data  TransactionTokenData value for data.
      */
-    public TransactionToken(
+    public KonbiniTransactionToken(
+            String paymentType,
+            TokenResponseKonbiniData data,
             UUID id,
             UUID storeId,
             String email,
-            TransactionTokenPaymentType paymentType,
             Boolean active,
             TransactionTokenMode mode,
             TransactionTokenType type,
@@ -80,12 +83,10 @@ public class TransactionToken {
             Map<String, TransactionTokenMetadataAdditionalProperties> metadata,
             LocalDateTime createdOn,
             LocalDateTime updatedOn,
-            LocalDateTime lastUsedOn,
-            TransactionTokenData data) {
+            LocalDateTime lastUsedOn) {
         this.id = id;
         this.storeId = storeId;
         this.email = OptionalNullable.of(email);
-        this.paymentType = paymentType;
         this.active = active;
         this.mode = mode;
         this.type = type;
@@ -95,15 +96,17 @@ public class TransactionToken {
         this.createdOn = createdOn;
         this.updatedOn = updatedOn;
         this.lastUsedOn = OptionalNullable.of(lastUsedOn);
+        this.paymentType = paymentType;
         this.data = data;
     }
 
     /**
      * Initialization constructor.
+     * @param  paymentType  String value for paymentType.
+     * @param  data  TokenResponseKonbiniData value for data.
      * @param  id  UUID value for id.
      * @param  storeId  UUID value for storeId.
      * @param  email  String value for email.
-     * @param  paymentType  TransactionTokenPaymentType value for paymentType.
      * @param  active  Boolean value for active.
      * @param  mode  TransactionTokenMode value for mode.
      * @param  type  TransactionTokenType value for type.
@@ -113,20 +116,18 @@ public class TransactionToken {
      * @param  createdOn  LocalDateTime value for createdOn.
      * @param  updatedOn  LocalDateTime value for updatedOn.
      * @param  lastUsedOn  LocalDateTime value for lastUsedOn.
-     * @param  data  TransactionTokenData value for data.
      */
 
-    protected TransactionToken(UUID id, UUID storeId, OptionalNullable<String> email,
-            TransactionTokenPaymentType paymentType, Boolean active, TransactionTokenMode mode,
+    protected KonbiniTransactionToken(String paymentType, TokenResponseKonbiniData data, UUID id,
+            UUID storeId, OptionalNullable<String> email, Boolean active, TransactionTokenMode mode,
             TransactionTokenType type, OptionalNullable<String> usageLimit,
             OptionalNullable<Boolean> confirmed,
             Map<String, TransactionTokenMetadataAdditionalProperties> metadata,
             LocalDateTime createdOn, LocalDateTime updatedOn,
-            OptionalNullable<LocalDateTime> lastUsedOn, TransactionTokenData data) {
+            OptionalNullable<LocalDateTime> lastUsedOn) {
         this.id = id;
         this.storeId = storeId;
         this.email = email;
-        this.paymentType = paymentType;
         this.active = active;
         this.mode = mode;
         this.type = type;
@@ -136,7 +137,26 @@ public class TransactionToken {
         this.createdOn = createdOn;
         this.updatedOn = updatedOn;
         this.lastUsedOn = lastUsedOn;
+        this.paymentType = paymentType;
         this.data = data;
+    }
+
+    /**
+     * Initialization constructor.
+     * @param  paymentType  String value for paymentType.
+     * @param  data  TokenResponseKonbiniData value for data.
+     */
+    @JsonCreator
+    protected KonbiniTransactionToken(
+            @JsonProperty("payment_type") String paymentType,
+            @JsonProperty("data") TokenResponseKonbiniData data) {
+        this(paymentType, data, null, null, OptionalNullable.of(null), null, null, null,
+                OptionalNullable.of(null), OptionalNullable.of(null), null, null, null,
+                OptionalNullable.of(null));
+        unsetEmail();
+        unsetUsageLimit();
+        unsetConfirmed();
+        unsetLastUsedOn();
     }
 
     /**
@@ -218,27 +238,6 @@ public class TransactionToken {
      */
     public void unsetEmail() {
         email = null;
-    }
-
-    /**
-     * Getter for PaymentType.
-     * Transaction Token Payment Type schema.
-     * @return Returns the TransactionTokenPaymentType
-     */
-    @JsonGetter("payment_type")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    public TransactionTokenPaymentType getPaymentType() {
-        return paymentType;
-    }
-
-    /**
-     * Setter for PaymentType.
-     * Transaction Token Payment Type schema.
-     * @param paymentType Value for TransactionTokenPaymentType
-     */
-    @JsonSetter("payment_type")
-    public void setPaymentType(TransactionTokenPaymentType paymentType) {
-        this.paymentType = paymentType;
     }
 
     /**
@@ -490,25 +489,42 @@ public class TransactionToken {
     }
 
     /**
+     * Getter for PaymentType.
+     * Payment method type. Always `konbini` for this variant.
+     * @return Returns the String
+     */
+    @JsonGetter("payment_type")
+    public String getPaymentType() {
+        return paymentType;
+    }
+
+    /**
+     * Setter for PaymentType.
+     * Payment method type. Always `konbini` for this variant.
+     * @param paymentType Value for String
+     */
+    @JsonSetter("payment_type")
+    private void setPaymentType(String paymentType) {
+        this.paymentType = paymentType;
+    }
+
+    /**
      * Getter for Data.
-     * Transaction token data payload. The actual structure depends on `payment_type` — card,
-     * konbini, online (QR / 3DS), or bank transfer.
-     * @return Returns the TransactionTokenData
+     * Token Response Konbini Data schema.
+     * @return Returns the TokenResponseKonbiniData
      */
     @JsonGetter("data")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    public TransactionTokenData getData() {
+    public TokenResponseKonbiniData getData() {
         return data;
     }
 
     /**
      * Setter for Data.
-     * Transaction token data payload. The actual structure depends on `payment_type` — card,
-     * konbini, online (QR / 3DS), or bank transfer.
-     * @param data Value for TransactionTokenData
+     * Token Response Konbini Data schema.
+     * @param data Value for TokenResponseKonbiniData
      */
     @JsonSetter("data")
-    public void setData(TransactionTokenData data) {
+    public void setData(TokenResponseKonbiniData data) {
         this.data = data;
     }
 
@@ -545,36 +561,34 @@ public class TransactionToken {
     }
 
     /**
-     * Converts this TransactionToken into string format.
+     * Converts this KonbiniTransactionToken into string format.
      * @return String representation of this class
      */
     @Override
     public String toString() {
-        return "TransactionToken [" + "id=" + id + ", storeId=" + storeId + ", email=" + email
-                + ", paymentType=" + paymentType + ", active=" + active + ", mode=" + mode
-                + ", type=" + type + ", usageLimit=" + usageLimit + ", confirmed=" + confirmed
-                + ", metadata=" + metadata + ", createdOn=" + createdOn + ", updatedOn=" + updatedOn
-                + ", lastUsedOn=" + lastUsedOn + ", data=" + data + ", additionalProperties="
-                + additionalProperties + "]";
+        return "KonbiniTransactionToken [" + "paymentType=" + paymentType + ", data=" + data
+                + ", id=" + id + ", storeId=" + storeId + ", email=" + email + ", active=" + active
+                + ", mode=" + mode + ", type=" + type + ", usageLimit=" + usageLimit
+                + ", confirmed=" + confirmed + ", metadata=" + metadata + ", createdOn=" + createdOn
+                + ", updatedOn=" + updatedOn + ", lastUsedOn=" + lastUsedOn
+                + ", additionalProperties=" + additionalProperties + "]";
     }
 
     /**
-     * Builds a new {@link TransactionToken.Builder} object.
+     * Builds a new {@link KonbiniTransactionToken.Builder} object.
      * Creates the instance with the state of the current model.
-     * @return a new {@link TransactionToken.Builder} object
+     * @return a new {@link KonbiniTransactionToken.Builder} object
      */
     public Builder toBuilder() {
-        Builder builder = new Builder()
+        Builder builder = new Builder(paymentType, data)
                 .id(getId())
                 .storeId(getStoreId())
-                .paymentType(getPaymentType())
                 .active(getActive())
                 .mode(getMode())
                 .type(getType())
                 .metadata(getMetadata())
                 .createdOn(getCreatedOn())
-                .updatedOn(getUpdatedOn())
-                .data(getData());
+                .updatedOn(getUpdatedOn());
         builder.email = internalGetEmail();
         builder.usageLimit = internalGetUsageLimit();
         builder.confirmed = internalGetConfirmed();
@@ -584,13 +598,14 @@ public class TransactionToken {
     }
 
     /**
-     * Class to build instances of {@link TransactionToken}.
+     * Class to build instances of {@link KonbiniTransactionToken}.
      */
     public static class Builder {
+        private String paymentType = "konbini";
+        private TokenResponseKonbiniData data;
         private UUID id;
         private UUID storeId;
         private OptionalNullable<String> email;
-        private TransactionTokenPaymentType paymentType;
         private Boolean active;
         private TransactionTokenMode mode;
         private TransactionTokenType type;
@@ -600,11 +615,44 @@ public class TransactionToken {
         private LocalDateTime createdOn;
         private LocalDateTime updatedOn;
         private OptionalNullable<LocalDateTime> lastUsedOn;
-        private TransactionTokenData data;
         private AdditionalProperties<Object> additionalProperties =
                 new AdditionalProperties<Object>();
 
+        /**
+         * Initialization constructor.
+         */
+        public Builder() {
+        }
 
+        /**
+         * Initialization constructor.
+         * @param  paymentType  String value for paymentType.
+         * @param  data  TokenResponseKonbiniData value for data.
+         */
+        public Builder(String paymentType, TokenResponseKonbiniData data) {
+            this.paymentType = paymentType;
+            this.data = data;
+        }
+
+        /**
+         * Setter for paymentType.
+         * @param  paymentType  String value for paymentType.
+         * @return Builder
+         */
+        public Builder paymentType(String paymentType) {
+            this.paymentType = paymentType;
+            return this;
+        }
+
+        /**
+         * Setter for data.
+         * @param  data  TokenResponseKonbiniData value for data.
+         * @return Builder
+         */
+        public Builder data(TokenResponseKonbiniData data) {
+            this.data = data;
+            return this;
+        }
 
         /**
          * Setter for id.
@@ -642,16 +690,6 @@ public class TransactionToken {
          */
         public Builder unsetEmail() {
             email = null;
-            return this;
-        }
-
-        /**
-         * Setter for paymentType.
-         * @param  paymentType  TransactionTokenPaymentType value for paymentType.
-         * @return Builder
-         */
-        public Builder paymentType(TransactionTokenPaymentType paymentType) {
-            this.paymentType = paymentType;
             return this;
         }
 
@@ -774,16 +812,6 @@ public class TransactionToken {
         }
 
         /**
-         * Setter for data.
-         * @param  data  TransactionTokenData value for data.
-         * @return Builder
-         */
-        public Builder data(TransactionTokenData data) {
-            this.data = data;
-            return this;
-        }
-
-        /**
          * Setter for additional property that are not in model fields.
          * @param name The name of the additional property.
          * @param value The Object value of the additional property.
@@ -795,14 +823,14 @@ public class TransactionToken {
         }
 
         /**
-         * Builds a new {@link TransactionToken} object using the set fields.
-         * @return {@link TransactionToken}
+         * Builds a new {@link KonbiniTransactionToken} object using the set fields.
+         * @return {@link KonbiniTransactionToken}
          */
-        public TransactionToken build() {
-            TransactionToken model =
-                    new TransactionToken(id, storeId, email, paymentType, active, mode, type,
-                            usageLimit, confirmed, metadata, createdOn, updatedOn, lastUsedOn,
-                            data);
+        public KonbiniTransactionToken build() {
+            KonbiniTransactionToken model =
+                    new KonbiniTransactionToken(paymentType, data, id, storeId, email, active, mode,
+                            type, usageLimit, confirmed, metadata, createdOn, updatedOn,
+                            lastUsedOn);
             model.additionalProperties = additionalProperties;
             return model;
         }

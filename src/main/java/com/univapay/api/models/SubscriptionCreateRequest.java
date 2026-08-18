@@ -341,7 +341,11 @@ public class SubscriptionCreateRequest {
 
     /**
      * Getter for ThreeDs.
-     * Charge Create Request Three Ds schema.
+     * Charge Create Request Three Ds schema. Either supply `mode` (and optionally
+     * `redirect_endpoint`) to have Univapay run 3DS, or supply all six external-MPI fields
+     * (`authentication_value` through `transaction_status`) when 3DS authentication was already
+     * completed outside of Univapay — in that case `mode` is set to `provided` automatically and
+     * must not be sent.
      * @return Returns the ChargeCreateRequestThreeDs
      */
     @JsonGetter("three_ds")
@@ -352,7 +356,11 @@ public class SubscriptionCreateRequest {
 
     /**
      * Setter for ThreeDs.
-     * Charge Create Request Three Ds schema.
+     * Charge Create Request Three Ds schema. Either supply `mode` (and optionally
+     * `redirect_endpoint`) to have Univapay run 3DS, or supply all six external-MPI fields
+     * (`authentication_value` through `transaction_status`) when 3DS authentication was already
+     * completed outside of Univapay — in that case `mode` is set to `provided` automatically and
+     * must not be sent.
      * @param threeDs Value for ChargeCreateRequestThreeDs
      */
     @JsonSetter("three_ds")

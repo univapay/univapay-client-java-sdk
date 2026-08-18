@@ -15,7 +15,7 @@ Webhook envelope for transaction token lifecycle events. Fired as `token_created
 |  --- | --- | --- | --- | --- | --- |
 | `Id` | `UUID` | Required | Unique ID of this webhook delivery. | UUID getId() | setId(UUID id) |
 | `Event` | [`TokenEvent`](../../doc/models/token-event.md) | Required | Event type discriminator — `token_created`, `token_updated`, `token_three_d_s_updated`, `token_cvv_auth_updated`, `token_cvv_auth_check_updated`, `token_replaced`, or `recurring_token_deleted`. | TokenEvent getEvent() | setEvent(TokenEvent event) |
-| `Data` | [`TransactionToken`](../../doc/models/transaction-token.md) | Optional | Stored transaction token resource. | TransactionToken getData() | setData(TransactionToken data) |
+| `Data` | [`TransactionToken`](../../doc/models/containers/transaction-token.md) | Optional | Stored transaction token resource. `payment_type` discriminates which variant applies — and therefore the concrete shape of `data` — per the mapping above. | TransactionToken getData() | setData(TransactionToken data) |
 | `CreatedOn` | `LocalDateTime` | Required | Timestamp when the event was fired. | LocalDateTime getCreatedOn() | setCreatedOn(LocalDateTime createdOn) |
 | `AdditionalProperties` | `Map<String, Object>` | Optional | - | Object getAdditionalProperty(String key) | additionalProperty(String key, Object value) |
 
@@ -23,12 +23,14 @@ Webhook envelope for transaction token lifecycle events. Fired as `token_created
 
 ```java
 import com.univapay.api.DateTimeHelper;
+import com.univapay.api.models.CardTransactionToken;
 import com.univapay.api.models.TokenEvent;
+import com.univapay.api.models.TokenResponseCardData;
+import com.univapay.api.models.TokenResponseCardDataCard;
 import com.univapay.api.models.TokenWebhookEvent;
-import com.univapay.api.models.TransactionToken;
 import com.univapay.api.models.TransactionTokenMode;
-import com.univapay.api.models.TransactionTokenPaymentType;
 import com.univapay.api.models.TransactionTokenType;
+import com.univapay.api.models.containers.TransactionToken;
 import com.univapay.api.models.containers.TransactionTokenMetadataAdditionalProperties;
 import java.util.LinkedHashMap;
 import java.util.UUID;
@@ -38,23 +40,35 @@ TokenWebhookEvent tokenWebhookEvent = new TokenWebhookEvent.Builder(
     TokenEvent.TOKEN_CREATED,
     DateTimeHelper.fromRfc8601DateTime("2026-04-09T07:35:50.000000Z")
 )
-.data(new TransactionToken.Builder()
+.data(TransactionToken.fromCardTransactionToken(
+        new CardTransactionToken.Builder(
+            "card",
+            new TokenResponseCardData.Builder()
+                .card(new TokenResponseCardDataCard.Builder()
+                    .cardholder("TARO YAMADA")
+                    .expMonth(12)
+                    .expYear(2026)
+                    .lastFour("4242")
+                    .brand("visa")
+                    .build())
+                .build()
+        )
         .id(UUID.fromString("6426bbd2-17bd-41bf-883b-1fe970db48ee"))
         .storeId(UUID.fromString("fc264608-9a9e-495e-844e-a08129a81af4"))
         .email("test@univapay.com")
-        .paymentType(TransactionTokenPaymentType.CARD)
         .active(true)
         .mode(TransactionTokenMode.LIVE)
         .type(TransactionTokenType.RECURRING)
         .confirmed(true)
         .metadata(new LinkedHashMap<String, TransactionTokenMetadataAdditionalProperties>() {{
-            put("customer_id", TransactionTokenMetadataAdditionalProperties.fromString(
-                "cust_12345"
-            ));
-        }})
+                put("customer_id", TransactionTokenMetadataAdditionalProperties.fromString(
+                    "cust_12345"
+                ));
+            }})
         .createdOn(DateTimeHelper.fromRfc8601DateTime("2026-04-09T07:35:50.000000Z"))
         .updatedOn(DateTimeHelper.fromRfc8601DateTime("2026-04-09T07:35:50.000000Z"))
-        .build())
+        .build()
+    ))
 .build();
 ```
 

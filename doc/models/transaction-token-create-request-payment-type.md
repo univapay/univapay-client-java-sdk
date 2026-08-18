@@ -15,12 +15,15 @@ Transaction Token Create Request Payment Type schema.
 | `ONLINE` |
 | `KONBINI` |
 | `BANK_TRANSFER` |
+| `QR_SCAN` |
+| `QR_MERCHANT` |
+| `PAIDY` |
 
 ## Example
 
 ```java
 import com.univapay.api.models.TransactionTokenCreateRequestPaymentType;
 
-TransactionTokenCreateRequestPaymentType transactionTokenCreateRequestPaymentType = TransactionTokenCreateRequestPaymentType.KONBINI;
+TransactionTokenCreateRequestPaymentType transactionTokenCreateRequestPaymentType = TransactionTokenCreateRequestPaymentType.QR_SCAN;
 ```
 

@@ -13,11 +13,15 @@ import com.univapay.api.exceptions.ApiException;
 import com.univapay.api.http.request.HttpMethod;
 import com.univapay.api.http.response.ApiResponse;
 import com.univapay.api.models.CursorDirectionQuery;
+import com.univapay.api.models.EnableTokenThreeDsRequest;
+import com.univapay.api.models.ModeQuery;
 import com.univapay.api.models.ThreeDsIssuerToken;
-import com.univapay.api.models.TransactionToken;
+import com.univapay.api.models.TransactionTokenActiveFilter;
 import com.univapay.api.models.TransactionTokenCreateRequest;
 import com.univapay.api.models.TransactionTokenList;
+import com.univapay.api.models.TransactionTokenListType;
 import com.univapay.api.models.TransactionTokenUpdateRequest;
+import com.univapay.api.models.containers.TransactionToken;
 import io.apimatic.core.ApiCall;
 import io.apimatic.core.ErrorCase;
 import io.apimatic.core.GlobalConfiguration;
@@ -138,6 +142,13 @@ public final class TransactionTokensApi extends BaseApi {
 
     /**
      * Lists all transaction tokens across all stores.
+     * @param  search  Optional parameter: Case-insensitive free-text search.
+     * @param  customerId  Optional parameter: Filter by customer ID.
+     * @param  type  Optional parameter: Filter by token type. `one_time` tokens are excluded from
+     *         listings and cannot be filtered on; filtering to `recurring` requires the App Token
+     *         Secret.
+     * @param  mode  Optional parameter: Filter by environment mode.
+     * @param  active  Optional parameter: Filter recurring tokens by whether they are still active.
      * @param  limit  Optional parameter: Maximum number of resources to return in one page.
      * @param  cursor  Optional parameter: Cursor pointing to the resource after which pagination
      *         should continue.
@@ -148,14 +159,27 @@ public final class TransactionTokensApi extends BaseApi {
      * @throws    IOException    Signals that an I/O exception of some sort has occurred.
      */
     public ApiResponse<TransactionTokenList> listAllTransactionTokens(
+            final String search,
+            final UUID customerId,
+            final TransactionTokenListType type,
+            final ModeQuery mode,
+            final TransactionTokenActiveFilter active,
             final Integer limit,
             final UUID cursor,
             final CursorDirectionQuery cursorDirection) throws ApiException, IOException {
-        return prepareListAllTransactionTokensRequest(limit, cursor, cursorDirection).execute();
+        return prepareListAllTransactionTokensRequest(search, customerId, type, mode, active, limit,
+                cursor, cursorDirection).execute();
     }
 
     /**
      * Lists all transaction tokens across all stores.
+     * @param  search  Optional parameter: Case-insensitive free-text search.
+     * @param  customerId  Optional parameter: Filter by customer ID.
+     * @param  type  Optional parameter: Filter by token type. `one_time` tokens are excluded from
+     *         listings and cannot be filtered on; filtering to `recurring` requires the App Token
+     *         Secret.
+     * @param  mode  Optional parameter: Filter by environment mode.
+     * @param  active  Optional parameter: Filter recurring tokens by whether they are still active.
      * @param  limit  Optional parameter: Maximum number of resources to return in one page.
      * @param  cursor  Optional parameter: Cursor pointing to the resource after which pagination
      *         should continue.
@@ -164,11 +188,17 @@ public final class TransactionTokensApi extends BaseApi {
      * @return    Returns the TransactionTokenList wrapped in ApiResponse response from the API call
      */
     public CompletableFuture<ApiResponse<TransactionTokenList>> listAllTransactionTokensAsync(
+            final String search,
+            final UUID customerId,
+            final TransactionTokenListType type,
+            final ModeQuery mode,
+            final TransactionTokenActiveFilter active,
             final Integer limit,
             final UUID cursor,
             final CursorDirectionQuery cursorDirection) {
         try {
-            return prepareListAllTransactionTokensRequest(limit, cursor, cursorDirection).executeAsync();
+            return prepareListAllTransactionTokensRequest(search, customerId, type, mode, active, limit,
+            cursor, cursorDirection).executeAsync();
         } catch (Exception e) {
             throw new CompletionException(e);
         }
@@ -178,6 +208,11 @@ public final class TransactionTokensApi extends BaseApi {
      * Builds the ApiCall object for listAllTransactionTokens.
      */
     private ApiCall<ApiResponse<TransactionTokenList>, ApiException> prepareListAllTransactionTokensRequest(
+            final String search,
+            final UUID customerId,
+            final TransactionTokenListType type,
+            final ModeQuery mode,
+            final TransactionTokenActiveFilter active,
             final Integer limit,
             final UUID cursor,
             final CursorDirectionQuery cursorDirection) {
@@ -186,6 +221,16 @@ public final class TransactionTokensApi extends BaseApi {
                 .requestBuilder(requestBuilder -> requestBuilder
                         .server(Server.ENUM_DEFAULT.value())
                         .path("/tokens")
+                        .queryParam(param -> param.key("search")
+                                .value(search).isRequired(false))
+                        .queryParam(param -> param.key("customer_id")
+                                .value(customerId).isRequired(false))
+                        .queryParam(param -> param.key("type")
+                                .value((type != null) ? type.value() : null).isRequired(false))
+                        .queryParam(param -> param.key("mode")
+                                .value((mode != null) ? mode.value() : null).isRequired(false))
+                        .queryParam(param -> param.key("active")
+                                .value((active != null) ? active.value() : "active").isRequired(false))
                         .queryParam(param -> param.key("limit")
                                 .value((limit != null) ? limit : 10).isRequired(false))
                         .queryParam(param -> param.key("cursor")
@@ -239,6 +284,13 @@ public final class TransactionTokensApi extends BaseApi {
     /**
      * Lists all transaction tokens for a specific store.
      * @param  storeId  Required parameter: The unique identifier of the store.
+     * @param  search  Optional parameter: Case-insensitive free-text search.
+     * @param  customerId  Optional parameter: Filter by customer ID.
+     * @param  type  Optional parameter: Filter by token type. `one_time` tokens are excluded from
+     *         listings and cannot be filtered on; filtering to `recurring` requires the App Token
+     *         Secret.
+     * @param  mode  Optional parameter: Filter by environment mode.
+     * @param  active  Optional parameter: Filter recurring tokens by whether they are still active.
      * @param  limit  Optional parameter: Maximum number of resources to return in one page.
      * @param  cursor  Optional parameter: Cursor pointing to the resource after which pagination
      *         should continue.
@@ -250,16 +302,28 @@ public final class TransactionTokensApi extends BaseApi {
      */
     public ApiResponse<TransactionTokenList> listStoreTransactionTokens(
             final UUID storeId,
+            final String search,
+            final UUID customerId,
+            final TransactionTokenListType type,
+            final ModeQuery mode,
+            final TransactionTokenActiveFilter active,
             final Integer limit,
             final UUID cursor,
             final CursorDirectionQuery cursorDirection) throws ApiException, IOException {
-        return prepareListStoreTransactionTokensRequest(storeId, limit, cursor,
-                cursorDirection).execute();
+        return prepareListStoreTransactionTokensRequest(storeId, search, customerId, type, mode,
+                active, limit, cursor, cursorDirection).execute();
     }
 
     /**
      * Lists all transaction tokens for a specific store.
      * @param  storeId  Required parameter: The unique identifier of the store.
+     * @param  search  Optional parameter: Case-insensitive free-text search.
+     * @param  customerId  Optional parameter: Filter by customer ID.
+     * @param  type  Optional parameter: Filter by token type. `one_time` tokens are excluded from
+     *         listings and cannot be filtered on; filtering to `recurring` requires the App Token
+     *         Secret.
+     * @param  mode  Optional parameter: Filter by environment mode.
+     * @param  active  Optional parameter: Filter recurring tokens by whether they are still active.
      * @param  limit  Optional parameter: Maximum number of resources to return in one page.
      * @param  cursor  Optional parameter: Cursor pointing to the resource after which pagination
      *         should continue.
@@ -269,12 +333,17 @@ public final class TransactionTokensApi extends BaseApi {
      */
     public CompletableFuture<ApiResponse<TransactionTokenList>> listStoreTransactionTokensAsync(
             final UUID storeId,
+            final String search,
+            final UUID customerId,
+            final TransactionTokenListType type,
+            final ModeQuery mode,
+            final TransactionTokenActiveFilter active,
             final Integer limit,
             final UUID cursor,
             final CursorDirectionQuery cursorDirection) {
         try {
-            return prepareListStoreTransactionTokensRequest(storeId, limit, cursor,
-            cursorDirection).executeAsync();
+            return prepareListStoreTransactionTokensRequest(storeId, search, customerId, type, mode, active,
+            limit, cursor, cursorDirection).executeAsync();
         } catch (Exception e) {
             throw new CompletionException(e);
         }
@@ -285,6 +354,11 @@ public final class TransactionTokensApi extends BaseApi {
      */
     private ApiCall<ApiResponse<TransactionTokenList>, ApiException> prepareListStoreTransactionTokensRequest(
             final UUID storeId,
+            final String search,
+            final UUID customerId,
+            final TransactionTokenListType type,
+            final ModeQuery mode,
+            final TransactionTokenActiveFilter active,
             final Integer limit,
             final UUID cursor,
             final CursorDirectionQuery cursorDirection) {
@@ -293,6 +367,16 @@ public final class TransactionTokensApi extends BaseApi {
                 .requestBuilder(requestBuilder -> requestBuilder
                         .server(Server.ENUM_DEFAULT.value())
                         .path("/stores/{storeId}/tokens")
+                        .queryParam(param -> param.key("search")
+                                .value(search).isRequired(false))
+                        .queryParam(param -> param.key("customer_id")
+                                .value(customerId).isRequired(false))
+                        .queryParam(param -> param.key("type")
+                                .value((type != null) ? type.value() : null).isRequired(false))
+                        .queryParam(param -> param.key("mode")
+                                .value((mode != null) ? mode.value() : null).isRequired(false))
+                        .queryParam(param -> param.key("active")
+                                .value((active != null) ? active.value() : "active").isRequired(false))
                         .queryParam(param -> param.key("limit")
                                 .value((limit != null) ? limit : 10).isRequired(false))
                         .queryParam(param -> param.key("cursor")
@@ -349,27 +433,35 @@ public final class TransactionTokensApi extends BaseApi {
      * Retrieves the details of an existing transaction token.
      * @param  storeId  Required parameter: The unique identifier of the store.
      * @param  id  Required parameter: The unique identifier of the resource.
+     * @param  polling  Optional parameter: If set to true, instructs the API to internally poll the
+     *         token's 3DS or CVV authorization sub-status until it transitions to another status,
+     *         or until the ~3 second server-side timeout is reached.
      * @return    Returns the TransactionToken wrapped in ApiResponse response from the API call
      * @throws    ApiException    Represents error response from the server.
      * @throws    IOException    Signals that an I/O exception of some sort has occurred.
      */
     public ApiResponse<TransactionToken> getTransactionToken(
             final UUID storeId,
-            final UUID id) throws ApiException, IOException {
-        return prepareGetTransactionTokenRequest(storeId, id).execute();
+            final UUID id,
+            final Boolean polling) throws ApiException, IOException {
+        return prepareGetTransactionTokenRequest(storeId, id, polling).execute();
     }
 
     /**
      * Retrieves the details of an existing transaction token.
      * @param  storeId  Required parameter: The unique identifier of the store.
      * @param  id  Required parameter: The unique identifier of the resource.
+     * @param  polling  Optional parameter: If set to true, instructs the API to internally poll the
+     *         token's 3DS or CVV authorization sub-status until it transitions to another status,
+     *         or until the ~3 second server-side timeout is reached.
      * @return    Returns the TransactionToken wrapped in ApiResponse response from the API call
      */
     public CompletableFuture<ApiResponse<TransactionToken>> getTransactionTokenAsync(
             final UUID storeId,
-            final UUID id) {
+            final UUID id,
+            final Boolean polling) {
         try {
-            return prepareGetTransactionTokenRequest(storeId, id).executeAsync();
+            return prepareGetTransactionTokenRequest(storeId, id, polling).executeAsync();
         } catch (Exception e) {
             throw new CompletionException(e);
         }
@@ -380,12 +472,15 @@ public final class TransactionTokensApi extends BaseApi {
      */
     private ApiCall<ApiResponse<TransactionToken>, ApiException> prepareGetTransactionTokenRequest(
             final UUID storeId,
-            final UUID id) {
+            final UUID id,
+            final Boolean polling) {
         return new ApiCall.Builder<ApiResponse<TransactionToken>, ApiException>()
                 .globalConfig(getGlobalConfiguration())
                 .requestBuilder(requestBuilder -> requestBuilder
                         .server(Server.ENUM_DEFAULT.value())
                         .path("/stores/{storeId}/tokens/{id}")
+                        .queryParam(param -> param.key("polling")
+                                .value(polling).isRequired(false))
                         .templateParam(param -> param.key("storeId").value(storeId)
                                 .shouldEncode(true))
                         .templateParam(param -> param.key("id").value(id)
@@ -612,6 +707,212 @@ public final class TransactionTokensApi extends BaseApi {
                         .httpMethod(HttpMethod.DELETE))
                 .responseHandler(responseHandler -> responseHandler
                         .responseClassType(ResponseClassType.API_RESPONSE)
+                        .nullify404(false)
+                        .localErrorCase("400",
+                                 ErrorCase.setTemplate("HTTP 400 Bad Request: {$response.body#/code}",
+                                (reason, context) -> new ApiErrorException(reason, context)))
+                        .localErrorCase("401",
+                                 ErrorCase.setTemplate("HTTP 401 Unauthorized: {$response.body#/code}",
+                                (reason, context) -> new ApiErrorException(reason, context)))
+                        .localErrorCase("403",
+                                 ErrorCase.setTemplate("HTTP 403 Forbidden: {$response.body#/code}",
+                                (reason, context) -> new ApiErrorException(reason, context)))
+                        .localErrorCase("404",
+                                 ErrorCase.setTemplate("HTTP 404 Not Found: {$response.body#/code}",
+                                (reason, context) -> new ApiErrorException(reason, context)))
+                        .localErrorCase("429",
+                                 ErrorCase.setTemplate("HTTP 429 Rate Limited: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .localErrorCase("409",
+                                 ErrorCase.setTemplate("HTTP 409 Conflict: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .localErrorCase("500",
+                                 ErrorCase.setTemplate("HTTP 500 Server Error: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .localErrorCase("503",
+                                 ErrorCase.setTemplate("HTTP 503 Unavailable: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .localErrorCase("504",
+                                 ErrorCase.setTemplate("HTTP 504 Timeout: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .localErrorCase(ErrorCase.DEFAULT,
+                                 ErrorCase.setTemplate("HTTP {$statusCode}: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .globalErrorCase(GLOBAL_ERROR_CASES))
+                .build();
+    }
+
+    /**
+     * Enables 3-D Secure on an existing `recurring` transaction token that was created without it.
+     * Only applies to `recurring` tokens; returns an error if 3DS is already enabled. After calling
+     * this endpoint, poll the token until `data.three_ds.status` becomes `awaiting`, then use the
+     * token 3DS issuer token endpoint to complete authentication.
+     * @param  storeId  Required parameter: The unique identifier of the store.
+     * @param  id  Required parameter: The unique identifier of the resource.
+     * @param  idempotencyKey  Optional parameter: An optional idempotency key to prevent double
+     *         charges and duplicate operations. We recommend a randomly generated UUID (v4).
+     * @param  body  Optional parameter: Optional request payload. Omit entirely, or omit
+     *         `redirect_endpoint`, if no redirect is needed.
+     * @return    Returns the TransactionToken wrapped in ApiResponse response from the API call
+     * @throws    ApiException    Represents error response from the server.
+     * @throws    IOException    Signals that an I/O exception of some sort has occurred.
+     */
+    public ApiResponse<TransactionToken> enableTokenThreeDs(
+            final UUID storeId,
+            final UUID id,
+            final String idempotencyKey,
+            final EnableTokenThreeDsRequest body) throws ApiException, IOException {
+        return prepareEnableTokenThreeDsRequest(storeId, id, idempotencyKey, body).execute();
+    }
+
+    /**
+     * Enables 3-D Secure on an existing `recurring` transaction token that was created without it.
+     * Only applies to `recurring` tokens; returns an error if 3DS is already enabled. After calling
+     * this endpoint, poll the token until `data.three_ds.status` becomes `awaiting`, then use the
+     * token 3DS issuer token endpoint to complete authentication.
+     * @param  storeId  Required parameter: The unique identifier of the store.
+     * @param  id  Required parameter: The unique identifier of the resource.
+     * @param  idempotencyKey  Optional parameter: An optional idempotency key to prevent double
+     *         charges and duplicate operations. We recommend a randomly generated UUID (v4).
+     * @param  body  Optional parameter: Optional request payload. Omit entirely, or omit
+     *         `redirect_endpoint`, if no redirect is needed.
+     * @return    Returns the TransactionToken wrapped in ApiResponse response from the API call
+     */
+    public CompletableFuture<ApiResponse<TransactionToken>> enableTokenThreeDsAsync(
+            final UUID storeId,
+            final UUID id,
+            final String idempotencyKey,
+            final EnableTokenThreeDsRequest body) {
+        try {
+            return prepareEnableTokenThreeDsRequest(storeId, id, idempotencyKey, body).executeAsync();
+        } catch (Exception e) {
+            throw new CompletionException(e);
+        }
+    }
+
+    /**
+     * Builds the ApiCall object for enableTokenThreeDs.
+     */
+    private ApiCall<ApiResponse<TransactionToken>, ApiException> prepareEnableTokenThreeDsRequest(
+            final UUID storeId,
+            final UUID id,
+            final String idempotencyKey,
+            final EnableTokenThreeDsRequest body) {
+        return new ApiCall.Builder<ApiResponse<TransactionToken>, ApiException>()
+                .globalConfig(getGlobalConfiguration())
+                .requestBuilder(requestBuilder -> requestBuilder
+                        .server(Server.ENUM_DEFAULT.value())
+                        .path("/stores/{storeId}/tokens/{id}/three_ds")
+                        .bodyParam(param -> param.value(body).isRequired(false))
+                        .bodySerializer(() ->  ApiHelper.serialize(body))
+                        .templateParam(param -> param.key("storeId").value(storeId)
+                                .shouldEncode(true))
+                        .templateParam(param -> param.key("id").value(id)
+                                .shouldEncode(true))
+                        .headerParam(param -> param.key("Content-Type")
+                                .value("application/json").isRequired(false))
+                        .headerParam(param -> param.key("Idempotency-Key")
+                                .value(idempotencyKey).isRequired(false))
+                        .headerParam(param -> param.key("accept").value("application/json"))
+                        .withAuth(auth -> auth
+                                .add("JWT_TOKEN"))
+                        .arraySerializationFormat(ArraySerializationFormat.UNINDEXED)
+                        .httpMethod(HttpMethod.POST))
+                .responseHandler(responseHandler -> responseHandler
+                        .responseClassType(ResponseClassType.API_RESPONSE)
+                        .apiResponseDeserializer(
+                                response -> ApiHelper.deserialize(response, TransactionToken.class))
+                        .nullify404(false)
+                        .localErrorCase("400",
+                                 ErrorCase.setTemplate("HTTP 400 Bad Request: {$response.body#/code}",
+                                (reason, context) -> new ApiErrorException(reason, context)))
+                        .localErrorCase("401",
+                                 ErrorCase.setTemplate("HTTP 401 Unauthorized: {$response.body#/code}",
+                                (reason, context) -> new ApiErrorException(reason, context)))
+                        .localErrorCase("403",
+                                 ErrorCase.setTemplate("HTTP 403 Forbidden: {$response.body#/code}",
+                                (reason, context) -> new ApiErrorException(reason, context)))
+                        .localErrorCase("404",
+                                 ErrorCase.setTemplate("HTTP 404 Not Found: {$response.body#/code}",
+                                (reason, context) -> new ApiErrorException(reason, context)))
+                        .localErrorCase("429",
+                                 ErrorCase.setTemplate("HTTP 429 Rate Limited: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .localErrorCase("409",
+                                 ErrorCase.setTemplate("HTTP 409 Conflict: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .localErrorCase("500",
+                                 ErrorCase.setTemplate("HTTP 500 Server Error: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .localErrorCase("503",
+                                 ErrorCase.setTemplate("HTTP 503 Unavailable: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .localErrorCase("504",
+                                 ErrorCase.setTemplate("HTTP 504 Timeout: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .localErrorCase(ErrorCase.DEFAULT,
+                                 ErrorCase.setTemplate("HTTP {$statusCode}: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .globalErrorCase(GLOBAL_ERROR_CASES))
+                .build();
+    }
+
+    /**
+     * Disables 3-D Secure on an existing `recurring` transaction token. Only applies to `recurring`
+     * tokens.
+     * @param  storeId  Required parameter: The unique identifier of the store.
+     * @param  id  Required parameter: The unique identifier of the resource.
+     * @return    Returns the TransactionToken wrapped in ApiResponse response from the API call
+     * @throws    ApiException    Represents error response from the server.
+     * @throws    IOException    Signals that an I/O exception of some sort has occurred.
+     */
+    public ApiResponse<TransactionToken> disableTokenThreeDs(
+            final UUID storeId,
+            final UUID id) throws ApiException, IOException {
+        return prepareDisableTokenThreeDsRequest(storeId, id).execute();
+    }
+
+    /**
+     * Disables 3-D Secure on an existing `recurring` transaction token. Only applies to `recurring`
+     * tokens.
+     * @param  storeId  Required parameter: The unique identifier of the store.
+     * @param  id  Required parameter: The unique identifier of the resource.
+     * @return    Returns the TransactionToken wrapped in ApiResponse response from the API call
+     */
+    public CompletableFuture<ApiResponse<TransactionToken>> disableTokenThreeDsAsync(
+            final UUID storeId,
+            final UUID id) {
+        try {
+            return prepareDisableTokenThreeDsRequest(storeId, id).executeAsync();
+        } catch (Exception e) {
+            throw new CompletionException(e);
+        }
+    }
+
+    /**
+     * Builds the ApiCall object for disableTokenThreeDs.
+     */
+    private ApiCall<ApiResponse<TransactionToken>, ApiException> prepareDisableTokenThreeDsRequest(
+            final UUID storeId,
+            final UUID id) {
+        return new ApiCall.Builder<ApiResponse<TransactionToken>, ApiException>()
+                .globalConfig(getGlobalConfiguration())
+                .requestBuilder(requestBuilder -> requestBuilder
+                        .server(Server.ENUM_DEFAULT.value())
+                        .path("/stores/{storeId}/tokens/{id}/three_ds")
+                        .templateParam(param -> param.key("storeId").value(storeId)
+                                .shouldEncode(true))
+                        .templateParam(param -> param.key("id").value(id)
+                                .shouldEncode(true))
+                        .headerParam(param -> param.key("accept").value("application/json"))
+                        .withAuth(auth -> auth
+                                .add("JWT_TOKEN"))
+                        .arraySerializationFormat(ArraySerializationFormat.UNINDEXED)
+                        .httpMethod(HttpMethod.DELETE))
+                .responseHandler(responseHandler -> responseHandler
+                        .responseClassType(ResponseClassType.API_RESPONSE)
+                        .apiResponseDeserializer(
+                                response -> ApiHelper.deserialize(response, TransactionToken.class))
                         .nullify404(false)
                         .localErrorCase("400",
                                  ErrorCase.setTemplate("HTTP 400 Bad Request: {$response.body#/code}",

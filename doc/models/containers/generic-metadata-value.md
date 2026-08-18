@@ -1,7 +1,7 @@
 
 # Generic Metadata Value
 
-Allowed values for metadata properties.
+Allowed values for metadata properties. Values may be a string, number, boolean, null, or an array of any of the above — but not a nested object; the server rejects metadata whose direct property values are JSON objects.
 
 ## Class Name
 
@@ -14,6 +14,7 @@ Allowed values for metadata properties.
 | `String` | GenericMetadataValue.fromString(String string) |
 | `double` | GenericMetadataValue.fromPrecision(double precision) |
 | `boolean` | GenericMetadataValue.fromBoolean(boolean mBoolean) |
+| `List<Object>` | GenericMetadataValue.fromListOfObject(List<Object> listOfObject) |
 
 ## String
 
@@ -48,6 +49,21 @@ GenericMetadataValue.fromPrecision(
 ```java
 GenericMetadataValue.fromBoolean(
         true
+    )
+```
+
+## List<Object>
+
+### Initialization Code
+
+#### Example
+
+```java
+GenericMetadataValue.fromListOfObject(
+        Arrays.asList(
+            ApiHelper.deserialize("\"sale\""),
+            ApiHelper.deserialize("\"promo\"")
+        )
     )
 ```
 

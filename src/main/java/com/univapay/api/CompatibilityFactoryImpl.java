@@ -14,6 +14,7 @@ import com.univapay.api.http.request.HttpRequest;
 import com.univapay.api.http.response.ApiResponse;
 import com.univapay.api.http.response.HttpResponse;
 import com.univapay.api.http.response.HttpStringResponse;
+import com.univapay.api.models.DynamicResponse;
 import io.apimatic.coreinterfaces.compatibility.CompatibilityFactory;
 import io.apimatic.coreinterfaces.http.Context;
 import io.apimatic.coreinterfaces.http.HttpHeaders;
@@ -78,7 +79,7 @@ public class CompatibilityFactoryImpl implements CompatibilityFactory {
 
     @Override
     public DynamicType createDynamicResponse(Response httpResponse) {
-          return null;
+         return new DynamicResponse(httpResponse);
     }
 
     @Override

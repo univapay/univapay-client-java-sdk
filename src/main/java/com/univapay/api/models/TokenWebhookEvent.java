@@ -16,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.univapay.api.DateTimeHelper;
+import com.univapay.api.models.containers.TransactionToken;
 import io.apimatic.core.types.AdditionalProperties;
 import io.apimatic.core.utilities.ConversionHelper;
 import java.time.LocalDateTime;
@@ -117,7 +118,8 @@ public class TokenWebhookEvent {
 
     /**
      * Getter for Data.
-     * Stored transaction token resource.
+     * Stored transaction token resource. `payment_type` discriminates which variant applies — and
+     * therefore the concrete shape of `data` — per the mapping above.
      * @return Returns the TransactionToken
      */
     @JsonGetter("data")
@@ -128,7 +130,8 @@ public class TokenWebhookEvent {
 
     /**
      * Setter for Data.
-     * Stored transaction token resource.
+     * Stored transaction token resource. `payment_type` discriminates which variant applies — and
+     * therefore the concrete shape of `data` — per the mapping above.
      * @param data Value for TransactionToken
      */
     @JsonSetter("data")

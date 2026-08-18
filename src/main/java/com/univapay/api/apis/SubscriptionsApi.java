@@ -23,6 +23,8 @@ import com.univapay.api.models.SubscriptionPatchPaymentRequest;
 import com.univapay.api.models.SubscriptionPatchTokenRequest;
 import com.univapay.api.models.SubscriptionPayment;
 import com.univapay.api.models.SubscriptionPaymentList;
+import com.univapay.api.models.SubscriptionSimulationPayment;
+import com.univapay.api.models.SubscriptionSimulationRequest;
 import com.univapay.api.models.SubscriptionStatus;
 import com.univapay.api.models.SubscriptionSuspendRequest;
 import com.univapay.api.models.SubscriptionUpdateRequest;
@@ -32,6 +34,7 @@ import io.apimatic.core.GlobalConfiguration;
 import io.apimatic.coreinterfaces.http.request.ArraySerializationFormat;
 import io.apimatic.coreinterfaces.http.request.ResponseClassType;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
@@ -146,6 +149,9 @@ public final class SubscriptionsApi extends BaseApi {
 
     /**
      * Lists all subscriptions across all stores.
+     * @param  search  Optional parameter: Search by metadata values.
+     * @param  status  Optional parameter: Filter subscriptions by current status.
+     * @param  mode  Optional parameter: Filter subscriptions by processing mode.
      * @param  limit  Optional parameter: Maximum number of resources to return in one page.
      * @param  cursor  Optional parameter: Cursor pointing to the resource after which pagination
      *         should continue.
@@ -156,14 +162,21 @@ public final class SubscriptionsApi extends BaseApi {
      * @throws    IOException    Signals that an I/O exception of some sort has occurred.
      */
     public ApiResponse<SubscriptionList> listAllSubscriptions(
+            final String search,
+            final SubscriptionStatus status,
+            final ChargeMode mode,
             final Integer limit,
             final UUID cursor,
             final CursorDirectionQuery cursorDirection) throws ApiException, IOException {
-        return prepareListAllSubscriptionsRequest(limit, cursor, cursorDirection).execute();
+        return prepareListAllSubscriptionsRequest(search, status, mode, limit, cursor,
+                cursorDirection).execute();
     }
 
     /**
      * Lists all subscriptions across all stores.
+     * @param  search  Optional parameter: Search by metadata values.
+     * @param  status  Optional parameter: Filter subscriptions by current status.
+     * @param  mode  Optional parameter: Filter subscriptions by processing mode.
      * @param  limit  Optional parameter: Maximum number of resources to return in one page.
      * @param  cursor  Optional parameter: Cursor pointing to the resource after which pagination
      *         should continue.
@@ -172,11 +185,15 @@ public final class SubscriptionsApi extends BaseApi {
      * @return    Returns the SubscriptionList wrapped in ApiResponse response from the API call
      */
     public CompletableFuture<ApiResponse<SubscriptionList>> listAllSubscriptionsAsync(
+            final String search,
+            final SubscriptionStatus status,
+            final ChargeMode mode,
             final Integer limit,
             final UUID cursor,
             final CursorDirectionQuery cursorDirection) {
         try {
-            return prepareListAllSubscriptionsRequest(limit, cursor, cursorDirection).executeAsync();
+            return prepareListAllSubscriptionsRequest(search, status, mode, limit, cursor,
+            cursorDirection).executeAsync();
         } catch (Exception e) {
             throw new CompletionException(e);
         }
@@ -186,6 +203,9 @@ public final class SubscriptionsApi extends BaseApi {
      * Builds the ApiCall object for listAllSubscriptions.
      */
     private ApiCall<ApiResponse<SubscriptionList>, ApiException> prepareListAllSubscriptionsRequest(
+            final String search,
+            final SubscriptionStatus status,
+            final ChargeMode mode,
             final Integer limit,
             final UUID cursor,
             final CursorDirectionQuery cursorDirection) {
@@ -194,6 +214,12 @@ public final class SubscriptionsApi extends BaseApi {
                 .requestBuilder(requestBuilder -> requestBuilder
                         .server(Server.ENUM_DEFAULT.value())
                         .path("/subscriptions")
+                        .queryParam(param -> param.key("search")
+                                .value(search).isRequired(false))
+                        .queryParam(param -> param.key("status")
+                                .value((status != null) ? status.value() : null).isRequired(false))
+                        .queryParam(param -> param.key("mode")
+                                .value((mode != null) ? mode.value() : null).isRequired(false))
                         .queryParam(param -> param.key("limit")
                                 .value((limit != null) ? limit : 10).isRequired(false))
                         .queryParam(param -> param.key("cursor")
@@ -227,6 +253,104 @@ public final class SubscriptionsApi extends BaseApi {
                                 (reason, context) -> new ApiException(reason, context)))
                         .localErrorCase("429",
                                  ErrorCase.setTemplate("HTTP 429 Rate Limited: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .localErrorCase("500",
+                                 ErrorCase.setTemplate("HTTP 500 Server Error: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .localErrorCase("503",
+                                 ErrorCase.setTemplate("HTTP 503 Unavailable: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .localErrorCase("504",
+                                 ErrorCase.setTemplate("HTTP 504 Timeout: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .localErrorCase(ErrorCase.DEFAULT,
+                                 ErrorCase.setTemplate("HTTP {$statusCode}: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .globalErrorCase(GLOBAL_ERROR_CASES))
+                .build();
+    }
+
+    /**
+     * Simulates the payment schedule that a subscription would follow, without creating a live
+     * subscription or a transaction token. Returns a bare array of the scheduled payments that
+     * would result from the given amount, currency, period (or cyclical period), and plan settings.
+     * @param  idempotencyKey  Optional parameter: An optional idempotency key to prevent double
+     *         charges and duplicate operations. We recommend a randomly generated UUID (v4).
+     * @param  body  Optional parameter: Subscription Plan Simulation request
+     * @return    Returns the List of SubscriptionSimulationPayment wrapped in ApiResponse response from the API call
+     * @throws    ApiException    Represents error response from the server.
+     * @throws    IOException    Signals that an I/O exception of some sort has occurred.
+     */
+    public ApiResponse<List<SubscriptionSimulationPayment>> simulateSubscriptionPlan(
+            final String idempotencyKey,
+            final SubscriptionSimulationRequest body) throws ApiException, IOException {
+        return prepareSimulateSubscriptionPlanRequest(idempotencyKey, body).execute();
+    }
+
+    /**
+     * Simulates the payment schedule that a subscription would follow, without creating a live
+     * subscription or a transaction token. Returns a bare array of the scheduled payments that
+     * would result from the given amount, currency, period (or cyclical period), and plan settings.
+     * @param  idempotencyKey  Optional parameter: An optional idempotency key to prevent double
+     *         charges and duplicate operations. We recommend a randomly generated UUID (v4).
+     * @param  body  Optional parameter: Subscription Plan Simulation request
+     * @return    Returns the List of SubscriptionSimulationPayment wrapped in ApiResponse response from the API call
+     */
+    public CompletableFuture<ApiResponse<List<SubscriptionSimulationPayment>>> simulateSubscriptionPlanAsync(
+            final String idempotencyKey,
+            final SubscriptionSimulationRequest body) {
+        try {
+            return prepareSimulateSubscriptionPlanRequest(idempotencyKey, body).executeAsync();
+        } catch (Exception e) {
+            throw new CompletionException(e);
+        }
+    }
+
+    /**
+     * Builds the ApiCall object for simulateSubscriptionPlan.
+     */
+    private ApiCall<ApiResponse<List<SubscriptionSimulationPayment>>, ApiException> prepareSimulateSubscriptionPlanRequest(
+            final String idempotencyKey,
+            final SubscriptionSimulationRequest body) {
+        return new ApiCall.Builder<ApiResponse<List<SubscriptionSimulationPayment>>, ApiException>()
+                .globalConfig(getGlobalConfiguration())
+                .requestBuilder(requestBuilder -> requestBuilder
+                        .server(Server.ENUM_DEFAULT.value())
+                        .path("/subscriptions/simulate_plan")
+                        .bodyParam(param -> param.value(body).isRequired(false))
+                        .bodySerializer(() ->  ApiHelper.serialize(body))
+                        .headerParam(param -> param.key("Content-Type")
+                                .value("application/json").isRequired(false))
+                        .headerParam(param -> param.key("Idempotency-Key")
+                                .value(idempotencyKey).isRequired(false))
+                        .headerParam(param -> param.key("accept").value("application/json"))
+                        .withAuth(auth -> auth
+                                .add("JWT_TOKEN"))
+                        .arraySerializationFormat(ArraySerializationFormat.UNINDEXED)
+                        .httpMethod(HttpMethod.POST))
+                .responseHandler(responseHandler -> responseHandler
+                        .responseClassType(ResponseClassType.API_RESPONSE)
+                        .apiResponseDeserializer(
+                                response -> ApiHelper.deserializeArray(response,
+                                        SubscriptionSimulationPayment[].class))
+                        .nullify404(false)
+                        .localErrorCase("400",
+                                 ErrorCase.setTemplate("HTTP 400 Bad Request: {$response.body#/code}",
+                                (reason, context) -> new ApiErrorException(reason, context)))
+                        .localErrorCase("401",
+                                 ErrorCase.setTemplate("HTTP 401 Unauthorized: {$response.body#/code}",
+                                (reason, context) -> new ApiErrorException(reason, context)))
+                        .localErrorCase("403",
+                                 ErrorCase.setTemplate("HTTP 403 Forbidden: {$response.body#/code}",
+                                (reason, context) -> new ApiErrorException(reason, context)))
+                        .localErrorCase("429",
+                                 ErrorCase.setTemplate("HTTP 429 Rate Limited: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .localErrorCase("404",
+                                 ErrorCase.setTemplate("HTTP 404 Not Found: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .localErrorCase("409",
+                                 ErrorCase.setTemplate("HTTP 409 Conflict: {$response.body#/code}",
                                 (reason, context) -> new ApiException(reason, context)))
                         .localErrorCase("500",
                                  ErrorCase.setTemplate("HTTP 500 Server Error: {$response.body#/code}",
@@ -357,6 +481,114 @@ public final class SubscriptionsApi extends BaseApi {
                                 (reason, context) -> new ApiException(reason, context)))
                         .localErrorCase("429",
                                  ErrorCase.setTemplate("HTTP 429 Rate Limited: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .localErrorCase("500",
+                                 ErrorCase.setTemplate("HTTP 500 Server Error: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .localErrorCase("503",
+                                 ErrorCase.setTemplate("HTTP 503 Unavailable: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .localErrorCase("504",
+                                 ErrorCase.setTemplate("HTTP 504 Timeout: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .localErrorCase(ErrorCase.DEFAULT,
+                                 ErrorCase.setTemplate("HTTP {$statusCode}: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .globalErrorCase(GLOBAL_ERROR_CASES))
+                .build();
+    }
+
+    /**
+     * Simulates the payment schedule that a subscription would follow for a specific store, without
+     * creating a live subscription or a transaction token. Returns a bare array of the scheduled
+     * payments that would result from the given amount, currency, period (or cyclical period), and
+     * plan settings.
+     * @param  storeId  Required parameter: The unique identifier of the store.
+     * @param  idempotencyKey  Optional parameter: An optional idempotency key to prevent double
+     *         charges and duplicate operations. We recommend a randomly generated UUID (v4).
+     * @param  body  Optional parameter: Subscription Plan Simulation request
+     * @return    Returns the List of SubscriptionSimulationPayment wrapped in ApiResponse response from the API call
+     * @throws    ApiException    Represents error response from the server.
+     * @throws    IOException    Signals that an I/O exception of some sort has occurred.
+     */
+    public ApiResponse<List<SubscriptionSimulationPayment>> simulateStoreSubscriptionPlan(
+            final UUID storeId,
+            final String idempotencyKey,
+            final SubscriptionSimulationRequest body) throws ApiException, IOException {
+        return prepareSimulateStoreSubscriptionPlanRequest(storeId, idempotencyKey, body).execute();
+    }
+
+    /**
+     * Simulates the payment schedule that a subscription would follow for a specific store, without
+     * creating a live subscription or a transaction token. Returns a bare array of the scheduled
+     * payments that would result from the given amount, currency, period (or cyclical period), and
+     * plan settings.
+     * @param  storeId  Required parameter: The unique identifier of the store.
+     * @param  idempotencyKey  Optional parameter: An optional idempotency key to prevent double
+     *         charges and duplicate operations. We recommend a randomly generated UUID (v4).
+     * @param  body  Optional parameter: Subscription Plan Simulation request
+     * @return    Returns the List of SubscriptionSimulationPayment wrapped in ApiResponse response from the API call
+     */
+    public CompletableFuture<ApiResponse<List<SubscriptionSimulationPayment>>> simulateStoreSubscriptionPlanAsync(
+            final UUID storeId,
+            final String idempotencyKey,
+            final SubscriptionSimulationRequest body) {
+        try {
+            return prepareSimulateStoreSubscriptionPlanRequest(storeId, idempotencyKey,
+            body).executeAsync();
+        } catch (Exception e) {
+            throw new CompletionException(e);
+        }
+    }
+
+    /**
+     * Builds the ApiCall object for simulateStoreSubscriptionPlan.
+     */
+    private ApiCall<ApiResponse<List<SubscriptionSimulationPayment>>, ApiException> prepareSimulateStoreSubscriptionPlanRequest(
+            final UUID storeId,
+            final String idempotencyKey,
+            final SubscriptionSimulationRequest body) {
+        return new ApiCall.Builder<ApiResponse<List<SubscriptionSimulationPayment>>, ApiException>()
+                .globalConfig(getGlobalConfiguration())
+                .requestBuilder(requestBuilder -> requestBuilder
+                        .server(Server.ENUM_DEFAULT.value())
+                        .path("/stores/{storeId}/subscriptions/simulate_plan")
+                        .bodyParam(param -> param.value(body).isRequired(false))
+                        .bodySerializer(() ->  ApiHelper.serialize(body))
+                        .templateParam(param -> param.key("storeId").value(storeId)
+                                .shouldEncode(true))
+                        .headerParam(param -> param.key("Content-Type")
+                                .value("application/json").isRequired(false))
+                        .headerParam(param -> param.key("Idempotency-Key")
+                                .value(idempotencyKey).isRequired(false))
+                        .headerParam(param -> param.key("accept").value("application/json"))
+                        .withAuth(auth -> auth
+                                .add("JWT_TOKEN"))
+                        .arraySerializationFormat(ArraySerializationFormat.UNINDEXED)
+                        .httpMethod(HttpMethod.POST))
+                .responseHandler(responseHandler -> responseHandler
+                        .responseClassType(ResponseClassType.API_RESPONSE)
+                        .apiResponseDeserializer(
+                                response -> ApiHelper.deserializeArray(response,
+                                        SubscriptionSimulationPayment[].class))
+                        .nullify404(false)
+                        .localErrorCase("400",
+                                 ErrorCase.setTemplate("HTTP 400 Bad Request: {$response.body#/code}",
+                                (reason, context) -> new ApiErrorException(reason, context)))
+                        .localErrorCase("401",
+                                 ErrorCase.setTemplate("HTTP 401 Unauthorized: {$response.body#/code}",
+                                (reason, context) -> new ApiErrorException(reason, context)))
+                        .localErrorCase("403",
+                                 ErrorCase.setTemplate("HTTP 403 Forbidden: {$response.body#/code}",
+                                (reason, context) -> new ApiErrorException(reason, context)))
+                        .localErrorCase("429",
+                                 ErrorCase.setTemplate("HTTP 429 Rate Limited: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .localErrorCase("404",
+                                 ErrorCase.setTemplate("HTTP 404 Not Found: {$response.body#/code}",
+                                (reason, context) -> new ApiException(reason, context)))
+                        .localErrorCase("409",
+                                 ErrorCase.setTemplate("HTTP 409 Conflict: {$response.body#/code}",
                                 (reason, context) -> new ApiException(reason, context)))
                         .localErrorCase("500",
                                  ErrorCase.setTemplate("HTTP 500 Server Error: {$response.body#/code}",

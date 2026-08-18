@@ -739,14 +739,14 @@ chargesApi.updateChargeAsync(storeId, id, null, body).thenAccept(result -> {
 
 # Capture Charge
 
-Captures a previously authorized charge (where `capture` was set to false during creation).  The capture amount must be less than or equal to the authorized amount, and the currency must match.
+Captures a previously authorized charge (where `capture` was set to false during creation).  The capture amount must be less than or equal to the authorized amount, and the currency must match. The request body — and both of its fields — is optional: if omitted entirely, the full outstanding authorized amount (in the originally requested currency) is captured.
 
 ```java
 CompletableFuture<ApiResponse<Object>> captureChargeAsync(
     final UUID storeId,
     final UUID id,
-    final ChargeCaptureRequest body,
-    final String idempotencyKey)
+    final String idempotencyKey,
+    final ChargeCaptureRequest body)
 ```
 
 ## Authentication
@@ -759,8 +759,8 @@ This endpoint requires [JWT_TOKEN](../../doc/auth/oauth-2-bearer-token.md)
 |  --- | --- | --- | --- |
 | `storeId` | `UUID` | Template, Required | The unique identifier of the store. |
 | `id` | `UUID` | Template, Required | The unique identifier of the resource. |
-| `body` | [`ChargeCaptureRequest`](../../doc/models/charge-capture-request.md) | Body, Required | Request payload for capturing an authorized charge. |
 | `idempotencyKey` | `String` | Header, Optional | An optional idempotency key to prevent double charges and duplicate operations. We recommend a randomly generated UUID (v4). |
+| `body` | [`ChargeCaptureRequest`](../../doc/models/charge-capture-request.md) | Body, Optional | Optional request payload for capturing an authorized charge. Omit entirely to capture the full outstanding authorized amount. |
 
 ## Response Type
 
@@ -773,14 +773,12 @@ This method returns an [`ApiResponse`](../../doc/api-response.md) instance. The 
 ```java
 UUID storeId = UUID.fromString("0cab399b-5621-425b-993b-f8507eba1e78");
 UUID id = UUID.fromString("c4e87129-cad4-47fb-8ded-b4c0a4ae0dd4");
-ChargeCaptureRequest body = new ChargeCaptureRequest.Builder(
-    1000,
-    "JPY"
-)
-.build();
+ChargeCaptureRequest body = new ChargeCaptureRequest.Builder()
+    .amount(1000)
+    .currency("JPY")
+    .build();
 
-
-chargesApi.captureChargeAsync(storeId, id, body, null).thenAccept(result -> {
+chargesApi.captureChargeAsync(storeId, id, null, body).thenAccept(result -> {
     // TODO success callback handler
     System.out.println(result);
 }).exceptionally(exception -> {

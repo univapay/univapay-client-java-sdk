@@ -20,6 +20,7 @@ import io.apimatic.core.annotations.TypeCombinator.TypeCombinatorCase;
 import io.apimatic.core.annotations.TypeCombinator.TypeCombinatorStringCase;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * This is a container class for any-of types.
@@ -55,6 +56,15 @@ public abstract class GenericMetadataValue {
     }
 
     /**
+     * This is List of Object case.
+     * @param listOfObject List of Object value for listOfObject.
+     * @return The ListOfObjectCase object.
+     */
+    public static GenericMetadataValue fromListOfObject(List<Object> listOfObject) {
+        return listOfObject == null ? null : new ListOfObjectCase(listOfObject);
+    }
+
+    /**
      * Method to match from the provided any-of cases.
      * @param <R> The type to return after applying callback.
      * @param cases The any-of type cases callback.
@@ -72,6 +82,8 @@ public abstract class GenericMetadataValue {
         R precision(double precision);
 
         R mBoolean(boolean mBoolean);
+
+        R listOfObject(List<Object> listOfObject);
     }
 
     /**
@@ -178,6 +190,37 @@ public abstract class GenericMetadataValue {
     }
 
     /**
+     * This is a implementation class for ListOfObjectCase.
+     */
+    @JsonDeserialize(using = JsonDeserializer.None.class)
+    @TypeCombinatorCase(type = "List<Object>")
+    private static class ListOfObjectCase extends GenericMetadataValue {
+
+        @JsonValue
+        private List<Object> listOfObject;
+
+        ListOfObjectCase(List<Object> listOfObject) {
+            this.listOfObject = listOfObject;
+        }
+
+        @Override
+        public <R> R match(Cases<R> cases) {
+            return cases.listOfObject(this.listOfObject);
+        }
+
+        @JsonCreator
+        private ListOfObjectCase(JsonNode jsonNode) throws IOException {
+            this.listOfObject = ApiHelper.deserializeArray(jsonNode,
+                Object[].class);
+        }
+
+        @Override
+        public String toString() {
+            return listOfObject.toString();
+        }
+    }
+
+    /**
      * This is a custom deserializer class for GenericMetadataValue.
      */
     protected static class GenericMetadataValueDeserializer
@@ -189,7 +232,7 @@ public abstract class GenericMetadataValue {
             ObjectCodec oc = jp.getCodec();
             JsonNode node = oc.readTree(jp);
             return ApiHelper.deserialize(node, Arrays.asList(StringCase.class, PrecisionCase.class,
-                    BooleanCase.class), false);
+                    BooleanCase.class, ListOfObjectCase.class), false);
         }
     }
 
