@@ -60,7 +60,7 @@ public final class UnivapayClientSdkClient implements Configuration {
 
     private static final CompatibilityFactory compatibilityFactory = new CompatibilityFactoryImpl();
 
-    private static String userAgent = "Java-SDK/1.1.0 (OS: {os-info}, Engine: {engine}/{engine-version})";
+    private static String userAgent = "Java-SDK/1.2.0 (OS: {os-info}, Engine: {engine}/{engine-version})";
 
     /**
      * Current API environment.

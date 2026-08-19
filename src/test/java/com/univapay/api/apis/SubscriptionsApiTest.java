@@ -116,10 +116,11 @@ public class SubscriptionsApiTest extends BaseApiTest {
                 + "\"preserve_end_of_month\":false,\"retry_interval\":\"P7D\",\"termination_mode\":"
                 + "\"immediate\"},\"only_direct_currency\":false,\"first_charge_authorization_only"
                 + "\":false,\"status\":\"current\",\"metadata\":{\"order_id\":\"ORD-987\"},\"mode"
-                + "\":\"live\",\"created_on\":\"2024-06-26T01:51:28.627023Z\",\"period\":\"monthly"
-                + "\",\"next_payment\":{\"id\":\"11ef3360-1f9a-c54a-8313-7f9847da313b\",\"due_date"
-                + "\":\"2024-07-26\",\"zone_id\":\"Asia/Tokyo\",\"amount\":1250,\"currency\":\"USD"
-                + "\",\"amount_formatted\":12.5,\"is_paid\":false}}",
+                + "\":\"live\",\"created_on\":\"2024-06-26T01:51:28.627023Z\",\"three_ds\":{\"mode"
+                + "\":\"normal\",\"redirect_endpoint\":null,\"redirect_id\":null},\"period\":\"mont"
+                + "hly\",\"next_payment\":{\"id\":\"11ef3360-1f9a-c54a-8313-7f9847da313b\",\"due_da"
+                + "te\":\"2024-07-26\",\"zone_id\":\"Asia/Tokyo\",\"amount\":1250,\"currency\":\"US"
+                + "D\",\"amount_formatted\":12.5,\"is_paid\":false}}",
                 TestHelper.convertStreamToString(httpResponse.getResponse().getRawBody()), 
                 false, true, false));
     }
@@ -174,29 +175,36 @@ public class SubscriptionsApiTest extends BaseApiTest {
                 + "41-c42d-653c-8c3d-dfe0a55f95c0\",\"transaction_token_id\":\"11ef3413-dddd-4ef0-b"
                 + "142-4d5e6f809193\",\"amount\":1250,\"currency\":\"USD\",\"amount_formatted\":12."
                 + "5,\"status\":\"current\",\"mode\":\"live\",\"created_on\":\"2024-06-26T01:51:28."
-                + "627023Z\",\"schedule_settings\":{\"zone_id\":\"Asia/Tokyo\",\"retry_interval\":"
-                + "\"P7D\",\"termination_mode\":\"immediate\"},\"merchant_name\":\"管理画面ガイド\",\"stor"
-                + "e_name\":\"管理画面ガイド_TEST店舗\",\"payment_type\":\"card\",\"next_payment_date\":\"20"
-                + "24-07-26\",\"user_data\":{\"type\":\"charge\",\"cardholder_name\":\"taro yamada"
-                + "\",\"email\":\"taro@test.com\",\"brand\":\"visa\"}},{\"id\":\"11ef3411-bbbb-4cde"
-                + "-9f20-2b3c4d5e6f71\",\"store_id\":\"22af6520-d53e-764d-9d4e-ef01b66fa6d1\",\"tra"
-                + "nsaction_token_id\":\"11ef3414-eeee-4f01-c253-5e6f80919204\",\"amount\":3000,\"c"
-                + "urrency\":\"JPY\",\"amount_formatted\":3000,\"status\":\"current\",\"mode\":\"li"
-                + "ve\",\"created_on\":\"2024-07-11T09:20:00.627023Z\",\"schedule_settings\":{\"zon"
-                + "e_id\":\"Asia/Tokyo\",\"retry_interval\":\"P7D\",\"termination_mode\":\"immediat"
-                + "e\"},\"merchant_name\":\"管理画面ガイド\",\"store_name\":\"管理画面ガイド_Online店舗\",\"payment"
-                + "_type\":\"card\",\"next_payment_date\":\"2024-08-10\",\"user_data\":{\"type\":"
-                + "\"charge\",\"cardholder_name\":\"hanako suzuki\",\"email\":\"hanako@test.com\","
-                + "\"brand\":\"mastercard\"}},{\"id\":\"11ef3412-cccc-4def-a031-3c4d5e6f8082\",\"st"
-                + "ore_id\":\"33af7631-e64f-875e-ae5f-f012c77fb7e2\",\"transaction_token_id\":\"11e"
-                + "f3415-ffff-4012-d364-6f8091920315\",\"amount\":9800,\"currency\":\"JPY\",\"amoun"
-                + "t_formatted\":9800,\"status\":\"suspended\",\"mode\":\"live\",\"created_on\":\"2"
-                + "024-08-15T13:05:22.627023Z\",\"schedule_settings\":{\"zone_id\":\"Asia/Tokyo\","
-                + "\"retry_interval\":\"P7D\",\"termination_mode\":\"on_next_payment\"},\"merchant_"
-                + "name\":\"管理画面ガイド\",\"store_name\":\"管理画面ガイド_Osaka店舗\",\"payment_type\":\"card\","
-                + "\"next_payment_date\":\"2024-09-15\",\"user_data\":{\"type\":\"charge\",\"cardho"
-                + "lder_name\":\"jiro tanaka\",\"email\":\"jiro@test.com\",\"brand\":\"jcb\"}}],\"h"
-                + "as_more\":false,\"total_hits\":3}",
+                + "627023Z\",\"three_ds\":{\"mode\":\"normal\",\"redirect_endpoint\":null,\"redirec"
+                + "t_id\":null},\"schedule_settings\":{\"zone_id\":\"Asia/Tokyo\",\"retry_interval"
+                + "\":\"P7D\",\"termination_mode\":\"immediate\"},\"subscription_plan\":{\"plan_typ"
+                + "e\":\"fixed_cycles\",\"fixed_cycles\":12},\"merchant_name\":\"管理画面ガイド\",\"store_"
+                + "name\":\"管理画面ガイド_TEST店舗\",\"payment_type\":\"card\",\"next_payment_date\":\"2024"
+                + "-07-26\",\"user_data\":{\"type\":\"charge\",\"cardholder_name\":\"taro yamada\","
+                + "\"email\":\"taro@test.com\",\"brand\":\"visa\"}},{\"id\":\"11ef3411-bbbb-4cde-9f"
+                + "20-2b3c4d5e6f71\",\"store_id\":\"22af6520-d53e-764d-9d4e-ef01b66fa6d1\",\"transa"
+                + "ction_token_id\":\"11ef3414-eeee-4f01-c253-5e6f80919204\",\"amount\":3000,\"curr"
+                + "ency\":\"JPY\",\"amount_formatted\":3000,\"status\":\"current\",\"mode\":\"live"
+                + "\",\"created_on\":\"2024-07-11T09:20:00.627023Z\",\"three_ds\":{\"mode\":\"norma"
+                + "l\",\"redirect_endpoint\":null,\"redirect_id\":null},\"schedule_settings\":{\"zo"
+                + "ne_id\":\"Asia/Tokyo\",\"retry_interval\":\"P7D\",\"termination_mode\":\"immedia"
+                + "te\"},\"installment_plan\":{\"plan_type\":\"fixed_cycle_amount\",\"fixed_cycles"
+                + "\":null,\"fixed_cycles_amount\":30000},\"merchant_name\":\"管理画面ガイド\",\"store_nam"
+                + "e\":\"管理画面ガイド_Online店舗\",\"payment_type\":\"card\",\"next_payment_date\":\"2024-"
+                + "08-10\",\"user_data\":{\"type\":\"charge\",\"cardholder_name\":\"hanako suzuki"
+                + "\",\"email\":\"hanako@test.com\",\"brand\":\"mastercard\"}},{\"id\":\"11ef3412-c"
+                + "ccc-4def-a031-3c4d5e6f8082\",\"store_id\":\"33af7631-e64f-875e-ae5f-f012c77fb7e2"
+                + "\",\"transaction_token_id\":\"11ef3415-ffff-4012-d364-6f8091920315\",\"amount\":"
+                + "9800,\"currency\":\"JPY\",\"amount_formatted\":9800,\"status\":\"suspended\",\"m"
+                + "ode\":\"live\",\"created_on\":\"2024-08-15T13:05:22.627023Z\",\"three_ds\":{\"mo"
+                + "de\":\"normal\",\"redirect_endpoint\":null,\"redirect_id\":null},\"schedule_sett"
+                + "ings\":{\"zone_id\":\"Asia/Tokyo\",\"retry_interval\":\"P7D\",\"termination_mode"
+                + "\":\"on_next_payment\"},\"installment_plan\":{\"plan_type\":\"revolving\",\"fixe"
+                + "d_cycles\":null,\"fixed_cycles_amount\":null},\"merchant_name\":\"管理画面ガイド\",\"st"
+                + "ore_name\":\"管理画面ガイド_Osaka店舗\",\"payment_type\":\"card\",\"next_payment_date\":"
+                + "\"2024-09-15\",\"user_data\":{\"type\":\"charge\",\"cardholder_name\":\"jiro tan"
+                + "aka\",\"email\":\"jiro@test.com\",\"brand\":\"jcb\"}}],\"has_more\":false,\"tota"
+                + "l_hits\":3}",
                 TestHelper.convertStreamToString(httpResponse.getResponse().getRawBody()), 
                 false, true, false));
     }
@@ -306,29 +314,34 @@ public class SubscriptionsApiTest extends BaseApiTest {
                 + "41-c42d-653c-8c3d-dfe0a55f95c0\",\"transaction_token_id\":\"11ef32a7-3a71-8662-8"
                 + "03f-1bc27702eeec\",\"amount\":1250,\"currency\":\"USD\",\"amount_formatted\":12."
                 + "5,\"status\":\"current\",\"mode\":\"live\",\"created_on\":\"2024-06-26T01:51:28."
-                + "627023Z\",\"schedule_settings\":{\"zone_id\":\"Asia/Tokyo\",\"retry_interval\":"
-                + "\"P7D\",\"termination_mode\":\"immediate\"},\"merchant_name\":\"管理画面ガイド\",\"stor"
-                + "e_name\":\"管理画面ガイド_TEST店舗\",\"payment_type\":\"card\",\"next_payment_date\":\"20"
-                + "24-07-26\",\"user_data\":{\"type\":\"charge\",\"cardholder_name\":\"taro yamada"
-                + "\",\"email\":\"test@test.com\",\"brand\":\"visa\"}},{\"id\":\"11ef3401-1a2b-4c3d"
-                + "-8e4f-5a6b7c8d9e0f\",\"store_id\":\"11edf541-c42d-653c-8c3d-dfe0a55f95c0\",\"tra"
-                + "nsaction_token_id\":\"11ef3402-2b3c-4d5e-9f60-6b7c8d9e0f11\",\"amount\":5000,\"c"
-                + "urrency\":\"JPY\",\"amount_formatted\":5000,\"status\":\"current\",\"mode\":\"li"
-                + "ve\",\"created_on\":\"2024-07-01T10:00:00.627023Z\",\"schedule_settings\":{\"zon"
-                + "e_id\":\"Asia/Tokyo\",\"retry_interval\":\"P7D\",\"termination_mode\":\"immediat"
-                + "e\"},\"merchant_name\":\"管理画面ガイド\",\"store_name\":\"管理画面ガイド_TEST店舗\",\"payment_t"
-                + "ype\":\"card\",\"next_payment_date\":\"2024-08-01\",\"user_data\":{\"type\":\"ch"
-                + "arge\",\"cardholder_name\":\"hanako suzuki\",\"email\":\"hanako@test.com\",\"bra"
-                + "nd\":\"mastercard\"}},{\"id\":\"11ef3403-3c4d-5e6f-a071-7c8d9e0f1122\",\"store_i"
-                + "d\":\"11edf541-c42d-653c-8c3d-dfe0a55f95c0\",\"transaction_token_id\":\"11ef3404"
-                + "-4d5e-6f70-b182-8d9e0f112233\",\"amount\":9800,\"currency\":\"JPY\",\"amount_for"
-                + "matted\":9800,\"status\":\"suspended\",\"mode\":\"live\",\"created_on\":\"2024-0"
-                + "8-15T13:05:22.627023Z\",\"schedule_settings\":{\"zone_id\":\"Asia/Tokyo\",\"retr"
-                + "y_interval\":\"P7D\",\"termination_mode\":\"on_next_payment\"},\"merchant_name"
-                + "\":\"管理画面ガイド\",\"store_name\":\"管理画面ガイド_TEST店舗\",\"payment_type\":\"card\",\"nex"
-                + "t_payment_date\":\"2024-09-15\",\"user_data\":{\"type\":\"charge\",\"cardholder_"
-                + "name\":\"jiro tanaka\",\"email\":\"jiro@test.com\",\"brand\":\"jcb\"}}],\"has_mo"
-                + "re\":false,\"total_hits\":3}",
+                + "627023Z\",\"three_ds\":{\"mode\":\"normal\",\"redirect_endpoint\":null,\"redirec"
+                + "t_id\":null},\"schedule_settings\":{\"zone_id\":\"Asia/Tokyo\",\"retry_interval"
+                + "\":\"P7D\",\"termination_mode\":\"immediate\"},\"subscription_plan\":{\"plan_typ"
+                + "e\":\"fixed_cycles\",\"fixed_cycles\":12},\"merchant_name\":\"管理画面ガイド\",\"store_"
+                + "name\":\"管理画面ガイド_TEST店舗\",\"payment_type\":\"card\",\"next_payment_date\":\"2024"
+                + "-07-26\",\"user_data\":{\"type\":\"charge\",\"cardholder_name\":\"taro yamada\","
+                + "\"email\":\"test@test.com\",\"brand\":\"visa\"}},{\"id\":\"11ef3401-1a2b-4c3d-8e"
+                + "4f-5a6b7c8d9e0f\",\"store_id\":\"11edf541-c42d-653c-8c3d-dfe0a55f95c0\",\"transa"
+                + "ction_token_id\":\"11ef3402-2b3c-4d5e-9f60-6b7c8d9e0f11\",\"amount\":5000,\"curr"
+                + "ency\":\"JPY\",\"amount_formatted\":5000,\"status\":\"current\",\"mode\":\"live"
+                + "\",\"created_on\":\"2024-07-01T10:00:00.627023Z\",\"three_ds\":{\"mode\":\"norma"
+                + "l\",\"redirect_endpoint\":null,\"redirect_id\":null},\"schedule_settings\":{\"zo"
+                + "ne_id\":\"Asia/Tokyo\",\"retry_interval\":\"P7D\",\"termination_mode\":\"immedia"
+                + "te\"},\"merchant_name\":\"管理画面ガイド\",\"store_name\":\"管理画面ガイド_TEST店舗\",\"payment_"
+                + "type\":\"card\",\"next_payment_date\":\"2024-08-01\",\"user_data\":{\"type\":\"c"
+                + "harge\",\"cardholder_name\":\"hanako suzuki\",\"email\":\"hanako@test.com\",\"br"
+                + "and\":\"mastercard\"}},{\"id\":\"11ef3403-3c4d-5e6f-a071-7c8d9e0f1122\",\"store_"
+                + "id\":\"11edf541-c42d-653c-8c3d-dfe0a55f95c0\",\"transaction_token_id\":\"11ef340"
+                + "4-4d5e-6f70-b182-8d9e0f112233\",\"amount\":9800,\"currency\":\"JPY\",\"amount_fo"
+                + "rmatted\":9800,\"status\":\"suspended\",\"mode\":\"live\",\"created_on\":\"2024-"
+                + "08-15T13:05:22.627023Z\",\"three_ds\":{\"mode\":\"normal\",\"redirect_endpoint"
+                + "\":null,\"redirect_id\":null},\"schedule_settings\":{\"zone_id\":\"Asia/Tokyo\","
+                + "\"retry_interval\":\"P7D\",\"termination_mode\":\"on_next_payment\"},\"installme"
+                + "nt_plan\":{\"plan_type\":\"revolving\",\"fixed_cycles\":null,\"fixed_cycles_amou"
+                + "nt\":null},\"merchant_name\":\"管理画面ガイド\",\"store_name\":\"管理画面ガイド_TEST店舗\",\"pay"
+                + "ment_type\":\"card\",\"next_payment_date\":\"2024-09-15\",\"user_data\":{\"type"
+                + "\":\"charge\",\"cardholder_name\":\"jiro tanaka\",\"email\":\"jiro@test.com\","
+                + "\"brand\":\"jcb\"}}],\"has_more\":false,\"total_hits\":3}",
                 TestHelper.convertStreamToString(httpResponse.getResponse().getRawBody()), 
                 false, true, false));
     }
@@ -439,11 +452,14 @@ public class SubscriptionsApiTest extends BaseApiTest {
                 + "\"immediate\"},\"only_direct_currency\":false,\"first_charge_capture_after\":nul"
                 + "l,\"first_charge_authorization_only\":false,\"status\":\"current\",\"metadata\":"
                 + "{\"order_id\":\"12345\"},\"mode\":\"test\",\"created_on\":\"2024-06-26T01:51:28."
-                + "627023Z\",\"period\":\"monthly\",\"next_payment\":{\"id\":\"11ef335e-9ae2-8322-8"
-                + "e79-e7ba4b56234e\",\"due_date\":\"2024-07-26\",\"zone_id\":\"Asia/Tokyo\",\"amou"
-                + "nt\":1250,\"currency\":\"USD\",\"amount_formatted\":12.5,\"is_paid\":false,\"is_"
-                + "last_payment\":false,\"created_on\":\"2024-06-26T01:51:29.025129Z\",\"updated_on"
-                + "\":\"2024-06-26T01:51:29.025129Z\",\"retry_date\":null}}",
+                + "627023Z\",\"three_ds\":{\"mode\":\"normal\",\"redirect_endpoint\":null,\"redirec"
+                + "t_id\":null},\"period\":\"monthly\",\"next_payment\":{\"id\":\"11ef335e-9ae2-832"
+                + "2-8e79-e7ba4b56234e\",\"due_date\":\"2024-07-26\",\"zone_id\":\"Asia/Tokyo\",\"a"
+                + "mount\":1250,\"currency\":\"USD\",\"amount_formatted\":12.5,\"is_paid\":false,"
+                + "\"is_last_payment\":false,\"created_on\":\"2024-06-26T01:51:29.025129Z\",\"updat"
+                + "ed_on\":\"2024-06-26T01:51:29.025129Z\",\"retry_date\":null},\"cycles_left\":5,"
+                + "\"subscription_plan\":{\"plan_type\":\"fixed_cycles\",\"fixed_cycles\":12},\"amo"
+                + "unt_left\":6250,\"amount_left_formatted\":62.5}",
                 TestHelper.convertStreamToString(httpResponse.getResponse().getRawBody()), 
                 false, true, false));
     }
@@ -502,11 +518,12 @@ public class SubscriptionsApiTest extends BaseApiTest {
                 + "\"on_next_payment\"},\"only_direct_currency\":false,\"first_charge_capture_after"
                 + "\":null,\"first_charge_authorization_only\":false,\"status\":\"current\",\"metad"
                 + "ata\":{\"order_id\":\"12345\"},\"mode\":\"test\",\"created_on\":\"2024-06-26T01:"
-                + "51:28.627023Z\",\"period\":\"monthly\",\"next_payment\":{\"id\":\"11ef335e-9ae2-"
-                + "8322-8e79-e7ba4b56234e\",\"due_date\":\"2030-01-01\",\"zone_id\":\"Asia/Tokyo\","
-                + "\"amount\":1250,\"currency\":\"USD\",\"amount_formatted\":12.5,\"is_paid\":false"
-                + ",\"is_last_payment\":false,\"created_on\":\"2024-06-26T01:51:29.025129Z\",\"upda"
-                + "ted_on\":\"2024-06-26T01:51:29.025129Z\",\"retry_date\":null}}",
+                + "51:28.627023Z\",\"three_ds\":{\"mode\":\"normal\",\"redirect_endpoint\":null,\"r"
+                + "edirect_id\":null},\"period\":\"monthly\",\"next_payment\":{\"id\":\"11ef335e-9a"
+                + "e2-8322-8e79-e7ba4b56234e\",\"due_date\":\"2030-01-01\",\"zone_id\":\"Asia/Tokyo"
+                + "\",\"amount\":1250,\"currency\":\"USD\",\"amount_formatted\":12.5,\"is_paid\":fa"
+                + "lse,\"is_last_payment\":false,\"created_on\":\"2024-06-26T01:51:29.025129Z\",\"u"
+                + "pdated_on\":\"2024-06-26T01:51:29.025129Z\",\"retry_date\":null}}",
                 TestHelper.convertStreamToString(httpResponse.getResponse().getRawBody()), 
                 false, true, false));
     }
@@ -925,7 +942,8 @@ public class SubscriptionsApiTest extends BaseApiTest {
                 + "_settings\":{\"start_on\":\"2024-07-01\",\"zone_id\":\"Asia/Tokyo\",\"preserve_e"
                 + "nd_of_month\":false,\"retry_interval\":\"P7D\",\"termination_mode\":\"on_next_pa"
                 + "yment\"},\"status\":\"suspended\",\"mode\":\"test\",\"created_on\":\"2024-06-26T"
-                + "01:51:28.627023Z\",\"period\":\"monthly\"}",
+                + "01:51:28.627023Z\",\"three_ds\":{\"mode\":\"normal\",\"redirect_endpoint\":null,"
+                + "\"redirect_id\":null},\"period\":\"monthly\"}",
                 TestHelper.convertStreamToString(httpResponse.getResponse().getRawBody()), 
                 false, true, false));
     }
@@ -978,7 +996,8 @@ public class SubscriptionsApiTest extends BaseApiTest {
                 + "_settings\":{\"start_on\":\"2024-07-01\",\"zone_id\":\"Asia/Tokyo\",\"preserve_e"
                 + "nd_of_month\":false,\"retry_interval\":\"P7D\",\"termination_mode\":\"immediate"
                 + "\"},\"status\":\"unpaid\",\"mode\":\"test\",\"created_on\":\"2024-06-26T01:51:28"
-                + ".627023Z\",\"period\":\"monthly\"}",
+                + ".627023Z\",\"three_ds\":{\"mode\":\"normal\",\"redirect_endpoint\":null,\"redire"
+                + "ct_id\":null},\"period\":\"monthly\"}",
                 TestHelper.convertStreamToString(httpResponse.getResponse().getRawBody()), 
                 false, true, false));
     }
@@ -1036,7 +1055,8 @@ public class SubscriptionsApiTest extends BaseApiTest {
                 + "_settings\":{\"start_on\":\"2024-07-01\",\"zone_id\":\"Asia/Tokyo\",\"preserve_e"
                 + "nd_of_month\":false,\"retry_interval\":\"P7D\",\"termination_mode\":\"immediate"
                 + "\"},\"status\":\"current\",\"mode\":\"test\",\"created_on\":\"2024-06-26T01:51:2"
-                + "8.627023Z\",\"period\":\"monthly\"}",
+                + "8.627023Z\",\"three_ds\":{\"mode\":\"normal\",\"redirect_endpoint\":null,\"redir"
+                + "ect_id\":null},\"period\":\"monthly\"}",
                 TestHelper.convertStreamToString(httpResponse.getResponse().getRawBody()), 
                 false, true, false));
     }

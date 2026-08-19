@@ -43,8 +43,16 @@ public class SubscriptionListItem {
     private GenericMetadata metadata;
     private ChargeMode mode;
     private LocalDateTime createdOn;
+    private SubscriptionThreeDs threeDs;
     private SubscriptionPeriod period;
+    private OptionalNullable<String> cyclicalPeriod;
     private SubscriptionNextPayment nextPayment;
+    private OptionalNullable<Integer> cyclesLeft;
+    private SubscriptionPlanSettings subscriptionPlan;
+    private SubscriptionInstallmentPlanResponse installmentPlan;
+    private OptionalNullable<UUID> chargeId;
+    private OptionalNullable<Integer> amountLeft;
+    private OptionalNullable<Double> amountLeftFormatted;
     private String merchantName;
     private String storeName;
     private String paymentType;
@@ -78,8 +86,16 @@ public class SubscriptionListItem {
      * @param  metadata  GenericMetadata value for metadata.
      * @param  mode  ChargeMode value for mode.
      * @param  createdOn  LocalDateTime value for createdOn.
+     * @param  threeDs  SubscriptionThreeDs value for threeDs.
      * @param  period  SubscriptionPeriod value for period.
+     * @param  cyclicalPeriod  String value for cyclicalPeriod.
      * @param  nextPayment  SubscriptionNextPayment value for nextPayment.
+     * @param  cyclesLeft  Integer value for cyclesLeft.
+     * @param  subscriptionPlan  SubscriptionPlanSettings value for subscriptionPlan.
+     * @param  installmentPlan  SubscriptionInstallmentPlanResponse value for installmentPlan.
+     * @param  chargeId  UUID value for chargeId.
+     * @param  amountLeft  Integer value for amountLeft.
+     * @param  amountLeftFormatted  Double value for amountLeftFormatted.
      * @param  merchantName  String value for merchantName.
      * @param  storeName  String value for storeName.
      * @param  paymentType  String value for paymentType.
@@ -104,8 +120,16 @@ public class SubscriptionListItem {
             GenericMetadata metadata,
             ChargeMode mode,
             LocalDateTime createdOn,
+            SubscriptionThreeDs threeDs,
             SubscriptionPeriod period,
+            String cyclicalPeriod,
             SubscriptionNextPayment nextPayment,
+            Integer cyclesLeft,
+            SubscriptionPlanSettings subscriptionPlan,
+            SubscriptionInstallmentPlanResponse installmentPlan,
+            UUID chargeId,
+            Integer amountLeft,
+            Double amountLeftFormatted,
             String merchantName,
             String storeName,
             String paymentType,
@@ -128,8 +152,16 @@ public class SubscriptionListItem {
         this.metadata = metadata;
         this.mode = mode;
         this.createdOn = createdOn;
+        this.threeDs = threeDs;
         this.period = period;
+        this.cyclicalPeriod = OptionalNullable.of(cyclicalPeriod);
         this.nextPayment = nextPayment;
+        this.cyclesLeft = OptionalNullable.of(cyclesLeft);
+        this.subscriptionPlan = subscriptionPlan;
+        this.installmentPlan = installmentPlan;
+        this.chargeId = OptionalNullable.of(chargeId);
+        this.amountLeft = OptionalNullable.of(amountLeft);
+        this.amountLeftFormatted = OptionalNullable.of(amountLeftFormatted);
         this.merchantName = merchantName;
         this.storeName = storeName;
         this.paymentType = paymentType;
@@ -156,8 +188,16 @@ public class SubscriptionListItem {
      * @param  metadata  GenericMetadata value for metadata.
      * @param  mode  ChargeMode value for mode.
      * @param  createdOn  LocalDateTime value for createdOn.
+     * @param  threeDs  SubscriptionThreeDs value for threeDs.
      * @param  period  SubscriptionPeriod value for period.
+     * @param  cyclicalPeriod  String value for cyclicalPeriod.
      * @param  nextPayment  SubscriptionNextPayment value for nextPayment.
+     * @param  cyclesLeft  Integer value for cyclesLeft.
+     * @param  subscriptionPlan  SubscriptionPlanSettings value for subscriptionPlan.
+     * @param  installmentPlan  SubscriptionInstallmentPlanResponse value for installmentPlan.
+     * @param  chargeId  UUID value for chargeId.
+     * @param  amountLeft  Integer value for amountLeft.
+     * @param  amountLeftFormatted  Double value for amountLeftFormatted.
      * @param  merchantName  String value for merchantName.
      * @param  storeName  String value for storeName.
      * @param  paymentType  String value for paymentType.
@@ -172,7 +212,11 @@ public class SubscriptionListItem {
             SubscriptionScheduleSettings scheduleSettings, Boolean onlyDirectCurrency,
             OptionalNullable<String> firstChargeCaptureAfter, Boolean firstChargeAuthorizationOnly,
             SubscriptionStatus status, GenericMetadata metadata, ChargeMode mode,
-            LocalDateTime createdOn, SubscriptionPeriod period, SubscriptionNextPayment nextPayment,
+            LocalDateTime createdOn, SubscriptionThreeDs threeDs, SubscriptionPeriod period,
+            OptionalNullable<String> cyclicalPeriod, SubscriptionNextPayment nextPayment,
+            OptionalNullable<Integer> cyclesLeft, SubscriptionPlanSettings subscriptionPlan,
+            SubscriptionInstallmentPlanResponse installmentPlan, OptionalNullable<UUID> chargeId,
+            OptionalNullable<Integer> amountLeft, OptionalNullable<Double> amountLeftFormatted,
             String merchantName, String storeName, String paymentType, LocalDate nextPaymentDate,
             SubscriptionUserData userData) {
         this.id = id;
@@ -192,8 +236,16 @@ public class SubscriptionListItem {
         this.metadata = metadata;
         this.mode = mode;
         this.createdOn = createdOn;
+        this.threeDs = threeDs;
         this.period = period;
+        this.cyclicalPeriod = cyclicalPeriod;
         this.nextPayment = nextPayment;
+        this.cyclesLeft = cyclesLeft;
+        this.subscriptionPlan = subscriptionPlan;
+        this.installmentPlan = installmentPlan;
+        this.chargeId = chargeId;
+        this.amountLeft = amountLeft;
+        this.amountLeftFormatted = amountLeftFormatted;
         this.merchantName = merchantName;
         this.storeName = storeName;
         this.paymentType = paymentType;
@@ -634,6 +686,27 @@ public class SubscriptionListItem {
     }
 
     /**
+     * Getter for ThreeDs.
+     * 3-D Secure configuration and redirect details applied to the subscription's payments.
+     * @return Returns the SubscriptionThreeDs
+     */
+    @JsonGetter("three_ds")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public SubscriptionThreeDs getThreeDs() {
+        return threeDs;
+    }
+
+    /**
+     * Setter for ThreeDs.
+     * 3-D Secure configuration and redirect details applied to the subscription's payments.
+     * @param threeDs Value for SubscriptionThreeDs
+     */
+    @JsonSetter("three_ds")
+    public void setThreeDs(SubscriptionThreeDs threeDs) {
+        this.threeDs = threeDs;
+    }
+
+    /**
      * Getter for Period.
      * Subscription Period schema.
      * @return Returns the SubscriptionPeriod
@@ -655,6 +728,53 @@ public class SubscriptionListItem {
     }
 
     /**
+     * Internal Getter for CyclicalPeriod.
+     * ISO-8601 Duration for a custom billing frequency (e.g., P3D, P1M), returned instead of
+     * `period` when the subscription uses a custom cycle length rather than one of the fixed period
+     * presets. Mutually exclusive with `period` — exactly one of the two is present.
+     * @return Returns the Internal String
+     */
+    @JsonGetter("cyclical_period")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonSerialize(using = OptionalNullable.Serializer.class)
+    protected OptionalNullable<String> internalGetCyclicalPeriod() {
+        return this.cyclicalPeriod;
+    }
+
+    /**
+     * Getter for CyclicalPeriod.
+     * ISO-8601 Duration for a custom billing frequency (e.g., P3D, P1M), returned instead of
+     * `period` when the subscription uses a custom cycle length rather than one of the fixed period
+     * presets. Mutually exclusive with `period` — exactly one of the two is present.
+     * @return Returns the String
+     */
+    public String getCyclicalPeriod() {
+        return OptionalNullable.getFrom(cyclicalPeriod);
+    }
+
+    /**
+     * Setter for CyclicalPeriod.
+     * ISO-8601 Duration for a custom billing frequency (e.g., P3D, P1M), returned instead of
+     * `period` when the subscription uses a custom cycle length rather than one of the fixed period
+     * presets. Mutually exclusive with `period` — exactly one of the two is present.
+     * @param cyclicalPeriod Value for String
+     */
+    @JsonSetter("cyclical_period")
+    public void setCyclicalPeriod(String cyclicalPeriod) {
+        this.cyclicalPeriod = OptionalNullable.of(cyclicalPeriod);
+    }
+
+    /**
+     * UnSetter for CyclicalPeriod.
+     * ISO-8601 Duration for a custom billing frequency (e.g., P3D, P1M), returned instead of
+     * `period` when the subscription uses a custom cycle length rather than one of the fixed period
+     * presets. Mutually exclusive with `period` — exactly one of the two is present.
+     */
+    public void unsetCyclicalPeriod() {
+        cyclicalPeriod = null;
+    }
+
+    /**
      * Getter for NextPayment.
      * Next scheduled payment details for a subscription.
      * @return Returns the SubscriptionNextPayment
@@ -673,6 +793,224 @@ public class SubscriptionListItem {
     @JsonSetter("next_payment")
     public void setNextPayment(SubscriptionNextPayment nextPayment) {
         this.nextPayment = nextPayment;
+    }
+
+    /**
+     * Internal Getter for CyclesLeft.
+     * Number of remaining billing cycles before the subscription completes. Only present for
+     * cycle-limited plans (`subscription_plan` or `installment_plan`); `null` for indefinite
+     * subscriptions.
+     * @return Returns the Internal Integer
+     */
+    @JsonGetter("cycles_left")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonSerialize(using = OptionalNullable.Serializer.class)
+    protected OptionalNullable<Integer> internalGetCyclesLeft() {
+        return this.cyclesLeft;
+    }
+
+    /**
+     * Getter for CyclesLeft.
+     * Number of remaining billing cycles before the subscription completes. Only present for
+     * cycle-limited plans (`subscription_plan` or `installment_plan`); `null` for indefinite
+     * subscriptions.
+     * @return Returns the Integer
+     */
+    public Integer getCyclesLeft() {
+        return OptionalNullable.getFrom(cyclesLeft);
+    }
+
+    /**
+     * Setter for CyclesLeft.
+     * Number of remaining billing cycles before the subscription completes. Only present for
+     * cycle-limited plans (`subscription_plan` or `installment_plan`); `null` for indefinite
+     * subscriptions.
+     * @param cyclesLeft Value for Integer
+     */
+    @JsonSetter("cycles_left")
+    public void setCyclesLeft(Integer cyclesLeft) {
+        this.cyclesLeft = OptionalNullable.of(cyclesLeft);
+    }
+
+    /**
+     * UnSetter for CyclesLeft.
+     * Number of remaining billing cycles before the subscription completes. Only present for
+     * cycle-limited plans (`subscription_plan` or `installment_plan`); `null` for indefinite
+     * subscriptions.
+     */
+    public void unsetCyclesLeft() {
+        cyclesLeft = null;
+    }
+
+    /**
+     * Getter for SubscriptionPlan.
+     * Configuration for limited-cycle subscriptions (Univapay side).
+     * @return Returns the SubscriptionPlanSettings
+     */
+    @JsonGetter("subscription_plan")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public SubscriptionPlanSettings getSubscriptionPlan() {
+        return subscriptionPlan;
+    }
+
+    /**
+     * Setter for SubscriptionPlan.
+     * Configuration for limited-cycle subscriptions (Univapay side).
+     * @param subscriptionPlan Value for SubscriptionPlanSettings
+     */
+    @JsonSetter("subscription_plan")
+    public void setSubscriptionPlan(SubscriptionPlanSettings subscriptionPlan) {
+        this.subscriptionPlan = subscriptionPlan;
+    }
+
+    /**
+     * Getter for InstallmentPlan.
+     * Installment plan applied to the subscription, as returned by the API. Covers both
+     * card-network installment plans (`revolving`, `fixed_cycles`) and legacy fixed-amount
+     * installment plans (`fixed_cycle_amount`).
+     * @return Returns the SubscriptionInstallmentPlanResponse
+     */
+    @JsonGetter("installment_plan")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public SubscriptionInstallmentPlanResponse getInstallmentPlan() {
+        return installmentPlan;
+    }
+
+    /**
+     * Setter for InstallmentPlan.
+     * Installment plan applied to the subscription, as returned by the API. Covers both
+     * card-network installment plans (`revolving`, `fixed_cycles`) and legacy fixed-amount
+     * installment plans (`fixed_cycle_amount`).
+     * @param installmentPlan Value for SubscriptionInstallmentPlanResponse
+     */
+    @JsonSetter("installment_plan")
+    public void setInstallmentPlan(SubscriptionInstallmentPlanResponse installmentPlan) {
+        this.installmentPlan = installmentPlan;
+    }
+
+    /**
+     * Internal Getter for ChargeId.
+     * Identifier of the charge associated with the subscription's installment plan. Only present
+     * when `installment_plan` is set.
+     * @return Returns the Internal UUID
+     */
+    @JsonGetter("charge_id")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonSerialize(using = OptionalNullable.Serializer.class)
+    protected OptionalNullable<UUID> internalGetChargeId() {
+        return this.chargeId;
+    }
+
+    /**
+     * Getter for ChargeId.
+     * Identifier of the charge associated with the subscription's installment plan. Only present
+     * when `installment_plan` is set.
+     * @return Returns the UUID
+     */
+    public UUID getChargeId() {
+        return OptionalNullable.getFrom(chargeId);
+    }
+
+    /**
+     * Setter for ChargeId.
+     * Identifier of the charge associated with the subscription's installment plan. Only present
+     * when `installment_plan` is set.
+     * @param chargeId Value for UUID
+     */
+    @JsonSetter("charge_id")
+    public void setChargeId(UUID chargeId) {
+        this.chargeId = OptionalNullable.of(chargeId);
+    }
+
+    /**
+     * UnSetter for ChargeId.
+     * Identifier of the charge associated with the subscription's installment plan. Only present
+     * when `installment_plan` is set.
+     */
+    public void unsetChargeId() {
+        chargeId = null;
+    }
+
+    /**
+     * Internal Getter for AmountLeft.
+     * Remaining amount to be charged over the life of the plan, in the smallest currency unit. Only
+     * present for cycle-limited plans.
+     * @return Returns the Internal Integer
+     */
+    @JsonGetter("amount_left")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonSerialize(using = OptionalNullable.Serializer.class)
+    protected OptionalNullable<Integer> internalGetAmountLeft() {
+        return this.amountLeft;
+    }
+
+    /**
+     * Getter for AmountLeft.
+     * Remaining amount to be charged over the life of the plan, in the smallest currency unit. Only
+     * present for cycle-limited plans.
+     * @return Returns the Integer
+     */
+    public Integer getAmountLeft() {
+        return OptionalNullable.getFrom(amountLeft);
+    }
+
+    /**
+     * Setter for AmountLeft.
+     * Remaining amount to be charged over the life of the plan, in the smallest currency unit. Only
+     * present for cycle-limited plans.
+     * @param amountLeft Value for Integer
+     */
+    @JsonSetter("amount_left")
+    public void setAmountLeft(Integer amountLeft) {
+        this.amountLeft = OptionalNullable.of(amountLeft);
+    }
+
+    /**
+     * UnSetter for AmountLeft.
+     * Remaining amount to be charged over the life of the plan, in the smallest currency unit. Only
+     * present for cycle-limited plans.
+     */
+    public void unsetAmountLeft() {
+        amountLeft = null;
+    }
+
+    /**
+     * Internal Getter for AmountLeftFormatted.
+     * `amount_left` formatted for display.
+     * @return Returns the Internal Double
+     */
+    @JsonGetter("amount_left_formatted")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonSerialize(using = OptionalNullable.Serializer.class)
+    protected OptionalNullable<Double> internalGetAmountLeftFormatted() {
+        return this.amountLeftFormatted;
+    }
+
+    /**
+     * Getter for AmountLeftFormatted.
+     * `amount_left` formatted for display.
+     * @return Returns the Double
+     */
+    public Double getAmountLeftFormatted() {
+        return OptionalNullable.getFrom(amountLeftFormatted);
+    }
+
+    /**
+     * Setter for AmountLeftFormatted.
+     * `amount_left` formatted for display.
+     * @param amountLeftFormatted Value for Double
+     */
+    @JsonSetter("amount_left_formatted")
+    public void setAmountLeftFormatted(Double amountLeftFormatted) {
+        this.amountLeftFormatted = OptionalNullable.of(amountLeftFormatted);
+    }
+
+    /**
+     * UnSetter for AmountLeftFormatted.
+     * `amount_left` formatted for display.
+     */
+    public void unsetAmountLeftFormatted() {
+        amountLeftFormatted = null;
     }
 
     /**
@@ -829,10 +1167,14 @@ public class SubscriptionListItem {
                 + onlyDirectCurrency + ", firstChargeCaptureAfter=" + firstChargeCaptureAfter
                 + ", firstChargeAuthorizationOnly=" + firstChargeAuthorizationOnly + ", status="
                 + status + ", metadata=" + metadata + ", mode=" + mode + ", createdOn=" + createdOn
-                + ", period=" + period + ", nextPayment=" + nextPayment + ", merchantName="
-                + merchantName + ", storeName=" + storeName + ", paymentType=" + paymentType
-                + ", nextPaymentDate=" + nextPaymentDate + ", userData=" + userData
-                + ", additionalProperties=" + additionalProperties + "]";
+                + ", threeDs=" + threeDs + ", period=" + period + ", cyclicalPeriod="
+                + cyclicalPeriod + ", nextPayment=" + nextPayment + ", cyclesLeft=" + cyclesLeft
+                + ", subscriptionPlan=" + subscriptionPlan + ", installmentPlan=" + installmentPlan
+                + ", chargeId=" + chargeId + ", amountLeft=" + amountLeft + ", amountLeftFormatted="
+                + amountLeftFormatted + ", merchantName=" + merchantName + ", storeName="
+                + storeName + ", paymentType=" + paymentType + ", nextPaymentDate="
+                + nextPaymentDate + ", userData=" + userData + ", additionalProperties="
+                + additionalProperties + "]";
     }
 
     /**
@@ -855,8 +1197,11 @@ public class SubscriptionListItem {
                 .metadata(getMetadata())
                 .mode(getMode())
                 .createdOn(getCreatedOn())
+                .threeDs(getThreeDs())
                 .period(getPeriod())
                 .nextPayment(getNextPayment())
+                .subscriptionPlan(getSubscriptionPlan())
+                .installmentPlan(getInstallmentPlan())
                 .merchantName(getMerchantName())
                 .storeName(getStoreName())
                 .paymentType(getPaymentType())
@@ -866,6 +1211,11 @@ public class SubscriptionListItem {
         builder.initialAmountFormatted = internalGetInitialAmountFormatted();
         builder.subsequentCyclesStart = internalGetSubsequentCyclesStart();
         builder.firstChargeCaptureAfter = internalGetFirstChargeCaptureAfter();
+        builder.cyclicalPeriod = internalGetCyclicalPeriod();
+        builder.cyclesLeft = internalGetCyclesLeft();
+        builder.chargeId = internalGetChargeId();
+        builder.amountLeft = internalGetAmountLeft();
+        builder.amountLeftFormatted = internalGetAmountLeftFormatted();
         builder.additionalProperties = additionalProperties;
         return builder;
     }
@@ -891,8 +1241,16 @@ public class SubscriptionListItem {
         private GenericMetadata metadata;
         private ChargeMode mode;
         private LocalDateTime createdOn;
+        private SubscriptionThreeDs threeDs;
         private SubscriptionPeriod period;
+        private OptionalNullable<String> cyclicalPeriod;
         private SubscriptionNextPayment nextPayment;
+        private OptionalNullable<Integer> cyclesLeft;
+        private SubscriptionPlanSettings subscriptionPlan;
+        private SubscriptionInstallmentPlanResponse installmentPlan;
+        private OptionalNullable<UUID> chargeId;
+        private OptionalNullable<Integer> amountLeft;
+        private OptionalNullable<Double> amountLeftFormatted;
         private String merchantName;
         private String storeName;
         private String paymentType;
@@ -1110,6 +1468,16 @@ public class SubscriptionListItem {
         }
 
         /**
+         * Setter for threeDs.
+         * @param  threeDs  SubscriptionThreeDs value for threeDs.
+         * @return Builder
+         */
+        public Builder threeDs(SubscriptionThreeDs threeDs) {
+            this.threeDs = threeDs;
+            return this;
+        }
+
+        /**
          * Setter for period.
          * @param  period  SubscriptionPeriod value for period.
          * @return Builder
@@ -1120,12 +1488,127 @@ public class SubscriptionListItem {
         }
 
         /**
+         * Setter for cyclicalPeriod.
+         * @param  cyclicalPeriod  String value for cyclicalPeriod.
+         * @return Builder
+         */
+        public Builder cyclicalPeriod(String cyclicalPeriod) {
+            this.cyclicalPeriod = OptionalNullable.of(cyclicalPeriod);
+            return this;
+        }
+
+        /**
+         * UnSetter for cyclicalPeriod.
+         * @return Builder
+         */
+        public Builder unsetCyclicalPeriod() {
+            cyclicalPeriod = null;
+            return this;
+        }
+
+        /**
          * Setter for nextPayment.
          * @param  nextPayment  SubscriptionNextPayment value for nextPayment.
          * @return Builder
          */
         public Builder nextPayment(SubscriptionNextPayment nextPayment) {
             this.nextPayment = nextPayment;
+            return this;
+        }
+
+        /**
+         * Setter for cyclesLeft.
+         * @param  cyclesLeft  Integer value for cyclesLeft.
+         * @return Builder
+         */
+        public Builder cyclesLeft(Integer cyclesLeft) {
+            this.cyclesLeft = OptionalNullable.of(cyclesLeft);
+            return this;
+        }
+
+        /**
+         * UnSetter for cyclesLeft.
+         * @return Builder
+         */
+        public Builder unsetCyclesLeft() {
+            cyclesLeft = null;
+            return this;
+        }
+
+        /**
+         * Setter for subscriptionPlan.
+         * @param  subscriptionPlan  SubscriptionPlanSettings value for subscriptionPlan.
+         * @return Builder
+         */
+        public Builder subscriptionPlan(SubscriptionPlanSettings subscriptionPlan) {
+            this.subscriptionPlan = subscriptionPlan;
+            return this;
+        }
+
+        /**
+         * Setter for installmentPlan.
+         * @param  installmentPlan  SubscriptionInstallmentPlanResponse value for installmentPlan.
+         * @return Builder
+         */
+        public Builder installmentPlan(SubscriptionInstallmentPlanResponse installmentPlan) {
+            this.installmentPlan = installmentPlan;
+            return this;
+        }
+
+        /**
+         * Setter for chargeId.
+         * @param  chargeId  UUID value for chargeId.
+         * @return Builder
+         */
+        public Builder chargeId(UUID chargeId) {
+            this.chargeId = OptionalNullable.of(chargeId);
+            return this;
+        }
+
+        /**
+         * UnSetter for chargeId.
+         * @return Builder
+         */
+        public Builder unsetChargeId() {
+            chargeId = null;
+            return this;
+        }
+
+        /**
+         * Setter for amountLeft.
+         * @param  amountLeft  Integer value for amountLeft.
+         * @return Builder
+         */
+        public Builder amountLeft(Integer amountLeft) {
+            this.amountLeft = OptionalNullable.of(amountLeft);
+            return this;
+        }
+
+        /**
+         * UnSetter for amountLeft.
+         * @return Builder
+         */
+        public Builder unsetAmountLeft() {
+            amountLeft = null;
+            return this;
+        }
+
+        /**
+         * Setter for amountLeftFormatted.
+         * @param  amountLeftFormatted  Double value for amountLeftFormatted.
+         * @return Builder
+         */
+        public Builder amountLeftFormatted(Double amountLeftFormatted) {
+            this.amountLeftFormatted = OptionalNullable.of(amountLeftFormatted);
+            return this;
+        }
+
+        /**
+         * UnSetter for amountLeftFormatted.
+         * @return Builder
+         */
+        public Builder unsetAmountLeftFormatted() {
+            amountLeftFormatted = null;
             return this;
         }
 
@@ -1200,8 +1683,10 @@ public class SubscriptionListItem {
                             amountFormatted, initialAmount, initialAmountFormatted,
                             subsequentCyclesStart, scheduleSettings, onlyDirectCurrency,
                             firstChargeCaptureAfter, firstChargeAuthorizationOnly, status, metadata,
-                            mode, createdOn, period, nextPayment, merchantName, storeName,
-                            paymentType, nextPaymentDate, userData);
+                            mode, createdOn, threeDs, period, cyclicalPeriod, nextPayment,
+                            cyclesLeft, subscriptionPlan, installmentPlan, chargeId, amountLeft,
+                            amountLeftFormatted, merchantName, storeName, paymentType,
+                            nextPaymentDate, userData);
             model.additionalProperties = additionalProperties;
             return model;
         }

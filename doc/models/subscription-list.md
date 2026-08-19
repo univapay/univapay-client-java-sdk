@@ -23,9 +23,15 @@ Paginated list of subscriptions.
 ```java
 import com.univapay.api.ApiHelper;
 import com.univapay.api.DateTimeHelper;
+import com.univapay.api.models.CombinedPlanType;
+import com.univapay.api.models.PlanSettingsType;
+import com.univapay.api.models.SubscriptionInstallmentPlanResponse;
 import com.univapay.api.models.SubscriptionList;
 import com.univapay.api.models.SubscriptionListItem;
+import com.univapay.api.models.SubscriptionPlanSettings;
 import com.univapay.api.models.SubscriptionStatus;
+import com.univapay.api.models.SubscriptionThreeDs;
+import com.univapay.api.models.SubscriptionThreeDsMode;
 import com.univapay.api.models.SubscriptionUserData;
 import java.io.IOException;
 import java.util.Arrays;
@@ -41,6 +47,18 @@ SubscriptionList subscriptionList = new SubscriptionList.Builder()
             .currency("USD")
             .amountFormatted(12.5D)
             .status(SubscriptionStatus.CURRENT)
+            .threeDs(new SubscriptionThreeDs.Builder()
+                .mode(SubscriptionThreeDsMode.NORMAL)
+                .redirectEndpoint(null)
+                .redirectId(null)
+            .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
+                .build())
+            .subscriptionPlan(new SubscriptionPlanSettings.Builder()
+                .planType(PlanSettingsType.FIXED_CYCLES)
+                .fixedCycles(12)
+                .fixedCycleAmount(112)
+            .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
+                .build())
             .merchantName("管理画面ガイド")
             .storeName("管理画面ガイド_TEST店舗")
             .paymentType("card")
@@ -63,6 +81,18 @@ SubscriptionList subscriptionList = new SubscriptionList.Builder()
             .currency("JPY")
             .amountFormatted(3000D)
             .status(SubscriptionStatus.CURRENT)
+            .threeDs(new SubscriptionThreeDs.Builder()
+                .mode(SubscriptionThreeDsMode.NORMAL)
+                .redirectEndpoint(null)
+                .redirectId(null)
+            .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
+                .build())
+            .installmentPlan(new SubscriptionInstallmentPlanResponse.Builder()
+                .planType(CombinedPlanType.FIXED_CYCLE_AMOUNT)
+                .fixedCycles(null)
+                .fixedCyclesAmount(30000)
+            .additionalProperty("exampleAdditionalProperty", ApiHelper.deserialize("{\"key1\":\"val1\",\"key2\":\"val2\"}"))
+                .build())
             .merchantName("管理画面ガイド")
             .storeName("管理画面ガイド_Online店舗")
             .paymentType("card")
