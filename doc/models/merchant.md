@@ -20,7 +20,7 @@ Merchant resource returned by the backend `FullMerchantWithGroupRoles` formatter
 | `NotificationEmail` | `String` | Optional | Merchant notification email address. | String getNotificationEmail() | setNotificationEmail(String notificationEmail) |
 | `FinanceNotificationEmail` | `String` | Optional | Merchant finance notification email address. | String getFinanceNotificationEmail() | setFinanceNotificationEmail(String financeNotificationEmail) |
 | `Verified` | `Boolean` | Optional | Whether the merchant has completed verification. | Boolean getVerified() | setVerified(Boolean verified) |
-| `Configuration` | [`MerchantWebhookConfiguration`](../../doc/models/merchant-webhook-configuration.md) | Optional | Merchant configuration snapshot serialized by gyron-payments-api. | MerchantWebhookConfiguration getConfiguration() | setConfiguration(MerchantWebhookConfiguration configuration) |
+| `Configuration` | [`MerchantWebhookConfiguration`](../../doc/models/merchant-webhook-configuration.md) | Optional | Merchant configuration snapshot as serialized by the backend. | MerchantWebhookConfiguration getConfiguration() | setConfiguration(MerchantWebhookConfiguration configuration) |
 | `CreatedOn` | `LocalDateTime` | Optional | Timestamp when the merchant was created. | LocalDateTime getCreatedOn() | setCreatedOn(LocalDateTime createdOn) |
 | `AdditionalProperties` | `Map<String, Object>` | Optional | - | Object getAdditionalProperty(String key) | additionalProperty(String key, Object value) |
 

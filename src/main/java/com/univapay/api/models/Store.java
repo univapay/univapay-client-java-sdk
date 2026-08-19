@@ -122,8 +122,8 @@ public class Store {
 
     /**
      * Getter for Configuration.
-     * Store-scoped configuration snapshot serialized by gyron-payments-api. It uses the same
-     * flattened serializer as merchant configuration, but omits `transfer_schedule`.
+     * Store-scoped configuration snapshot as serialized by the backend. It uses the same flattened
+     * serializer as merchant configuration, but omits `transfer_schedule`.
      * @return Returns the MerchantWebhookConfiguration
      */
     @JsonGetter("configuration")
@@ -134,8 +134,8 @@ public class Store {
 
     /**
      * Setter for Configuration.
-     * Store-scoped configuration snapshot serialized by gyron-payments-api. It uses the same
-     * flattened serializer as merchant configuration, but omits `transfer_schedule`.
+     * Store-scoped configuration snapshot as serialized by the backend. It uses the same flattened
+     * serializer as merchant configuration, but omits `transfer_schedule`.
      * @param configuration Value for MerchantWebhookConfiguration
      */
     @JsonSetter("configuration")

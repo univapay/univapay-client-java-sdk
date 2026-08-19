@@ -307,7 +307,7 @@ public class Merchant {
 
     /**
      * Getter for Configuration.
-     * Merchant configuration snapshot serialized by gyron-payments-api.
+     * Merchant configuration snapshot as serialized by the backend.
      * @return Returns the MerchantWebhookConfiguration
      */
     @JsonGetter("configuration")
@@ -318,7 +318,7 @@ public class Merchant {
 
     /**
      * Setter for Configuration.
-     * Merchant configuration snapshot serialized by gyron-payments-api.
+     * Merchant configuration snapshot as serialized by the backend.
      * @param configuration Value for MerchantWebhookConfiguration
      */
     @JsonSetter("configuration")
