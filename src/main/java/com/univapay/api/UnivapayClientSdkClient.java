@@ -19,20 +19,25 @@ import com.univapay.api.apis.TransactionTokensApi;
 import com.univapay.api.apis.WebhooksApi;
 import com.univapay.api.authentication.BearerAuthManager;
 import com.univapay.api.authentication.BearerAuthModel;
+import com.univapay.api.exceptions.ApiException;
 import com.univapay.api.http.client.HttpCallback;
 import com.univapay.api.http.client.HttpClientConfiguration;
 import com.univapay.api.http.client.ReadonlyHttpClientConfiguration;
+import com.univapay.api.http.response.ApiResponse;
 import com.univapay.api.logging.configuration.ApiLoggingConfiguration;
 import com.univapay.api.logging.configuration.ReadonlyLoggingConfiguration;
+import com.univapay.api.models.Charge;
 import io.apimatic.core.GlobalConfiguration;
 import io.apimatic.coreinterfaces.authentication.Authentication;
 import io.apimatic.coreinterfaces.compatibility.CompatibilityFactory;
 import io.apimatic.coreinterfaces.http.HttpClient;
 import io.apimatic.okhttpclient.adapter.OkClient;
+import java.io.IOException;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -60,7 +65,7 @@ public final class UnivapayClientSdkClient implements Configuration {
 
     private static final CompatibilityFactory compatibilityFactory = new CompatibilityFactoryImpl();
 
-    private static String userAgent = "Java-SDK/1.2.1 (OS: {os-info}, Engine: {engine}/{engine-version})";
+    private static String userAgent = "Java-SDK/1.2.2 (OS: {os-info}, Engine: {engine}/{engine-version})";
 
     /**
      * Current API environment.
@@ -341,6 +346,81 @@ public final class UnivapayClientSdkClient implements Configuration {
      */
     public UUID getCurrentStoreId() {
         return AppJwt.readUuidClaim(getJwtTokenOrNull(), "store_id");
+    }
+
+    /**
+     * Retrieves a charge without being given a store id.
+     *
+     * <p>{@code /stores/{storeId}/charges/{id}} needs a store, which callers
+     * would otherwise have to persist alongside every charge id -- but a
+     * store-level app token already carries one, so this reads it from the
+     * configured token and then behaves exactly like
+     * {@link ChargesApi#getCharge(UUID, UUID, Boolean)}.
+     *
+     * @param  chargeId  The unique identifier of the charge.
+     * @return    Returns the Charge wrapped in ApiResponse response from the API call
+     * @throws    IllegalStateException  When the configured token carries no
+     *            {@code store_id} claim -- a merchant-level token, or none at all.
+     *            Thrown before any request is built. Resolve the store yourself
+     *            (see {@link #getStoresApi()}) and use
+     *            {@link ChargesApi#getCharge(UUID, UUID, Boolean)} instead.
+     * @throws    ApiException    Represents error response from the server.
+     * @throws    IOException    Signals that an I/O exception of some sort has occurred.
+     */
+    public ApiResponse<Charge> getCharge(final UUID chargeId)
+            throws ApiException, IOException {
+        return getCharge(chargeId, null);
+    }
+
+    /**
+     * Retrieves a charge without being given a store id.
+     *
+     * @param  chargeId  The unique identifier of the charge.
+     * @param  polling  Optional parameter: If set to true, instructs the API to internally poll the
+     *         charge status until it changes from 'pending' (the initial status) to another status.
+     * @return    Returns the Charge wrapped in ApiResponse response from the API call
+     * @throws    IllegalStateException  When the configured token carries no
+     *            {@code store_id} claim. Thrown before any request is built.
+     * @throws    ApiException    Represents error response from the server.
+     * @throws    IOException    Signals that an I/O exception of some sort has occurred.
+     */
+    public ApiResponse<Charge> getCharge(final UUID chargeId, final Boolean polling)
+            throws ApiException, IOException {
+        // Guard first, controller second: Java evaluates the receiver before
+        // the arguments, so the inline form would build a ChargesApi even on the
+        // failure path.
+        final UUID storeId = AppJwt.requireStoreId(getCurrentStoreId());
+        return getChargesApi().getCharge(storeId, chargeId, polling);
+    }
+
+    /**
+     * Retrieves a charge without being given a store id, asynchronously.
+     *
+     * @param  chargeId  The unique identifier of the charge.
+     * @return    Returns the Charge wrapped in ApiResponse response from the API call
+     * @throws    IllegalStateException  When the configured token carries no
+     *            {@code store_id} claim. Like the wrapped call's own argument
+     *            checks, this surfaces synchronously rather than through the
+     *            returned future -- nothing was ever scheduled.
+     */
+    public CompletableFuture<ApiResponse<Charge>> getChargeAsync(final UUID chargeId) {
+        return getChargeAsync(chargeId, null);
+    }
+
+    /**
+     * Retrieves a charge without being given a store id, asynchronously.
+     *
+     * @param  chargeId  The unique identifier of the charge.
+     * @param  polling  Optional parameter: If set to true, instructs the API to internally poll the
+     *         charge status until it changes from 'pending' (the initial status) to another status.
+     * @return    Returns the Charge wrapped in ApiResponse response from the API call
+     * @throws    IllegalStateException  When the configured token carries no
+     *            {@code store_id} claim, surfaced synchronously.
+     */
+    public CompletableFuture<ApiResponse<Charge>> getChargeAsync(
+            final UUID chargeId, final Boolean polling) {
+        final UUID storeId = AppJwt.requireStoreId(getCurrentStoreId());
+        return getChargesApi().getChargeAsync(storeId, chargeId, polling);
     }
 
     /**

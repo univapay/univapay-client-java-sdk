@@ -100,4 +100,30 @@ public final class AppJwt {
         }
         return UUID.fromString((String) value);
     }
+
+    /**
+     * Asserts that a store id was resolvable from the configured app token.
+     *
+     * <p>Used by the store-scoped convenience calls on the client, which take no
+     * storeId argument. It lives here, beside the claim reader, so the message
+     * stays in a file APIMATIC never regenerates.
+     *
+     * <p>The message deliberately says nothing about the token itself: the
+     * credential and its claims must never reach an error message or a log. A
+     * merchant-level token arriving here is not a broken token -- it is simply
+     * not scoped to a store.
+     *
+     * @param  storeId The store id read from the token, or null when it carries none.
+     * @return storeId, when it is present.
+     * @throws IllegalStateException when storeId is null.
+     */
+    public static UUID requireStoreId(UUID storeId) {
+        if (storeId == null) {
+            throw new IllegalStateException(
+                    "getCharge(chargeId) requires a store-level App Token: the configured token "
+                    + "carries no usable \"store_id\" claim. Use a store-level App Token, or call "
+                    + "getCharge(storeId, chargeId) on ChargesApi with an explicit store id.");
+        }
+        return storeId;
+    }
 }

@@ -39,12 +39,12 @@ Install the SDK by adding the following dependency in your project's pom.xml fil
 <dependency>
   <groupId>com.univapay</groupId>
   <artifactId>univapay-client-sdk</artifactId>
-  <version>1.2.1</version>
+  <version>1.2.2</version>
 </dependency>
 ```
 
 You can also view the package at:
-https://central.sonatype.com/artifact/com.univapay/univapay-client-sdk/1.2.1
+https://central.sonatype.com/artifact/com.univapay/univapay-client-sdk/1.2.2
 
 ## Test the SDK
 
